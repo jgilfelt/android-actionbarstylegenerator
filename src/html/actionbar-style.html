@@ -131,7 +131,8 @@
         	'tab_selected_focused':1,
         	'ab_solid':1,
         	'ab_stacked_solid':1,
-        	'ab_bottom_solid':1
+        	'ab_bottom_solid':1,
+        	'menu_dropdown_panel':1
        };
       
       //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1})
@@ -185,6 +186,10 @@
         'xhdpi-ab_bottom_solid': { w:  50, h:  50 },
          'hdpi-ab_bottom_solid': { w:  72, h:  72 },
          'mdpi-ab_bottom_solid': { w:  48, h:  48 },
+         
+        'xhdpi-menu_dropdown_panel': { w:  130, h:  66 },
+         'hdpi-menu_dropdown_panel': { w:  72, h:  72 },
+         'mdpi-menu_dropdown_panel': { w:  48, h:  48 },
 
 
 //         'ldpi-iconSize': { w:  36, h:  36 },
@@ -333,7 +338,9 @@
               if (backgroundShape.match('tab')) {
               	fillColor = values['accentColor'].color;
               } else if (backgroundShape.match('stacked')) {
-              	fillColor = values['secondaryColor'].color;           
+              	fillColor = values['secondaryColor'].color; 
+              } else if (backgroundShape.match('menu')) {
+              	fillColor = values['tertiaryColor'].color;           
               } else {
               	fillColor = values['backColor'].color;
               }
