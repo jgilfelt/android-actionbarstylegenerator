@@ -44,7 +44,7 @@
     <script src="js/asset-studio.pack.js"></script>
 
     <!-- TODO: remove Analytics tracking if you're building the tools locally! -->
-    <script type="text/javascript">
+<!--    <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-18671401-1']);
       _gaq.push(['_trackPageview']);
@@ -54,6 +54,7 @@
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
     </script>
+-->
   </head>
   <body>
     <div id="main-container">
@@ -127,7 +128,10 @@
         	'tab_unselected_focused':1,
         	'tab_selected':1, 
         	'tab_selected_pressed':1,
-        	'tab_selected_focused':1
+        	'tab_selected_focused':1,
+        	'ab_solid':1,
+        	'ab_stacked_solid':1,
+        	'ab_bottom_solid':1
        };
       
       //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1})
@@ -169,6 +173,18 @@
         'xhdpi-tab_selected': { w:  6, h:  18 },
          'hdpi-tab_selected': { w:  72, h:  72 },
          'mdpi-tab_selected': { w:  48, h:  48 },
+         
+        'xhdpi-ab_solid': { w:  50, h:  50 },
+         'hdpi-ab_solid': { w:  72, h:  72 },
+         'mdpi-ab_solid': { w:  48, h:  48 },
+         
+        'xhdpi-ab_stacked_solid': { w:  50, h:  50 },
+         'hdpi-ab_stacked_solid': { w:  72, h:  72 },
+         'mdpi-ab_stacked_solid': { w:  48, h:  48 },
+         
+        'xhdpi-ab_bottom_solid': { w:  50, h:  50 },
+         'hdpi-ab_bottom_solid': { w:  72, h:  72 },
+         'mdpi-ab_bottom_solid': { w:  48, h:  48 },
 
 
 //         'ldpi-iconSize': { w:  36, h:  36 },
@@ -312,11 +328,21 @@
 
             } else {
             */	
+            
+              var fillColor;
+              if (backgroundShape.match('tab')) {
+              	fillColor = values['accentColor'].color;
+              } else if (backgroundShape.match('stacked')) {
+              	fillColor = values['secondaryColor'].color;           
+              } else {
+              	fillColor = values['backColor'].color;
+              }
+            
               tmpCtx.save();
               tmpCtx.globalCompositeOperation = 'source-over';
               imagelib.drawing.copy(tmpCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + '-mask'], iconSize);
               tmpCtx.globalCompositeOperation = 'source-atop';
-              tmpCtx.fillStyle = values['accentColor'].color;
+              tmpCtx.fillStyle = fillColor;
               tmpCtx.fillRect(0, 0, iconSize.w, iconSize.h);
               if (foreCtx) {
                 var copyFrom = foreCtx;
