@@ -57,7 +57,7 @@ a {
 }
 
 #header {
-  background-color: #a4c639;
+  background-color: #33B5E5;
   color: #fff;
 }
 
@@ -81,7 +81,7 @@ a {
 
   #page-header h2,
   #page-links h2 {
-    color: #a4c639;
+    color: #0099CC;
     font-weight: bold;
     font-size: 16px;
     line-height: 20px;
@@ -108,7 +108,7 @@ a {
     }
 
     #breadcrumb em {
-      color: #a4c639;
+      color: #0099CC;
       font-weight: bold;
     }
 
@@ -223,7 +223,7 @@ a {
 }
 
 .form-image-clipart-list img.selected {
-  border: 3px solid #a4c639;
+  border: 3px solid #0099CC;
 }
 
 .form-image-preview {
@@ -246,7 +246,7 @@ a {
 }
 
 .ui-state-active .form-color-preview {
-  border: 1px solid #617524;
+  border: 1px solid #0099CC;
 }
 
 .form-color-alpha,
@@ -269,7 +269,7 @@ a {
 }
 
 .form-field-drop-target.drag-hover {
-  outline: 2px solid #a4c639;
+  outline: 2px solid #0099CC;
   outline-offset: 5px;
 }
 
