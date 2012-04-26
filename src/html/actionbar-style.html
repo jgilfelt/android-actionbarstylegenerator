@@ -120,12 +120,22 @@
 
       // Load image resources (stencils)
       var resList = {};
+      
+      var shapes = {
+        	'tab_unselected':1, 
+        	'tab_unselected_pressed':1,
+        	'tab_unselected_focused':1,
+        	'tab_selected':1, 
+        	'tab_selected_pressed':1,
+        	'tab_selected_focused':1
+       };
+      
       //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1})
       for (var density in {'xhdpi':1})
-        for (var backgroundShape in {'square':1, 'circle':1, 'tab-unselected-pressed':1})
+        for (var backgroundShape in shapes)
           for (var type in {'back':1, 'fore1':1, 'mask':1})
             resList[backgroundShape + '-' + density + '-' + type] = (
-              'res/launcher-stencil/' + backgroundShape + '/' + density + '/' + type + '.png');
+              'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + type + '.png');
 
       var IMAGE_RESOURCES = {};
       imagelib.loadImageResources(resList, function(r) {
@@ -136,17 +146,38 @@
       });
 
       var PARAM_RESOURCES = {
-          'web-iconSize': { w: 512, h: 512 },
-        'xhdpi-iconSize': { w:  6, h:  10 },
-         'hdpi-iconSize': { w:  72, h:  72 },
-         'mdpi-iconSize': { w:  48, h:  48 },
-         'ldpi-iconSize': { w:  36, h:  36 },
+        'xhdpi-tab_unselected_pressed': { w:  6, h:  10 },
+         'hdpi-tab_unselected_pressed': { w:  72, h:  72 },
+         'mdpi-tab_unselected_pressed': { w:  48, h:  48 },
 
-          'web-targetRect': { x: 21, y: 21, w: 470, h: 470 },
-        'xhdpi-targetRect': { x:  0, y:  0, w:  10, h:  10 },
-         'hdpi-targetRect': { x:  3, y:  3, w:  66, h:  66 },
-         'mdpi-targetRect': { x:  2, y:  2, w:  44, h:  44 },
-         'ldpi-targetRect': { x:  1, y:  1, w:  34, h:  34 }
+        'xhdpi-tab_unselected_focused': { w:  6, h:  10 },
+         'hdpi-tab_unselected_focused': { w:  72, h:  72 },
+         'mdpi-tab_unselected_focused': { w:  48, h:  48 },
+
+        'xhdpi-tab_unselected': { w:  6, h:  10 },
+         'hdpi-tab_unselected': { w:  72, h:  72 },
+         'mdpi-tab_unselected': { w:  48, h:  48 },
+         
+        'xhdpi-tab_selected_pressed': { w:  6, h:  18 },
+         'hdpi-tab_selected_pressed': { w:  72, h:  72 },
+         'mdpi-tab_selected_pressed': { w:  48, h:  48 },
+
+        'xhdpi-tab_selected_focused': { w:  6, h:  18 },
+         'hdpi-tab_selected_focused': { w:  72, h:  72 },
+         'mdpi-tab_selected_focused': { w:  48, h:  48 },
+
+        'xhdpi-tab_selected': { w:  6, h:  18 },
+         'hdpi-tab_selected': { w:  72, h:  72 },
+         'mdpi-tab_selected': { w:  48, h:  48 },
+
+
+//         'ldpi-iconSize': { w:  36, h:  36 },
+
+//          'web-targetRect': { x: 21, y: 21, w: 470, h: 470 },
+//        'xhdpi-targetRect': { x:  0, y:  0, w:  10, h:  10 },
+//         'hdpi-targetRect': { x:  3, y:  3, w:  66, h:  66 },
+//         'mdpi-targetRect': { x:  2, y:  2, w:  44, h:  44 },
+//         'ldpi-targetRect': { x:  1, y:  1, w:  34, h:  34 }
       };
 
       /**
@@ -167,15 +198,18 @@
           return;
 
         var values = form.getValues();
-        var showGuides = $('#output-show-guides').is(':checked');
+        //var showGuides = $('#output-show-guides').is(':checked');
 
-        var iconName = 'ic_launcher';
+        var styleName = values['name'];
         zipper.clear();
-        zipper.setZipFilename(iconName + '.zip');
+        zipper.setZipFilename(styleName + '_actionbar_style.zip');
 
         var continue_ = function(foreCtx) {
           //var backgroundShape = values['backgroundShape'];
-          var backgroundShape = 'tab-unselected-pressed';
+          //var backgroundShape = 'tab-unselected-pressed';
+          
+          for (var backgroundShape in shapes) {
+          
           //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1}) {
           for (var density in {'xhdpi':1}) {
             var mult = studio.util.getMultBaseMdpi(density);
@@ -186,8 +220,9 @@
               }
             }
 
-            var iconSize = PARAM_RESOURCES[density + '-iconSize'];
-            var targetRect = PARAM_RESOURCES[density + '-targetRect'];
+            var iconSize = PARAM_RESOURCES[density + '-' + backgroundShape];
+            //var targetRect = PARAM_RESOURCES[density + '-targetRect'];
+            var targetRect = { x:  0, y:  0, w:  iconSize.h, h:  iconSize.h };
 
             var outCtx = imagelib.drawing.context(iconSize);
             var tmpCtx = imagelib.drawing.context(iconSize);
@@ -316,16 +351,14 @@
             //}
 
             zipper.add({
-              name: (density == 'web') ?
-                  ('web_hi_res_512.png') :
-                  ('res/drawable-' + density + '/ic_launcher.png'),
+              name: ('res/drawable-' + density + '/' + backgroundShape + '_' + styleName.toLowerCase() + '.9.png'),
               base64data: outCtx.canvas.toDataURL().match(/;base64,(.+)/)[1]
             });
 
-            if (showGuides)
-              studio.ui.drawImageGuideRects(outCtx, iconSize, [
-                targetRect
-              ]);
+            //if (showGuides)
+            //  studio.ui.drawImageGuideRects(outCtx, iconSize, [
+            //    targetRect
+            //  ]);
 
             imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(density) {
               return function(img) {
@@ -333,6 +366,8 @@
               };
             }(density));
           }
+          
+          } // JG
         };
 
         //if (values['foreground']) {
