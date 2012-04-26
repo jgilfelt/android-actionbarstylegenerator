@@ -58,14 +58,16 @@
   <body>
     <div id="main-container">
       <div id="header">
-        <h1><a href="index.html">Android Action Bar Style Tool</a></h1>
+        <h1><a href="index.html">Android Action Bar Style Generator</a></h1>
       </div>
       <div id="page-header">
+        <!--
         <div id="breadcrumb">
           <a href="index.html">Android Asset Studio</a> &raquo;
           <a href="index.html#group-icon-generators">Icon generators</a> &raquo;
           <em>Launcher icons</em>
         </div>
+        -->
         <p id="page-intro">
           The <strong>launcher icon generator</strong> will create icons that you
           can use in your Android application, from a variety of source images.
@@ -75,16 +77,11 @@
       </div>
       <div id="inputs">
         <div id="inputs-form"></div>
-        <input type="checkbox" id="output-show-guides">
-        <label for="output-show-guides">Show Guides</label>
-        <input type="checkbox" id="output-better-scaling">
-        <label for="output-better-scaling">Better Image Smoothing (slow)</label>
       </div>
       <div id="outputs">
         <h3>
-          Output images
-          <div id="zip-button"></div>
-          <div id="generate-web-button" style="vertical-align:top">Generate Web Icon</div>
+          Output resources
+          <div id="zip-button"></div>          
         </h3>
       </div>
       <div id="footer">
@@ -95,6 +92,7 @@
 
     <script>
       $(studio.checkBrowser);
+      /*
       $('#output-show-guides').button().click(regenerate);
       $('#output-better-scaling').button().click(function() {
         imagelib.ALLOW_MANUAL_RESCALE = $(this).is(':checked');
@@ -104,6 +102,7 @@
       $('#generate-web-button').button().click(function() {
         regenerate(true, true);
       });
+      */
 
       var zipper = studio.zip.createDownloadifyZipButton($('#zip-button'));
 
@@ -175,7 +174,8 @@
         zipper.setZipFilename(iconName + '.zip');
 
         var continue_ = function(foreCtx) {
-          var backgroundShape = values['backgroundShape'];
+          //var backgroundShape = values['backgroundShape'];
+          var backgroundShape = 'tab-unselected-pressed';
           //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1}) {
           for (var density in {'xhdpi':1}) {
             var mult = studio.util.getMultBaseMdpi(density);
@@ -192,6 +192,7 @@
             var outCtx = imagelib.drawing.context(iconSize);
             var tmpCtx = imagelib.drawing.context(iconSize);
 
+			/*
             if (backgroundShape == 'none') {
               tmpCtx.save();
               tmpCtx.globalCompositeOperation = 'source-over';
@@ -212,7 +213,8 @@
                   tmpCtx.globalAlpha = values['foreColor'].alpha / 100;
                 }
 
-                imagelib.drawing[values['crop'] ? 'drawCenterCrop' : 'drawCenterInside']
+                //imagelib.drawing[values['crop'] ? 'drawCenterCrop' : 'drawCenterInside']
+                imagelib.drawing['drawCenterCrop']
                   (tmpCtx, copyFrom, targetRect, {
                     x: 0, y: 0,
                     w: foreSize.w, h: foreSize.h
@@ -274,11 +276,12 @@
               }
 
             } else {
+            */	
               tmpCtx.save();
               tmpCtx.globalCompositeOperation = 'source-over';
               imagelib.drawing.copy(tmpCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + '-mask'], iconSize);
               tmpCtx.globalCompositeOperation = 'source-atop';
-              tmpCtx.fillStyle = values['backColor'].color;
+              tmpCtx.fillStyle = values['accentColor'].color;
               tmpCtx.fillRect(0, 0, iconSize.w, iconSize.h);
               if (foreCtx) {
                 var copyFrom = foreCtx;
@@ -287,7 +290,7 @@
                   h: foreCtx.canvas.height
                 };
 
-                if (values['foreColor'].alpha) {
+                //if (values['foreColor'].alpha) {
                   var tmpCtx2 = imagelib.drawing.context(foreSize);
                   imagelib.drawing.copy(tmpCtx2, foreCtx, foreSize);
                   tmpCtx2.globalCompositeOperation = 'source-atop';
@@ -295,9 +298,10 @@
                   tmpCtx2.fillRect(0, 0, foreSize.w, foreSize.h);
                   copyFrom = tmpCtx2;
                   tmpCtx.globalAlpha = values['foreColor'].alpha / 100;
-                }
+                //}
 
-                imagelib.drawing[values['crop'] ? 'drawCenterCrop' : 'drawCenterInside']
+                //imagelib.drawing[values['crop'] ? 'drawCenterCrop' : 'drawCenterInside']
+                imagelib.drawing['drawCenterCrop']
                   (tmpCtx, copyFrom, targetRect, {
                     x: 0, y: 0,
                     w: foreSize.w, h: foreSize.h
@@ -309,7 +313,7 @@
               imagelib.drawing.copy(outCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + '-back'], iconSize);
               imagelib.drawing.copy(outCtx, tmpCtx, iconSize);
               imagelib.drawing.copy(outCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + '-fore' + foreEffect], iconSize);
-            }
+            //}
 
             zipper.add({
               name: (density == 'web') ?
@@ -331,11 +335,11 @@
           }
         };
 
-        if (values['foreground']) {
-          continue_(values['foreground'].ctx);
-        } else {
+        //if (values['foreground']) {
+        //  continue_(values['foreground'].ctx);
+        //} else {
           continue_(null);
-        }
+        //}
       }
 
       var form = new studio.forms.Form('iconform', {
@@ -343,16 +347,48 @@
           regenerate();
         },
         fields: [
+        
+          new studio.forms.TextField('name', {
+            title: 'Style name',
+            helpText: 'Used as style and file name suffix when generating resources.',
+            defaultValue: 'example'
+          }),
+          new studio.forms.EnumField('compat', {
+            title: 'Style compatibility',
+            buttons: true,
+            options: [
+              { id: 'holo', title: 'Holo' },
+              { id: 'sherlock', title: 'Sherlock' }
+            ],
+            helpText: 'Sherlock styles require the <a href="http://actionbarsherlock.com">Action Bar Sherlock</a> library.',
+            defaultValue: 'holo'
+          }),
+          new studio.forms.EnumField('theme', {
+            title: 'Base theme',
+            buttons: true,
+            options: [
+              { id: 'light', title: 'Light' },
+              { id: 'dark', title: 'Dark' }
+            ],
+            defaultValue: 'light'
+          }),
+          
+        
+        /*
           new studio.forms.ImageField('foreground', {
             title: 'Foreground',
             defaultValueTrim: 1
           }),
+          
+        
           new studio.forms.BooleanField('crop', {
             title: 'Foreground scaling',
             defaultValue: false,
             offText: 'Center',
             onText: 'Crop'
           }),
+          
+          
           new studio.forms.EnumField('backgroundShape', {
             title: 'Background Shape',
             buttons: true,
@@ -364,17 +400,42 @@
             ],
             defaultValue: 'none'
           }),
+          
+          */
+          
           new studio.forms.ColorField('backColor', {
             title: 'Background color',
-            defaultValue: '#ff0000'
+            helpText: 'Main Action Bar background.',
+            defaultValue: '#E4E4E4'
           }),
+          new studio.forms.ColorField('secondaryColor', {
+            title: 'Secondary color',
+            helpText: 'Stacked background.',
+            defaultValue: '#D6D6D6'
+          }),
+          new studio.forms.ColorField('tertiaryColor', {
+            title: 'Tertiary color',
+            helpText: 'Overflow menu and spinner popups.',
+            defaultValue: '#AAAAAA'
+          }),
+          new studio.forms.ColorField('accentColor', {
+            title: 'Accent color',
+            helpText: 'Tab highlights, selection and pressed state color.',
+            defaultValue: '#33B5E5'
+          }),
+          
+          /*
           new studio.forms.ColorField('foreColor', {
             title: 'Foreground color',
             helpText: 'Only for alpha-transparent foregrounds',
             defaultValue: '#000000',
             alpha: true,
             defaultAlpha: 0
-          })/*,
+          })
+          */
+          
+          
+          /*,
           new studio.forms.EnumField('foreEffect', {
             title: 'Foreground effects',
             buttons: true,
