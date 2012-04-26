@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="tiny" x="0px" y="0px" width="480px" height="480px" viewBox="0 0 480 480" xml:space="preserve">
+  <g id="stop">
+  	<path d="M312.277,61.359h-150.67L58.877,164.089v143.822l102.73,102.729h150.67l102.729-102.729V164.089L312.277,61.359z    M189.001,109.3h95.881l75.335,75.335v20.546H113.666v-20.546L189.001,109.3z M284.882,362.7h-95.881l-75.335-75.335V259.97   h246.551v27.395L284.882,362.7z"/>
+  </g>
+</svg>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+  <!--
+    Copyright 2011 Google Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+  -->
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Android Asset Studio - Nine-patch Generator</title>
+
+    <link rel="stylesheet" href="lib/cssreset-3.4.1.min.css">
+    <link rel="stylesheet" href="lib/jquery-ui/css/android/jquery-ui-1.8.16.custom.css">
+    <link rel="stylesheet" href="css/studio.css">
+
+    <script src="lib/jquery-ui/js/jquery-1.6.2.min.js"></script>
+    <script src="lib/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+
+    <!-- for .ZIP downloads -->
+    <script src="lib/swfobject-2.2.js"></script>
+    <script src="lib/downloadify/js/downloadify.min.js"></script>
+    <script src="lib/jszip/jszip.js"></script>
+
+    <script src="js/asset-studio.pack.js"></script>
+    
+    <style>
+      #main-container {
+        width: 1000px;
+      }
+
+      #instage-container {
+        width: 100%;
+        display: box;
+        box-orient: horizontal;
+        box-pack: justify;
+        box-align: justify;
+
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+        -webkit-box-pack: justify;
+        -webkit-box-align: justify;
+
+        display: -moz-box;
+        -moz-box-orient: horizontal;
+        -moz-box-pack: justify;
+        -moz-box-align: justify;
+      }
+
+      #inputs {
+                box-flex: 1;
+        -webkit-box-flex: 1;
+           -moz-box-flex: 1;
+      }
+
+      #stage {
+        padding: 24px;
+        border-left: 2px solid #ccc;
+        width: 500px;
+        background-color: #eee;
+      }
+
+      #stage-which,
+      #stage-grid-color {
+        display: inline-block;
+      }
+
+      #stage canvas {
+        margin: 16px 0 16px 0;
+        border: 1px solid #ccc;
+
+        image-rendering: optimizeSpeed;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: -moz-crisp-edges;
+        -ms-interpolation-mode: nearest-neighbor;
+      }
+    </style>
+
+    <!-- TODO: remove Analytics tracking if you're building the tools locally! -->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-18671401-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="main-container">
+      <div id="header">
+        <h1><a href="index.html">Android Asset Studio</a></h1>
+      </div>
+      <div id="page-header">
+        <div id="breadcrumb">
+          <a href="index.html">Android Asset Studio</a> &raquo;
+          <a href="index.html#group-other-drawables">Other drawables</a> &raquo;
+          <em>Nine-patch generator</em>
+        </div>
+        <p id="page-intro">
+          The <strong>nine-patch generator</strong> allows you to quickly generate nine-patches
+          at different screen densities, based on some source artwork.
+        </p>
+      </div>
+      <div id="instage-container">
+        <div id="inputs">
+          <div id="inputs-form"></div>
+        </div>
+        <div id="stage">
+          <strong>Edit Mode &nbsp;</strong>
+          <div id="stage-which">
+            <input id="stage-stretch" name="stage-which" type="radio" value="stretch" checked><label for="stage-stretch">Stretch Regions</label>
+            <input id="stage-padding" name="stage-which" type="radio" value="padding"><label for="stage-padding">Content Padding</label>
+          </div>
+          <div id="stage-canvas-container">
+            <div class="ui-state-highlight" style="margin: 24px 0; padding: 12px">
+              Select a <strong>Source Graphic</strong> to the left to get started. You can also drag
+              a source image in from your desktop into the Source Graphic box.
+            </div>
+          </div>
+          <strong>Grid Color &nbsp;</strong>
+          <div id="stage-grid-color">
+            <input id="grid-light" name="stage-grid-color" type="radio" value="light" checked><label for="grid-light">Light</label>
+            <input id="grid-dark" name="stage-grid-color" type="radio" value="dark"><label for="grid-dark">Dark</label>
+          </div>
+
+          <div id="stage-examples-container">
+            <!--p><strong>Examples</strong></p-->
+          </div>
+        </div>
+      </div>
+      <div id="outputs">
+        <h3>Output images <div id="zip-button"></div></h3>
+      </div>
+      <div id="footer">
+        <p>See the source at the <a href="http://code.google.com/p/android-ui-utils">android-ui-utils</a> Google Code project.</p>
+        <p>All generated art is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>. <a href="attribution.html">Attribution info</a></p>
+      </div>
+    </div>
+
+    <script>
+    $(studio.checkBrowser);
+
+    var GRID_SIZE_PIXELS = 4;
+    var SLOP_PIXELS = 10;
+
+    var stage = {
+      zoom: 1,
+      gridColor: 'light',
+      editMode: 'stretch',
+      stretchRect: {
+        x: 0,
+        y: 0,
+        w: 0,
+        h: 0
+      },
+      contentRect: {
+        x: 0,
+        y: 0,
+        w: 0,
+        h: 0
+      }
+    };
+
+    // Stage code
+    $('#stage-which').buttonset();
+    $('#stage-which input').change(function() {
+      stage.editMode = $(this).val();
+      redrawStage();
+    });
+    $('#stage-grid-color').buttonset();
+    $('#stage-grid-color input').change(function() {
+      stage.gridColor = $(this).val();
+      redrawStage();
+    });
+    function resetStage(srcCtx) {
+      $('#stage-canvas-container').empty();
+
+      if (!srcCtx) {
+        return;
+      }
+
+      stage.srcCtx = srcCtx;
+      stage.srcSize = { w: stage.srcCtx.canvas.width, h: stage.srcCtx.canvas.height };
+
+      // Compute a zoom level that'll show the stage as large as possible
+      stage.zoom = Math.max(1, Math.floor(500 / Math.max(stage.srcSize.w, stage.srcSize.h)));
+      stage.size = {
+        w: stage.srcSize.w * stage.zoom,
+        h: stage.srcSize.h * stage.zoom
+      };
+
+      // Create a nearest-neighbor scaled-up copy of the source image for the stage
+      stage.previewCtx = imagelib.drawing.context(stage.size);
+      var srcData = stage.srcCtx.getImageData(0, 0, stage.srcSize.w, stage.srcSize.h);
+      var previewData = stage.previewCtx.createImageData(stage.size.w, stage.size.h);
+      var sx, sy;
+      for (var y = 0; y < stage.size.h; y++) {
+        for (var x = 0; x < stage.size.w; x++) {
+          sx = Math.floor(x * stage.srcSize.w / stage.size.w);
+          sy = Math.floor(y * stage.srcSize.h / stage.size.h);
+          previewData.data[(y * stage.size.w + x) * 4 + 0] =
+              srcData.data[(sy * stage.srcSize.w + sx) * 4 + 0];
+          previewData.data[(y * stage.size.w + x) * 4 + 1] =
+              srcData.data[(sy * stage.srcSize.w + sx) * 4 + 1];
+          previewData.data[(y * stage.size.w + x) * 4 + 2] =
+              srcData.data[(sy * stage.srcSize.w + sx) * 4 + 2];
+          previewData.data[(y * stage.size.w + x) * 4 + 3] =
+              srcData.data[(sy * stage.srcSize.w + sx) * 4 + 3];
+        }
+      }
+      stage.previewCtx.putImageData(previewData, 0, 0);
+
+      // Reset the stretch and padding/content regions
+      stage.stretchRect = {
+        x: Math.floor(stage.srcSize.w / 3),
+        y: Math.floor(stage.srcSize.h / 3),
+        w: Math.ceil(stage.srcSize.w / 3),
+        h: Math.ceil(stage.srcSize.h / 3)
+      };
+
+      stage.contentRect = { x: 0, y: 0, w: stage.srcSize.w, h: stage.srcSize.h };
+
+      // Create the stage canvas
+      stage.canvas = $('<canvas>')
+          .attr('width', stage.size.w)
+          .attr('height', stage.size.h)
+          .get(0);
+      $('#stage-canvas-container').append(stage.canvas);
+
+      // Set up events on the stage
+      $(stage.canvas)
+          .bind('mousedown', function(evt) {
+            stage.dragging = true;
+          })
+          .bind('mouseup', function(evt) {
+            stage.dragging = false;
+          })
+          .bind('mousemove', function(evt) {
+            var editRect = (stage.editMode == 'stretch') ? stage.stretchRect : stage.contentRect;
+
+            var offs = $(this).offset();
+            var offsetX = evt.pageX - offs.left;
+            var offsetY = evt.pageY - offs.top;
+
+            if (!stage.dragging) {
+              stage.editLeft = stage.editRight = stage.editTop = stage.editBottom = false;
+
+              if (offsetX >= editRect.x * stage.zoom - SLOP_PIXELS &&
+                  offsetX <= editRect.x * stage.zoom + SLOP_PIXELS) {
+                stage.editLeft = true;
+              } else if (offsetX >= (editRect.x + editRect.w) * stage.zoom - SLOP_PIXELS &&
+                         offsetX <= (editRect.x + editRect.w) * stage.zoom + SLOP_PIXELS) {
+                stage.editRight = true;
+              }
+
+              if (offsetY >= editRect.y * stage.zoom - SLOP_PIXELS &&
+                  offsetY <= editRect.y * stage.zoom + SLOP_PIXELS) {
+                stage.editTop = true;
+              } else if (offsetY >= (editRect.y + editRect.h) * stage.zoom - SLOP_PIXELS &&
+                         offsetY <= (editRect.y + editRect.h) * stage.zoom + SLOP_PIXELS) {
+                stage.editBottom = true;
+              }
+
+              var cursor = 'default';
+              if (stage.editLeft) {
+                if (stage.editTop) {
+                  cursor = 'nw-resize';
+                } else if (stage.editBottom) {
+                  cursor = 'sw-resize';
+                } else {
+                  cursor = 'w-resize';
+                }
+              } else if (stage.editRight) {
+                if (stage.editTop) {
+                  cursor = 'ne-resize';
+                } else if (stage.editBottom) {
+                  cursor = 'se-resize';
+                } else {
+                  cursor = 'e-resize';
+                }
+              } else if (stage.editTop) {
+                cursor = 'n-resize';
+              } else if (stage.editBottom) {
+                cursor = 's-resize';
+              }
+              $(stage.canvas).css('cursor', cursor);
+            } else {
+              if (stage.editLeft) {
+                var newX = Math.min(editRect.x + editRect.w - 1, Math.round(offsetX / stage.zoom));
+                editRect.w = editRect.w + editRect.x - newX;
+                editRect.x = newX;
+              }
+              if (stage.editTop) {
+                var newY = Math.min(editRect.y + editRect.h - 1, Math.round(offsetY / stage.zoom));
+                editRect.h = editRect.h + editRect.y - newY;
+                editRect.y = newY;
+              }
+              if (stage.editRight) {
+                editRect.w = Math.max(1, Math.round(offsetX / stage.zoom) - editRect.x);
+              }
+              if (stage.editBottom) {
+                editRect.h = Math.max(1, Math.round(offsetY / stage.zoom) - editRect.y);
+              }
+              redrawStage();
+              regenerate();
+            }
+          })
+      
+      redrawStage();
+      regenerate();
+    }
+
+    function redrawStage() {
+      var editingStretch = (stage.editMode == 'stretch');
+      var editRect = (stage.editMode == 'stretch') ? stage.stretchRect : stage.contentRect;
+
+      var ctx = stage.canvas.getContext('2d');
+      ctx.clearRect(0, 0, stage.size.w, stage.size.h);
+
+      // draw grid
+      var cellSize = GRID_SIZE_PIXELS * stage.zoom;
+      var gridColorEven = (stage.gridColor == 'light') ? '#eee' : '#555';
+      var gridColorOdd  = (stage.gridColor == 'light') ? '#ddd' : '#444';
+      for (var y = 0; y < stage.srcSize.h / GRID_SIZE_PIXELS; y++) {
+        for (var x = 0; x < stage.srcSize.w / GRID_SIZE_PIXELS; x++) {
+          ctx.fillStyle = ((x + y) % 2 == 0) ? gridColorEven : gridColorOdd;
+          ctx.fillRect(x * cellSize, y * cellSize, (x + 1) * cellSize, (y + 1) * cellSize);
+        }
+      }
+
+      // draw source graphic
+      ctx.drawImage(stage.previewCtx.canvas, 0, 0);
+
+      // draw current edit region
+      ctx.fillStyle = 'rgba(0,0,0,0.25)';
+      if (editingStretch) {
+        ctx.fillRect(0, editRect.y * stage.zoom,
+                     stage.size.w, editRect.h * stage.zoom);
+        ctx.fillRect(editRect.x * stage.zoom, 0,
+                     editRect.w * stage.zoom, stage.size.h);
+      }
+      ctx.fillRect(editRect.x * stage.zoom, editRect.y * stage.zoom,
+                   editRect.w * stage.zoom, editRect.h * stage.zoom);
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+      ctx.lineWidth = 1;
+      if (editingStretch) {
+        ctx.strokeRect(0, 0.5 + editRect.y * stage.zoom,
+                       stage.size.w, editRect.h * stage.zoom - 1);
+        ctx.strokeRect(0.5 + editRect.x * stage.zoom, 0,
+                       editRect.w * stage.zoom - 1, stage.size.h);
+      }
+      ctx.strokeStyle = 'rgba(255,255,255,0.75)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(0.5 + editRect.x * stage.zoom, 0.5 + editRect.y * stage.zoom,
+                     editRect.w * stage.zoom - 1, editRect.h * stage.zoom - 1);
+    }
+
+    // Generator
+    var zipper = studio.zip.createDownloadifyZipButton($('#zip-button'));
+    var group = studio.ui.createImageOutputGroup({ container: $('#outputs') });
+    for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1})
+      studio.ui.createImageOutputSlot({
+        container: group,
+        id: 'out-patch-' + density,
+        label: density
+      });
+
+    /**
+     * Main nine patch generation routine.
+     */
+    function regenerate() {
+      if (!stage.srcCtx) {
+        return;
+      }
+
+      var values = form.getValues();
+      var resourceName = values['name'];
+      var sourceDensity = values['sourceDensity'];
+
+      zipper.clear();
+      zipper.setZipFilename(resourceName + '.9.zip');
+
+      for (var densityStr in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1}) {
+        var density;
+        switch (densityStr) {
+          case 'xhdpi': density = 320; break;
+          case  'hdpi': density = 240; break;
+          case  'mdpi': density = 160; break;
+          case  'ldpi': density = 120; break;
+        }
+
+        // scale source graphic
+        // TODO: support better-smoothing option
+        var scale = density / sourceDensity;
+        var outSize = {
+          w: Math.ceil(stage.srcSize.w * scale) + 2,
+          h: Math.ceil(stage.srcSize.h * scale) + 2
+        };
+        var outCtx = imagelib.drawing.context(outSize);
+        outCtx.drawImage(stage.srcCtx.canvas,
+            0, 0, stage.srcSize.w, stage.srcSize.h,
+            1, 1, outSize.w - 2, outSize.h - 2);
+
+        // draw nine-patch tick marks
+        outCtx.strokeStyle = '#000';
+        outCtx.lineWidth = 1;
+
+        outCtx.moveTo(1 + Math.floor(scale * stage.stretchRect.x), 0.5);
+        outCtx.lineTo(1 + Math.ceil(scale * (stage.stretchRect.x + stage.stretchRect.w)), 0.5);
+        outCtx.stroke();
+
+        outCtx.moveTo(0.5, 1 + Math.floor(scale * stage.stretchRect.y));
+        outCtx.lineTo(0.5, 1 + Math.ceil(scale * (stage.stretchRect.y + stage.stretchRect.h)));
+        outCtx.stroke();
+
+        outCtx.moveTo(1 + Math.floor(scale * stage.contentRect.x), outSize.h - 0.5);
+        outCtx.lineTo(1 + Math.ceil(scale * (stage.contentRect.x + stage.contentRect.w)), outSize.h - 0.5);
+        outCtx.stroke();
+
+        outCtx.moveTo(outSize.w - 0.5, 1 + Math.floor(scale * stage.contentRect.y));
+        outCtx.lineTo(outSize.w - 0.5, 1 + Math.ceil(scale * (stage.contentRect.y + stage.contentRect.h)));
+        outCtx.stroke();
+
+        // add to zip and show preview
+
+        zipper.add({
+          name: 'res/drawable-' + densityStr + '/' + resourceName + '.9.png',
+          base64data: outCtx.canvas.toDataURL().match(/;base64,(.+)/)[1]
+        });
+
+        imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(densityStr) {
+          return function(img) {
+            $('#out-patch-' + densityStr).attr('src', img.src);
+          };
+        }(densityStr));
+      }
+    }
+
+    // Input form code
+    var form = new studio.forms.Form('ninepatchform', {
+      onChange: function(field) {
+        var values = form.getValues();
+        if (!field || field.id_ == 'source') {
+          if (values['source']) {
+            resetStage(values['source'].ctx);
+          } else {
+            resetStage(null);
+          }
+        } else {
+          regenerate();
+        }
+      },
+      fields: [
+        new studio.forms.ImageField('source', {
+          title: 'Source graphic',
+          imageOnly: true,
+          noTrimForm: true,
+          noPreview: true
+        }),
+        new studio.forms.EnumField('sourceDensity', {
+          title: 'Source density',
+          buttons: true,
+          options: [
+            { id: '120', title:  'ldpi<br><small>(120)</small>' },
+            { id: '160', title:  'mdpi<br><small>(160)</small>' },
+            { id: '240', title:  'hdpi<br><small>(240)</small>' },
+            { id: '320', title: 'xhdpi<br><small>(320)</small>' }
+          ],
+          defaultValue: '320'
+        }),
+        new studio.forms.TextField('name', {
+          title: 'Drawable name',
+          helpText: 'Used when generating ZIP files. Becomes <code>&lt;name&gt;.9.png</code>.',
+          defaultValue: 'example'
+        })
+      ]
+    });
+    form.createUI($('#inputs-form').get(0));
+    </script>
+  </body>
+</html>

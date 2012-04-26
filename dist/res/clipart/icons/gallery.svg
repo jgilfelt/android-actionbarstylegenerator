@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="tiny" x="0px" y="0px" width="480px" height="480px" viewBox="0 0 480 480" xml:space="preserve">
+  <g id="gallery">
+  	<path d="M386.147,82.671v306.657H79.475V82.671H386.147 M412.801,56.003H52.803V416h359.998V56.003L412.801,56.003z"/>
+  	<polygon points="99.629,369.36 366.288,369.36 366.288,269.354 312.834,230.2 254.709,263.013 172.458,202.903 99.629,259.448  "/>
+  </g>
+</svg>

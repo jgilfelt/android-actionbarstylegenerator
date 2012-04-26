@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="tiny" x="0px" y="0px" width="480px" height="480px" viewBox="0 0 480 480" xml:space="preserve">
+  <g id="slideshow">
+  	<path d="M326.633,149.339v239.308H87.317V149.339H326.633 M353.944,122.027H60.006v293.947h293.938V122.027L353.944,122.027z"/>
+  	<polygon points="103.038,373.066 311.131,373.066 311.131,295.03 269.426,264.467 224.069,290.082 159.881,243.17 103.038,287.299     "/>
+  	<polygon points="387.334,383.245 367.743,383.245 367.743,108.286 94.725,108.286 94.725,88.686 387.334,88.686 387.334,383.245     "/>
+  	<polygon points="420.008,357.116 400.399,357.116 400.399,75.625 120.848,75.625 120.848,56.028 420.008,56.028 420.008,357.116     "/>
+  </g>
+</svg>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="tiny" x="0px" y="0px" width="480px" height="480px" viewBox="0 0 480 480" xml:space="preserve">
+  <g id="battery_charging">
+  	<path d="M342.446,269.711c0,31.814-26.037,57.861-57.865,57.861h-52.797v-23.151h-57.861v-34.71h57.861v-45.937h-57.861v-34.719   h57.861v-23.501h52.797c31.828,0,57.865,26.033,57.865,57.861h74.783v-16.032c0-50.925-41.656-92.581-92.59-92.581H185.774   c-46.084,0-84.471,34.158-91.369,78.377H80.37c-12.727,0-23.15,10.416-23.15,23.139v51.563c0,12.728,10.424,23.143,23.15,23.143   h14.035c6.898,44.22,45.285,78.373,91.369,78.373h138.865c50.934,0,92.59-41.656,92.59-92.576v-7.11H342.446z"/>
+  </g>
+</svg>
