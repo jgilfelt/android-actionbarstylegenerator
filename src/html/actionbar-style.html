@@ -104,6 +104,27 @@
         regenerate(true, true);
       });
       */
+     
+  	  function loadXmlTemplates(files, callback) {
+		  var fileResources = {};
+
+		  var checkForCompletion = function() {
+		    for (var id in files) {
+		      if (!(id in fileResources))
+		        return;
+		    }
+		    (callback || function(){})(fileResources);
+		    callback = null;
+		  };
+
+		  for (var id in files) {
+		    $.get(files[id], function(data) {
+    			//alert(data);
+    			fileResources[id] = data;
+    			checkForCompletion();
+			}, 'html');
+		  }
+	  }
 
       var zipper = studio.zip.createDownloadifyZipButton($('#zip-button'));
 
@@ -141,6 +162,16 @@
        	    'spinner_ab_default':1,
        	    'spinner_ab_disabled':1
        }
+       
+       var xmlTemplates = {
+       	    'styles':1,
+       	    'colors':1,
+       	    'focused_background':1,
+       	    'pressed_background':1,
+       	    'selectable_background':1,
+       	    'spinner_background_ab':1,
+       	    'tab_indicator_ab':1
+       }
       
       //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1})
       for (var density in {'xhdpi':1})
@@ -156,6 +187,31 @@
             resList[nonStyledShape + '-' + density + '-' + type] = (
               'res/actionbar-stencil/' + nonStyledShape + '/' + density + '/' + type + '.png');
 
+      // JG
+      var xmlList = {};
+      for (var template in xmlTemplates)
+        xmlList[template] = (
+          'res/actionbar-xml-templates/' + template + '.xml');
+
+	  var XML_RESOURCES = {};
+	  var IMAGE_RESOURCES = {};
+	  
+      imagelib.loadImageResources(resList, function(r) {
+        IMAGE_RESOURCES = r;
+        IMAGE_RESOURCES._loaded = true;
+        
+        studio.hash.bindFormToDocumentHash(form);
+        
+        loadXmlTemplates(xmlList, function(r2) {
+          XML_RESOURCES = r2;
+          XML_RESOURCES._loaded = true;
+          regenerate();
+          
+        });
+        
+      });
+
+/*
       var IMAGE_RESOURCES = {};
       imagelib.loadImageResources(resList, function(r) {
         IMAGE_RESOURCES = r;
@@ -163,7 +219,7 @@
         regenerate();
         studio.hash.bindFormToDocumentHash(form);
       });
-
+*/
       var PARAM_RESOURCES = {
         'xhdpi-tab_unselected_pressed': { w:  6, h:  10 },
          'hdpi-tab_unselected_pressed': { w:  72, h:  72 },
