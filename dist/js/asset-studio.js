@@ -827,6 +827,31 @@ imagelib.toDataUri = function(img) {
   return canvas.toDataURL();
 };
 
+
+imagelib.loadXmlTemplates = function(files, callback) {
+	var fileResources = {};
+
+	var checkForCompletion = function() {
+		for(var id in files) {
+			if(!( id in fileResources)) {
+				return;
+			}
+		}
+		//console.log('callback');
+		(callback || function() {})(fileResources);
+		callback = null;
+	};
+
+	for(var id in files) {
+		(function(id) {
+			$.get(files[id], function(data) {
+				fileResources[id] = data;
+				checkForCompletion();
+			}, 'html');
+		})(id);
+	}
+}
+
 imagelib.util = {};
 
 /**
