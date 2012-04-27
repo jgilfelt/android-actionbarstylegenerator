@@ -304,8 +304,15 @@
 
         var styleName = values['name'];
         var baseTheme = values['theme'];
+        
+        var replaceStrings = {
+        	'style':(styleName.toLowerCase()),
+        	'base':((baseTheme == 'light') ? '.Light' : ''),
+        	'accent':(values['accentColor'].color.substring(1))
+        };
+        
         zipper.clear();
-        zipper.setZipFilename(styleName + '_actionbar_style.zip');
+        zipper.setZipFilename('actionbar_style_' + styleName.toLowerCase() + '.zip');
 
         var continue_ = function(foreCtx) {
           //var backgroundShape = values['backgroundShape'];
@@ -319,9 +326,16 @@
           	} else {
           		dir = 'res/drawable/';
           	}
+          	
+          	var data = XML_RESOURCES[template];
+          	for (var id in replaceStrings) {
+          		var regexp = new RegExp('##' + id + '##', "g");
+          		data = data.replace(regexp, replaceStrings[id]);
+          	}
+          	
           	zipper.add({
           	  name: (dir + template + '_' + styleName.toLowerCase() + '.xml'),
-              textData: XML_RESOURCES[template]
+              textData: data
             })
           }
           
@@ -536,7 +550,7 @@
         
           new studio.forms.TextField('name', {
             title: 'Style name',
-            helpText: 'Used as style and file name suffix when generating resources.',
+            helpText: 'Used as name suffix when generating resources. No spaces or punctuation.',
             defaultValue: 'example'
           }),
           new studio.forms.EnumField('compat', {

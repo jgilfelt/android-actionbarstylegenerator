@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2011 The Android Open Source Project
+<!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2012 readyState Software Ltd
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,8 +17,6 @@
 -->
 
 <resources>
-	<color name="android_green">#FFA4C639</color>
-	<color name="honeycombish_blue">#FF58BAED</color>
-	<color name="soft_grey">#FF777777</color>
-	<color name="background">#FFEFEFEF</color>
+	<color name="focused_##style##">#88##accent##</color>
+	<color name="pressed_##style##">#CC##accent##</color>
 </resources>

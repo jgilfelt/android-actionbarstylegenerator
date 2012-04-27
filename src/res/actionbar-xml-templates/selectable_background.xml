@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2011 The Android Open Source Project
+<!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2012 readyState Software Ltd
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -16,6 +18,7 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
 		  android:exitFadeDuration="@android:integer/config_mediumAnimTime" >
-	<item android:state_pressed="true" android:drawable="@drawable/pressed_background" />
+    <item android:state_focused="true" android:drawable="@drawable/focused_background_##style##" />
+	<item android:state_pressed="true" android:drawable="@drawable/pressed_background_##style##" />
 	<item android:drawable="@android:color/transparent" />
 </selector>
