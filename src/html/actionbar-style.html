@@ -132,8 +132,15 @@
         	'ab_solid':1,
         	'ab_stacked_solid':1,
         	'ab_bottom_solid':1,
-        	'menu_dropdown_panel':1
+        	'menu_dropdown_panel':1,
+        	'spinner_ab_focused':1,
+        	'spinner_ab_pressed':1
        };
+       
+       var nonStyledShapes = {
+       	    'spinner_ab_default':1,
+       	    'spinner_ab_disabled':1
+       }
       
       //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1})
       for (var density in {'xhdpi':1})
@@ -141,6 +148,13 @@
           for (var type in {'back':1, 'fore1':1, 'mask':1})
             resList[backgroundShape + '-' + density + '-' + type] = (
               'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + type + '.png');
+
+      //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1})
+	  for (var density in {'xhdpi':1})
+        for (var nonStyledShape in nonStyledShapes)
+          for (var type in {'light':1, 'dark':1})
+            resList[nonStyledShape + '-' + density + '-' + type] = (
+              'res/actionbar-stencil/' + nonStyledShape + '/' + density + '/' + type + '.png');
 
       var IMAGE_RESOURCES = {};
       imagelib.loadImageResources(resList, function(r) {
@@ -190,6 +204,22 @@
         'xhdpi-menu_dropdown_panel': { w:  130, h:  66 },
          'hdpi-menu_dropdown_panel': { w:  72, h:  72 },
          'mdpi-menu_dropdown_panel': { w:  48, h:  48 },
+         
+        'xhdpi-spinner_ab_focused': { w:  46, h:  66 },
+         'hdpi-spinner_ab_focused': { w:  72, h:  72 },
+         'mdpi-spinner_ab_focused': { w:  48, h:  48 },
+         
+        'xhdpi-spinner_ab_pressed': { w:  46, h:  66 },
+         'hdpi-spinner_ab_pressed': { w:  72, h:  72 },
+         'mdpi-spinner_ab_pressed': { w:  48, h:  48 },
+         
+        'xhdpi-spinner_ab_default': { w:  46, h:  66 },
+         'hdpi-spinner_ab_default': { w:  72, h:  72 },
+         'mdpi-spinner_ab_default': { w:  48, h:  48 },
+         
+        'xhdpi-spinner_ab_disabled': { w:  46, h:  66 },
+         'hdpi-spinner_ab_disabled': { w:  72, h:  72 },
+         'mdpi-spinner_ab_disabled': { w:  48, h:  48 },
 
 
 //         'ldpi-iconSize': { w:  36, h:  36 },
@@ -222,6 +252,7 @@
         //var showGuides = $('#output-show-guides').is(':checked');
 
         var styleName = values['name'];
+        var baseTheme = values['theme'];
         zipper.clear();
         zipper.setZipFilename(styleName + '_actionbar_style.zip');
 
@@ -229,6 +260,30 @@
           //var backgroundShape = values['backgroundShape'];
           //var backgroundShape = 'tab-unselected-pressed';
           
+          
+          
+          // process non-styled assets
+          for (var nonStyledShape in nonStyledShapes) {
+          	//for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1}) {
+            for (var density in {'xhdpi':1}) {
+              var mult = studio.util.getMultBaseMdpi(density);
+          	  var iconSize = PARAM_RESOURCES[density + '-' + nonStyledShape];
+              var targetRect = { x:  0, y:  0, w:  iconSize.h, h:  iconSize.h };
+
+              var outCtx = imagelib.drawing.context(iconSize);
+              
+              imagelib.drawing.copy(outCtx, IMAGE_RESOURCES[nonStyledShape + '-' + density + '-' + baseTheme], iconSize);
+             
+              zipper.add({
+                name: ('res/drawable-' + density + '/' + nonStyledShape + '_' + styleName.toLowerCase() + '.9.png'),
+                base64data: outCtx.canvas.toDataURL().match(/;base64,(.+)/)[1]
+              });
+              
+          	}
+          }
+          
+          
+          // process styled assets
           for (var backgroundShape in shapes) {
           
           //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1}) {
@@ -335,7 +390,7 @@
             */	
             
               var fillColor;
-              if (backgroundShape.match('tab')) {
+              if (backgroundShape.match('tab') || backgroundShape.match('spinner')) {
               	fillColor = values['accentColor'].color;
               } else if (backgroundShape.match('stacked')) {
               	fillColor = values['secondaryColor'].color; 
@@ -428,7 +483,7 @@
               { id: 'holo', title: 'Holo' },
               { id: 'sherlock', title: 'Sherlock' }
             ],
-            helpText: 'Sherlock styles require the <a href="http://actionbarsherlock.com">Action Bar Sherlock</a> library.',
+            helpText: 'Sherlock styles require the <a href="http://actionbarsherlock.com">ActionBarSherlock</a> library.',
             defaultValue: 'holo'
           }),
           new studio.forms.EnumField('theme', {
@@ -484,7 +539,7 @@
           new studio.forms.ColorField('tertiaryColor', {
             title: 'Tertiary color',
             helpText: 'Overflow menu and spinner popups.',
-            defaultValue: '#AAAAAA'
+            defaultValue: '#F2F2F2'
           }),
           new studio.forms.ColorField('accentColor', {
             title: 'Accent color',
