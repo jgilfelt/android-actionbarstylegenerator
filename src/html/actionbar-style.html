@@ -18,7 +18,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Android Asset Studio - Icon Generator - Launcher icons</title>
+    <title>Android Action Bar Style Generator</title>
 
     <link rel="stylesheet" href="lib/cssreset-3.4.1.min.css">
     <link rel="stylesheet" href="lib/jquery-ui/css/android/jquery-ui-1.8.16.custom.css">
@@ -70,10 +70,14 @@
         </div>
         -->
         <p id="page-intro">
-          The <strong>launcher icon generator</strong> will create icons that you
-          can use in your Android application, from a variety of source images.
-          To begin, simply enter the input details below. Output will be shown
-          below.
+          The <strong>Android Action Bar Style Generator</strong> allows you to easily create a simple, 
+          attractive and seamless custom action bar style for your Android application. It will generate
+          all necessary nine patch assets plus associated XML drawables and styles which you can copy straight 
+          into your project.
+        </p>
+        <br />
+        <p>
+          This is currently a beta product. Please <a href="#">report bugs</a>.
         </p>
       </div>
       <div id="inputs">
@@ -86,7 +90,9 @@
         </h3>
       </div>
       <div id="footer">
-        <p>See the source at the <a href="http://code.google.com/p/android-ui-utils">android-ui-utils</a> Google Code project.</p>
+      	<p>Created by <a href="http://jeffgilfelt.com">Jeff Gilfelt</a>, source code on <a href="#">GitHub</a>, copyright 2012 readyState Software Ltd.</p>
+        <p>Built upon the <a href="http://code.google.com/p/android-ui-utils">android-ui-utils</a> asset studio framework created by <a href="http://roman.nurik.net/">Roman Nurik</a>, copyright Google Inc.</p>
+        <br/>
         <p>All generated art is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>. <a href="attribution.html">Attribution info</a></p>
       </div>
     </div>
@@ -107,32 +113,24 @@
      
       var zipper = studio.zip.createDownloadifyZipButton($('#zip-button'));
 
-      // Create image output slots
-      var group = studio.ui.createImageOutputGroup({
-        container: $('#outputs')
-      });
-      //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1})
-      for (var density in {'xhdpi':1})
-        studio.ui.createImageOutputSlot({
-          container: group,
-          id: 'out-icon-' + density,
-          label: (density == 'web') ? 'web, hi-res' : density
-        });
+     
+      
 
       // Load image resources (stencils)
       var resList = {};
       
       var shapes = {
+      	    'ab_solid':1,
+        	'ab_stacked_solid':1,
+        	'ab_bottom_solid':1,
+        	'menu_dropdown_panel':1,
+        	'menu_hardkey_panel':1,
         	'tab_unselected':1, 
         	'tab_unselected_pressed':1,
         	'tab_unselected_focused':1,
         	'tab_selected':1, 
         	'tab_selected_pressed':1,
         	'tab_selected_focused':1,
-        	'ab_solid':1,
-        	'ab_stacked_solid':1,
-        	'ab_bottom_solid':1,
-        	'menu_dropdown_panel':1,
         	'spinner_ab_focused':1,
         	'spinner_ab_pressed':1
        };
@@ -151,6 +149,20 @@
        	    'spinner_background_ab':1,
        	    'tab_indicator_ab':1
        }
+      
+       // Create image output slots
+      var group = studio.ui.createImageOutputGroup({
+        container: $('#outputs')
+      });
+      
+      //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1})
+      for (var density in {'xhdpi':1})
+        for (var backgroundShape in shapes)
+        studio.ui.createImageOutputSlot({
+          container: group,
+          id: 'out-icon-' + backgroundShape, //density,
+          label: backgroundShape //(density == 'web') ? 'web, hi-res' : density
+        });
       
       //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1})
       for (var density in {'xhdpi':1})
@@ -239,6 +251,10 @@
         'xhdpi-menu_dropdown_panel': { w:  130, h:  66 },
          'hdpi-menu_dropdown_panel': { w:  72, h:  72 },
          'mdpi-menu_dropdown_panel': { w:  48, h:  48 },
+         
+        'xhdpi-menu_hardkey_panel': { w:  130, h:  50 },
+         'hdpi-menu_hardkey_panel': { w:  72, h:  72 },
+         'mdpi-menu_hardkey_panel': { w:  48, h:  48 },
          
         'xhdpi-spinner_ab_focused': { w:  46, h:  66 },
          'hdpi-spinner_ab_focused': { w:  72, h:  72 },
@@ -495,11 +511,11 @@
             //    targetRect
             //  ]);
 
-            imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(density) {
+            imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(backgroundShape) {
               return function(img) {
-                $('#out-icon-' + density).attr('src', img.src);
+                $('#out-icon-' + backgroundShape).attr('src', img.src);
               };
-            }(density));
+            }(backgroundShape));
           }
           
           } // JG
