@@ -65,3 +65,33 @@ imagelib.toDataUri = function(img) {
 
   return canvas.toDataURL();
 };
+
+imagelib.loadXmlTemplates = function(files, callback) {
+		  var fileResources = {};
+
+		  var checkForCompletion = function() {
+		  	var missing = false;
+		    for (var id in files) {
+		      if (!(id in fileResources)) {
+		        return;
+		      }
+		    }
+		    console.log('callback');
+		    (callback || function(){})(fileResources);
+		    callback = null;
+		  };
+
+		  for (var id in files) {
+		  	console.log('id=' + id);
+		  	(function(id) {
+		    $.get(files[id], function(data) {
+    			//alert(data);
+    			console.log('id=' + id);
+    			fileResources[id] = data;
+    			//console.log(fileResources);
+    			//alert(fileResources[id]);
+    			checkForCompletion();
+			}, 'html');
+			})(id);
+		  }
+	  }

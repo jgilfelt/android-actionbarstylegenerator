@@ -105,27 +105,6 @@
       });
       */
      
-  	  function loadXmlTemplates(files, callback) {
-		  var fileResources = {};
-
-		  var checkForCompletion = function() {
-		    for (var id in files) {
-		      if (!(id in fileResources))
-		        return;
-		    }
-		    (callback || function(){})(fileResources);
-		    callback = null;
-		  };
-
-		  for (var id in files) {
-		    $.get(files[id], function(data) {
-    			//alert(data);
-    			fileResources[id] = data;
-    			checkForCompletion();
-			}, 'html');
-		  }
-	  }
-
       var zipper = studio.zip.createDownloadifyZipButton($('#zip-button'));
 
       // Create image output slots
@@ -202,7 +181,7 @@
         
         studio.hash.bindFormToDocumentHash(form);
         
-        loadXmlTemplates(xmlList, function(r2) {
+        imagelib.loadXmlTemplates(xmlList, function(r2) {
           XML_RESOURCES = r2;
           XML_RESOURCES._loaded = true;
           regenerate();
@@ -300,8 +279,8 @@
           }, 1000);
           return;
         }
-
-        if (!IMAGE_RESOURCES._loaded)
+ 
+        if (!IMAGE_RESOURCES._loaded || !XML_RESOURCES._loaded)
           return;
 
         var values = form.getValues();
@@ -316,7 +295,19 @@
           //var backgroundShape = values['backgroundShape'];
           //var backgroundShape = 'tab-unselected-pressed';
           
-          
+          // process xml
+          for (var template in xmlTemplates) {
+          	var dir;
+          	if (template == 'styles' || template == 'colors') {
+          		dir = 'res/values/';
+          	} else {
+          		dir = 'res/drawable/';
+          	}
+          	zipper.add({
+          	  name: (dir + template + '_' + styleName.toLowerCase() + '.xml'),
+              textData: XML_RESOURCES[template]
+            })
+          }
           
           // process non-styled assets
           for (var nonStyledShape in nonStyledShapes) {
