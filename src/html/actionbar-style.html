@@ -142,6 +142,7 @@
        
        var xmlTemplates = {
        	    'styles':1,
+       	    'styles-sherlock':1,
        	    'colors':1,
        	    'focused_background':1,
        	    'pressed_background':1,
@@ -301,6 +302,7 @@
 
         var styleName = values['name'];
         var baseTheme = values['theme'];
+        var compat = values['compat'];
         
         var replaceStrings = {
         	'style':(styleName.toLowerCase()),
@@ -318,13 +320,17 @@
           // process xml
           for (var template in xmlTemplates) {
           	var dir;
+          	var suffix = '';
           	if (template == 'styles' || template == 'colors') {
           		dir = 'res/values/';
+          		if (template == 'styles' && compat == 'sherlock') {
+          			suffix = '-sherlock'
+          		}
           	} else {
           		dir = 'res/drawable/';
           	}
           	
-          	var data = XML_RESOURCES[template];
+          	var data = XML_RESOURCES[template + suffix];
           	for (var id in replaceStrings) {
           		var regexp = new RegExp('##' + id + '##', "g");
           		data = data.replace(regexp, replaceStrings[id]);
