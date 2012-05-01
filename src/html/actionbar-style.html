@@ -155,7 +155,6 @@
         container: $('#outputs')
       });
       
-      //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1})
       for (var density in {'xhdpi':1})
         for (var backgroundShape in shapes)
         studio.ui.createImageOutputSlot({
@@ -164,15 +163,13 @@
           label: backgroundShape //(density == 'web') ? 'web, hi-res' : density
         });
       
-      //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1})
-      for (var density in {'xhdpi':1})
+      for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
         for (var backgroundShape in shapes)
           for (var type in {'back':1, 'fore1':1, 'mask':1})
             resList[backgroundShape + '-' + density + '-' + type] = (
               'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + type + '.png');
 
-      //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1})
-	  for (var density in {'xhdpi':1})
+      for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
         for (var nonStyledShape in nonStyledShapes)
           for (var type in {'light':1, 'dark':1})
             resList[nonStyledShape + '-' + density + '-' + type] = (
@@ -213,64 +210,64 @@
 */
       var PARAM_RESOURCES = {
         'xhdpi-tab_unselected_pressed': { w:  6, h:  10 },
-         'hdpi-tab_unselected_pressed': { w:  72, h:  72 },
-         'mdpi-tab_unselected_pressed': { w:  48, h:  48 },
+         'hdpi-tab_unselected_pressed': { w:  5, h:  8 },
+         'mdpi-tab_unselected_pressed': { w:  4, h:  6 },
 
         'xhdpi-tab_unselected_focused': { w:  6, h:  10 },
-         'hdpi-tab_unselected_focused': { w:  72, h:  72 },
-         'mdpi-tab_unselected_focused': { w:  48, h:  48 },
+         'hdpi-tab_unselected_focused': { w:  5, h:  8 },
+         'mdpi-tab_unselected_focused': { w:  4, h:  6 },
 
         'xhdpi-tab_unselected': { w:  6, h:  10 },
-         'hdpi-tab_unselected': { w:  72, h:  72 },
-         'mdpi-tab_unselected': { w:  48, h:  48 },
+         'hdpi-tab_unselected': { w:  5, h:  8 },
+         'mdpi-tab_unselected': { w:  4, h:  6 },
          
         'xhdpi-tab_selected_pressed': { w:  6, h:  18 },
-         'hdpi-tab_selected_pressed': { w:  72, h:  72 },
-         'mdpi-tab_selected_pressed': { w:  48, h:  48 },
+         'hdpi-tab_selected_pressed': { w:  5, h:  14 },
+         'mdpi-tab_selected_pressed': { w:  4, h:  10 },
 
         'xhdpi-tab_selected_focused': { w:  6, h:  18 },
-         'hdpi-tab_selected_focused': { w:  72, h:  72 },
-         'mdpi-tab_selected_focused': { w:  48, h:  48 },
+         'hdpi-tab_selected_focused': { w:  5, h:  14 },
+         'mdpi-tab_selected_focused': { w:  4, h:  10 },
 
         'xhdpi-tab_selected': { w:  6, h:  18 },
-         'hdpi-tab_selected': { w:  72, h:  72 },
-         'mdpi-tab_selected': { w:  48, h:  48 },
+         'hdpi-tab_selected': { w:  5, h:  14 },
+         'mdpi-tab_selected': { w:  4, h:  10 },
          
         'xhdpi-ab_solid': { w:  50, h:  50 },
-         'hdpi-ab_solid': { w:  72, h:  72 },
-         'mdpi-ab_solid': { w:  48, h:  48 },
+         'hdpi-ab_solid': { w:  38, h:  38 },
+         'mdpi-ab_solid': { w:  26, h:  26 },
          
         'xhdpi-ab_stacked_solid': { w:  50, h:  50 },
-         'hdpi-ab_stacked_solid': { w:  72, h:  72 },
-         'mdpi-ab_stacked_solid': { w:  48, h:  48 },
+         'hdpi-ab_stacked_solid': { w:  38, h:  38 },
+         'mdpi-ab_stacked_solid': { w:  26, h:  26 },
          
         'xhdpi-ab_bottom_solid': { w:  50, h:  50 },
-         'hdpi-ab_bottom_solid': { w:  72, h:  72 },
-         'mdpi-ab_bottom_solid': { w:  48, h:  48 },
+         'hdpi-ab_bottom_solid': { w:  38, h:  38 },
+         'mdpi-ab_bottom_solid': { w:  26, h:  26 },
          
         'xhdpi-menu_dropdown_panel': { w:  130, h:  66 },
-         'hdpi-menu_dropdown_panel': { w:  72, h:  72 },
-         'mdpi-menu_dropdown_panel': { w:  48, h:  48 },
+         'hdpi-menu_dropdown_panel': { w:  98, h:  50 },
+         'mdpi-menu_dropdown_panel': { w:  66, h:  34 },
          
         'xhdpi-menu_hardkey_panel': { w:  130, h:  50 },
-         'hdpi-menu_hardkey_panel': { w:  72, h:  72 },
-         'mdpi-menu_hardkey_panel': { w:  48, h:  48 },
+         'hdpi-menu_hardkey_panel': { w:  98, h:  38 },
+         'mdpi-menu_hardkey_panel': { w:  66, h:  26 },
          
         'xhdpi-spinner_ab_focused': { w:  46, h:  66 },
-         'hdpi-spinner_ab_focused': { w:  72, h:  72 },
-         'mdpi-spinner_ab_focused': { w:  48, h:  48 },
+         'hdpi-spinner_ab_focused': { w:  35, h:  50 },
+         'mdpi-spinner_ab_focused': { w:  24, h:  34 },
          
         'xhdpi-spinner_ab_pressed': { w:  46, h:  66 },
-         'hdpi-spinner_ab_pressed': { w:  72, h:  72 },
-         'mdpi-spinner_ab_pressed': { w:  48, h:  48 },
+         'hdpi-spinner_ab_pressed': { w:  35, h:  50 },
+         'mdpi-spinner_ab_pressed': { w:  24, h:  34 },
          
         'xhdpi-spinner_ab_default': { w:  46, h:  66 },
-         'hdpi-spinner_ab_default': { w:  72, h:  72 },
-         'mdpi-spinner_ab_default': { w:  48, h:  48 },
+         'hdpi-spinner_ab_default': { w:  35, h:  50 },
+         'mdpi-spinner_ab_default': { w:  24, h:  34 },
          
         'xhdpi-spinner_ab_disabled': { w:  46, h:  66 },
-         'hdpi-spinner_ab_disabled': { w:  72, h:  72 },
-         'mdpi-spinner_ab_disabled': { w:  48, h:  48 },
+         'hdpi-spinner_ab_disabled': { w:  35, h:  50 },
+         'mdpi-spinner_ab_disabled': { w:  24, h:  34 },
 
 
 //         'ldpi-iconSize': { w:  36, h:  36 },
@@ -341,8 +338,7 @@
           
           // process non-styled assets
           for (var nonStyledShape in nonStyledShapes) {
-          	//for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1}) {
-            for (var density in {'xhdpi':1}) {
+          	for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1}) {
               var mult = studio.util.getMultBaseMdpi(density);
           	  var iconSize = PARAM_RESOURCES[density + '-' + nonStyledShape];
               var targetRect = { x:  0, y:  0, w:  iconSize.h, h:  iconSize.h };
@@ -363,8 +359,7 @@
           // process styled assets
           for (var backgroundShape in shapes) {
           
-          //for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1, 'ldpi':1, 'web':1}) {
-          for (var density in {'xhdpi':1}) {
+          for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1}) {
             var mult = studio.util.getMultBaseMdpi(density);
             if (density == 'web') {
               mult = 1;
@@ -525,11 +520,13 @@
             //    targetRect
             //  ]);
 
-            imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(backgroundShape) {
-              return function(img) {
-                $('#out-icon-' + backgroundShape).attr('src', img.src);
-              };
-            }(backgroundShape));
+			if (density == 'xhdpi') {
+              imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(backgroundShape) {
+                return function(img) {
+                  $('#out-icon-' + backgroundShape).attr('src', img.src);
+                };
+              }(backgroundShape));
+            }
           }
           
           } // JG
