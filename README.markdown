@@ -10,7 +10,7 @@ Credits
 
 Author: Jeff Gilfelt
 
-Built upon the (android-ui-utils)[http://code.google.com/p/android-ui-utils] asset studio framework created by (Roman Nurik)[http://roman.nurik.net/], copyright Google Inc.
+Built upon the [android-ui-utils](http://code.google.com/p/android-ui-utils) asset studio framework created by [Roman Nurik](http://roman.nurik.net/), copyright Google Inc.
 
 The code in this project is licensed under the Apache Software License 2.0.
 <br />
