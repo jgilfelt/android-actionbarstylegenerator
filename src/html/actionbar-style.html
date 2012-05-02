@@ -319,6 +319,7 @@
           
           // process xml
           for (var template in xmlTemplates) {
+          	if (template == 'styles-sherlock') continue;
           	var dir;
           	var suffix = '';
           	if (template == 'styles' || template == 'colors') {

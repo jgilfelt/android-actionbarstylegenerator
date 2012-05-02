@@ -18,8 +18,8 @@
 
 <resources>
 
-	<style name="Theme.##style##" parent="android:style/Theme.Sherlock##base##">
-		<item name="selectableItemBackground">@drawable/selectable_background_##style##</item>
+	<style name="Theme.##style##" parent="@style/Theme.Sherlock##base##">
+		<item name="actionBarItemBackground">@drawable/selectable_background_##style##</item>
 		<item name="popupMenuStyle">@style/##style##_PopupMenu</item>
 		<item name="dropDownListViewStyle">@style/##style##_DropDownListView</item>
         <item name="actionBarTabStyle">@style/##style##_ActionBarTabStyle</item>
@@ -34,7 +34,7 @@
 		<item name="android:actionBarStyle">@style/##style##_ActionBar</item>
 	</style>
 	
-    <style name="##style##_ActionBar" parent="@android:style/Widget.Sherlock##base##.ActionBar">
+    <style name="##style##_ActionBar" parent="@style/Widget.Sherlock##base##.ActionBar">
     	<item name="background">@drawable/ab_solid_##style##</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
@@ -44,28 +44,22 @@
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
     </style>
 	
-	<style name="##style##_PopupMenu" parent="android:style/Widget.Sherlock##base##.ListPopupWindow">
-		<item name="popupBackground">@drawable/menu_dropdown_panel_##style##</item>	
-		
+	<style name="##style##_PopupMenu" parent="@android:style/Widget.Holo##base##.ListPopupWindow">
 		<item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>	
 	</style>
 	
-	<style name="##style##_DropDownListView" parent="android:style/Widget.Sherlock.ListView.DropDown">
-		<item name="listSelector">@drawable/selectable_background_##style##</item>
-		
+	<style name="##style##_DropDownListView" parent="@style/Widget.Sherlock.ListView.DropDown">
 		<item name="android:listSelector">@drawable/selectable_background_##style##</item>
 	</style>
 
-    <style name="##style##_ActionBarTabStyle" parent="android:style/Widget.Sherlock##base##.ActionBar.TabView">
+    <style name="##style##_ActionBarTabStyle" parent="@style/Widget.Sherlock##base##.ActionBar.TabView">
     	<item name="background">@drawable/tab_indicator_ab_##style##</item>
     
         <item name="android:background">@drawable/tab_indicator_ab_##style##</item>
     </style>
 	
-	<style name="##style##_DropDownNav" parent="android:style/Widget.Sherlock##base##.Spinner">
+	<style name="##style##_DropDownNav" parent="@android:style/Widget.Holo##base##.Spinner">
 		<item name="background">@drawable/spinner_background_ab_##style##</item>
-		<item name="popupBackground">@drawable/menu_dropdown_panel_##style##</item>
-		<item name="dropDownSelector">@drawable/selectable_background_##style##</item>
 	
 		<item name="android:background">@drawable/spinner_background_ab_##style##</item>
 		<item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>
