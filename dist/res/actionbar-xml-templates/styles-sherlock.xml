@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+	<style name="Theme.##style##" parent="@style/Theme.Sherlock##base##">
+		<item name="actionBarItemBackground">@drawable/selectable_background_##style##</item>
+		<item name="popupMenuStyle">@style/##style##_PopupMenu</item>
+		<item name="dropDownListViewStyle">@style/##style##_DropDownListView</item>
+        <item name="actionBarTabStyle">@style/##style##_ActionBarTabStyle</item>
+        <item name="actionDropDownStyle">@style/##style##_DropDownNav</item>
+		<item name="actionBarStyle">@style/##style##_ActionBar</item>
+	
+		<item name="android:selectableItemBackground">@drawable/selectable_background_##style##</item>
+		<item name="android:popupMenuStyle">@style/##style##_PopupMenu</item>
+		<item name="android:dropDownListViewStyle">@style/##style##_DropDownListView</item>
+        <item name="android:actionBarTabStyle">@style/##style##_ActionBarTabStyle</item>
+        <item name="android:actionDropDownStyle">@style/##style##_DropDownNav</item>
+		<item name="android:actionBarStyle">@style/##style##_ActionBar</item>
+	</style>
+	
+    <style name="##style##_ActionBar" parent="@style/Widget.Sherlock##base##.ActionBar">
+    	<item name="background">@drawable/ab_solid_##style##</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
+    
+        <item name="android:background">@drawable/ab_solid_##style##</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
+    </style>
+	
+	<style name="##style##_PopupMenu" parent="@android:style/Widget.Holo##base##.ListPopupWindow">
+		<item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>	
+	</style>
+	
+	<style name="##style##_DropDownListView" parent="@style/Widget.Sherlock.ListView.DropDown">
+		<item name="android:listSelector">@drawable/selectable_background_##style##</item>
+	</style>
+
+    <style name="##style##_ActionBarTabStyle" parent="@style/Widget.Sherlock##base##.ActionBar.TabView">
+    	<item name="background">@drawable/tab_indicator_ab_##style##</item>
+    
+        <item name="android:background">@drawable/tab_indicator_ab_##style##</item>
+    </style>
+	
+	<style name="##style##_DropDownNav" parent="@android:style/Widget.Holo##base##.Spinner">
+		<item name="background">@drawable/spinner_background_ab_##style##</item>
+	
+		<item name="android:background">@drawable/spinner_background_ab_##style##</item>
+		<item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>
+		<item name="android:dropDownSelector">@drawable/selectable_background_##style##</item>
+	</style>
+
+</resources>
