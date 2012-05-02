@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="tiny" x="0px" y="0px" width="480px" height="480px" viewBox="0 0 480 480" xml:space="preserve">
+  <g id="circle_arrow">
+  	<path d="M237.223,114.604c63.264,0,114.547,51.286,114.547,114.546c0,63.259-51.283,114.545-114.547,114.545   c-63.268,0-114.545-51.286-114.545-114.545C122.678,165.89,173.956,114.604,237.223,114.604 M237.223,49.148   c-99.25,0-180,80.75-180,180.001c0,99.25,80.75,180.001,180,180.001c99.252,0,180.002-80.751,180.002-180.001   C417.225,129.898,336.475,49.148,237.223,49.148L237.223,49.148z"/>
+  	<polygon points="148.583,189.266 237.223,300.744 325.866,189.266  "/>
+  </g>
+</svg>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html>
+  <!--
+    Copyright 2010 Google Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+  -->
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Android Action Bar Style Generator</title>
+
+    <link rel="stylesheet" href="lib/cssreset-3.4.1.min.css">
+    <link rel="stylesheet" href="lib/jquery-ui/css/android/jquery-ui-1.8.16.custom.css">
+    <link rel="stylesheet" href="css/studio.css">
+
+    <script src="lib/jquery-ui/js/jquery-1.6.2.min.js"></script>
+    <script src="lib/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+
+    <!-- canvg used to overcome <img src=SVG> toDataURL security issues -->
+    <!-- see code.google.com/p/chromium/issues/detail?id=54204 -->
+    <script src="lib/canvg/rgbcolor.js"></script> 
+    <script src="lib/canvg/canvg.js"></script>
+
+    <!-- prereq. for asset studio lib -->
+    <link rel="stylesheet" href="lib/colorpicker/css/colorpicker.css">
+    <script src="lib/colorpicker/js/colorpicker.js"></script>
+
+    <!-- for .ZIP downloads -->
+    <script src="lib/swfobject-2.2.js"></script>
+    <script src="lib/downloadify/js/downloadify.min.js"></script>
+    <script src="lib/jszip/jszip.js"></script>
+
+    <script src="js/asset-studio.pack.js"></script>
+
+    <!-- TODO: remove Analytics tracking if you're building the tools locally! -->
+<!--    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-18671401-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+-->
+  </head>
+  <body>
+    <div id="main-container">
+      <div id="header">
+        <h1><a href="index.html">Android Action Bar Style Generator</a></h1>
+      </div>
+      <div id="page-header">
+        <!--
+        <div id="breadcrumb">
+          <a href="index.html">Android Asset Studio</a> &raquo;
+          <a href="index.html#group-icon-generators">Icon generators</a> &raquo;
+          <em>Launcher icons</em>
+        </div>
+        -->
+        <p id="page-intro">
+          The <strong>Android Action Bar Style Generator</strong> allows you to easily create a simple, 
+          attractive and seamless custom action bar style for your Android application. It will generate
+          all necessary nine patch assets plus associated XML drawables and styles which you can copy straight 
+          into your project.
+        </p>
+        <br />
+        <p>
+          This is currently a beta product. Please <a href="#">report bugs</a>.
+        </p>
+      </div>
+      <div id="inputs">
+        <div id="inputs-form"></div>
+      </div>
+      <div id="outputs">
+        <h3>
+          Output resources
+          <div id="zip-button"></div>          
+        </h3>
+      </div>
+      <div id="footer">
+      	<p>Created by <a href="http://jeffgilfelt.com">Jeff Gilfelt</a>, source code on <a href="#">GitHub</a>, copyright 2012 readyState Software Ltd.</p>
+        <p>Built upon the <a href="http://code.google.com/p/android-ui-utils">android-ui-utils</a> asset studio framework created by <a href="http://roman.nurik.net/">Roman Nurik</a>, copyright Google Inc.</p>
+        <br/>
+        <p>All generated art is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.</p>
+      </div>
+    </div>
+
+    <script>
+      $(studio.checkBrowser);
+      /*
+      $('#output-show-guides').button().click(regenerate);
+      $('#output-better-scaling').button().click(function() {
+        imagelib.ALLOW_MANUAL_RESCALE = $(this).is(':checked');
+        regenerate();
+      });
+
+      $('#generate-web-button').button().click(function() {
+        regenerate(true, true);
+      });
+      */
+     
+      var zipper = studio.zip.createDownloadifyZipButton($('#zip-button'));
+
+     
+      
+
+      // Load image resources (stencils)
+      var resList = {};
+      
+      var shapes = {
+      	    'ab_solid':1,
+        	'ab_stacked_solid':1,
+        	'ab_bottom_solid':1,
+        	'menu_dropdown_panel':1,
+        	'menu_hardkey_panel':1,
+        	'tab_unselected':1, 
+        	'tab_unselected_pressed':1,
+        	'tab_unselected_focused':1,
+        	'tab_selected':1, 
+        	'tab_selected_pressed':1,
+        	'tab_selected_focused':1,
+        	'spinner_ab_focused':1,
+        	'spinner_ab_pressed':1
+       };
+       
+       var nonStyledShapes = {
+       	    'spinner_ab_default':1,
+       	    'spinner_ab_disabled':1
+       }
+       
+       var xmlTemplates = {
+       	    'styles':1,
+       	    'styles-sherlock':1,
+       	    'colors':1,
+       	    'focused_background':1,
+       	    'pressed_background':1,
+       	    'selectable_background':1,
+       	    'spinner_background_ab':1,
+       	    'tab_indicator_ab':1
+       }
+      
+       // Create image output slots
+      var group = studio.ui.createImageOutputGroup({
+        container: $('#outputs')
+      });
+      
+      for (var density in {'xhdpi':1})
+        for (var backgroundShape in shapes)
+        studio.ui.createImageOutputSlot({
+          container: group,
+          id: 'out-icon-' + backgroundShape, //density,
+          label: backgroundShape //(density == 'web') ? 'web, hi-res' : density
+        });
+      
+      for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
+        for (var backgroundShape in shapes)
+          for (var type in {'back':1, 'fore1':1, 'mask':1})
+            resList[backgroundShape + '-' + density + '-' + type] = (
+              'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + type + '.png');
+
+      for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
+        for (var nonStyledShape in nonStyledShapes)
+          for (var type in {'light':1, 'dark':1})
+            resList[nonStyledShape + '-' + density + '-' + type] = (
+              'res/actionbar-stencil/' + nonStyledShape + '/' + density + '/' + type + '.png');
+
+      // JG
+      var xmlList = {};
+      for (var template in xmlTemplates)
+        xmlList[template] = (
+          'res/actionbar-xml-templates/' + template + '.xml');
+
+	  var XML_RESOURCES = {};
+	  var IMAGE_RESOURCES = {};
+	  
+      imagelib.loadImageResources(resList, function(r) {
+        IMAGE_RESOURCES = r;
+        IMAGE_RESOURCES._loaded = true;
+        
+        studio.hash.bindFormToDocumentHash(form);
+        
+        imagelib.loadXmlTemplates(xmlList, function(r2) {
+          XML_RESOURCES = r2;
+          XML_RESOURCES._loaded = true;
+          regenerate();
+          
+        });
+        
+      });
+
+/*
+      var IMAGE_RESOURCES = {};
+      imagelib.loadImageResources(resList, function(r) {
+        IMAGE_RESOURCES = r;
+        IMAGE_RESOURCES._loaded = true;
+        regenerate();
+        studio.hash.bindFormToDocumentHash(form);
+      });
+*/
+      var PARAM_RESOURCES = {
+        'xhdpi-tab_unselected_pressed': { w:  6, h:  10 },
+         'hdpi-tab_unselected_pressed': { w:  5, h:  8 },
+         'mdpi-tab_unselected_pressed': { w:  4, h:  6 },
+
+        'xhdpi-tab_unselected_focused': { w:  6, h:  10 },
+         'hdpi-tab_unselected_focused': { w:  5, h:  8 },
+         'mdpi-tab_unselected_focused': { w:  4, h:  6 },
+
+        'xhdpi-tab_unselected': { w:  6, h:  10 },
+         'hdpi-tab_unselected': { w:  5, h:  8 },
+         'mdpi-tab_unselected': { w:  4, h:  6 },
+         
+        'xhdpi-tab_selected_pressed': { w:  6, h:  18 },
+         'hdpi-tab_selected_pressed': { w:  5, h:  14 },
+         'mdpi-tab_selected_pressed': { w:  4, h:  10 },
+
+        'xhdpi-tab_selected_focused': { w:  6, h:  18 },
+         'hdpi-tab_selected_focused': { w:  5, h:  14 },
+         'mdpi-tab_selected_focused': { w:  4, h:  10 },
+
+        'xhdpi-tab_selected': { w:  6, h:  18 },
+         'hdpi-tab_selected': { w:  5, h:  14 },
+         'mdpi-tab_selected': { w:  4, h:  10 },
+         
+        'xhdpi-ab_solid': { w:  50, h:  50 },
+         'hdpi-ab_solid': { w:  38, h:  38 },
+         'mdpi-ab_solid': { w:  26, h:  26 },
+         
+        'xhdpi-ab_stacked_solid': { w:  50, h:  50 },
+         'hdpi-ab_stacked_solid': { w:  38, h:  38 },
+         'mdpi-ab_stacked_solid': { w:  26, h:  26 },
+         
+        'xhdpi-ab_bottom_solid': { w:  50, h:  50 },
+         'hdpi-ab_bottom_solid': { w:  38, h:  38 },
+         'mdpi-ab_bottom_solid': { w:  26, h:  26 },
+         
+        'xhdpi-menu_dropdown_panel': { w:  130, h:  66 },
+         'hdpi-menu_dropdown_panel': { w:  98, h:  50 },
+         'mdpi-menu_dropdown_panel': { w:  66, h:  34 },
+         
+        'xhdpi-menu_hardkey_panel': { w:  130, h:  50 },
+         'hdpi-menu_hardkey_panel': { w:  98, h:  38 },
+         'mdpi-menu_hardkey_panel': { w:  66, h:  26 },
+         
+        'xhdpi-spinner_ab_focused': { w:  46, h:  66 },
+         'hdpi-spinner_ab_focused': { w:  35, h:  50 },
+         'mdpi-spinner_ab_focused': { w:  24, h:  34 },
+         
+        'xhdpi-spinner_ab_pressed': { w:  46, h:  66 },
+         'hdpi-spinner_ab_pressed': { w:  35, h:  50 },
+         'mdpi-spinner_ab_pressed': { w:  24, h:  34 },
+         
+        'xhdpi-spinner_ab_default': { w:  46, h:  66 },
+         'hdpi-spinner_ab_default': { w:  35, h:  50 },
+         'mdpi-spinner_ab_default': { w:  24, h:  34 },
+         
+        'xhdpi-spinner_ab_disabled': { w:  46, h:  66 },
+         'hdpi-spinner_ab_disabled': { w:  35, h:  50 },
+         'mdpi-spinner_ab_disabled': { w:  24, h:  34 },
+
+
+//         'ldpi-iconSize': { w:  36, h:  36 },
+
+//          'web-targetRect': { x: 21, y: 21, w: 470, h: 470 },
+//        'xhdpi-targetRect': { x:  0, y:  0, w:  10, h:  10 },
+//         'hdpi-targetRect': { x:  3, y:  3, w:  66, h:  66 },
+//         'mdpi-targetRect': { x:  2, y:  2, w:  44, h:  44 },
+//         'ldpi-targetRect': { x:  1, y:  1, w:  34, h:  34 }
+      };
+
+      /**
+       * Main image generation routine.
+       */
+      function regenerate(force, generateWebIcon) {
+        if (!force) {
+          if (regenerate.timeout_) {
+            clearTimeout(regenerate.timeout_);
+          }
+          regenerate.timeout_ = setTimeout(function() {
+            regenerate(true);
+          }, 1000);
+          return;
+        }
+ 
+        if (!IMAGE_RESOURCES._loaded || !XML_RESOURCES._loaded)
+          return;
+
+        var values = form.getValues();
+        //var showGuides = $('#output-show-guides').is(':checked');
+
+        var styleName = values['name'];
+        var baseTheme = values['theme'];
+        var compat = values['compat'];
+        
+        var replaceStrings = {
+        	'style':(styleName.toLowerCase()),
+        	'base':((baseTheme == 'light') ? '.Light' : ''),
+        	'accent':(values['accentColor'].color.substring(1))
+        };
+        
+        zipper.clear();
+        zipper.setZipFilename('actionbar_style_' + styleName.toLowerCase() + '.zip');
+
+        var continue_ = function(foreCtx) {
+          //var backgroundShape = values['backgroundShape'];
+          //var backgroundShape = 'tab-unselected-pressed';
+          
+          // process xml
+          for (var template in xmlTemplates) {
+          	if (template == 'styles-sherlock') continue;
+          	var dir;
+          	var suffix = '';
+          	if (template == 'styles' || template == 'colors') {
+          		dir = 'res/values/';
+          		if (template == 'styles' && compat == 'sherlock') {
+          			suffix = '-sherlock'
+          		}
+          	} else {
+          		dir = 'res/drawable/';
+          	}
+          	
+          	var data = XML_RESOURCES[template + suffix];
+          	for (var id in replaceStrings) {
+          		var regexp = new RegExp('##' + id + '##', "g");
+          		data = data.replace(regexp, replaceStrings[id]);
+          	}
+          	
+          	zipper.add({
+          	  name: (dir + template + '_' + styleName.toLowerCase() + '.xml'),
+              textData: data
+            })
+          }
+          
+          // process non-styled assets
+          for (var nonStyledShape in nonStyledShapes) {
+          	for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1}) {
+              var mult = studio.util.getMultBaseMdpi(density);
+          	  var iconSize = PARAM_RESOURCES[density + '-' + nonStyledShape];
+              var targetRect = { x:  0, y:  0, w:  iconSize.h, h:  iconSize.h };
+
+              var outCtx = imagelib.drawing.context(iconSize);
+              
+              imagelib.drawing.copy(outCtx, IMAGE_RESOURCES[nonStyledShape + '-' + density + '-' + baseTheme], iconSize);
+             
+              zipper.add({
+                name: ('res/drawable-' + density + '/' + nonStyledShape + '_' + styleName.toLowerCase() + '.9.png'),
+                base64data: outCtx.canvas.toDataURL().match(/;base64,(.+)/)[1]
+              });
+              
+          	}
+          }
+          
+          
+          // process styled assets
+          for (var backgroundShape in shapes) {
+          
+          for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1}) {
+            var mult = studio.util.getMultBaseMdpi(density);
+            if (density == 'web') {
+              mult = 1;
+              if (!generateWebIcon) {
+                continue;
+              }
+            }
+
+            var iconSize = PARAM_RESOURCES[density + '-' + backgroundShape];
+            //var targetRect = PARAM_RESOURCES[density + '-targetRect'];
+            var targetRect = { x:  0, y:  0, w:  iconSize.h, h:  iconSize.h };
+
+            var outCtx = imagelib.drawing.context(iconSize);
+            var tmpCtx = imagelib.drawing.context(iconSize);
+
+			/*
+            if (backgroundShape == 'none') {
+              tmpCtx.save();
+              tmpCtx.globalCompositeOperation = 'source-over';
+              if (foreCtx) {
+                var copyFrom = foreCtx;
+                var foreSize = {
+                  w: foreCtx.canvas.width,
+                  h: foreCtx.canvas.height
+                };
+
+                if (values['foreColor'].alpha) {
+                  var tmpCtx2 = imagelib.drawing.context(foreSize);
+                  imagelib.drawing.copy(tmpCtx2, foreCtx, foreSize);
+                  tmpCtx2.globalCompositeOperation = 'source-atop';
+                  tmpCtx2.fillStyle = values['foreColor'].color;
+                  tmpCtx2.fillRect(0, 0, foreSize.w, foreSize.h);
+                  copyFrom = tmpCtx2;
+                  tmpCtx.globalAlpha = values['foreColor'].alpha / 100;
+                }
+
+                //imagelib.drawing[values['crop'] ? 'drawCenterCrop' : 'drawCenterInside']
+                imagelib.drawing['drawCenterCrop']
+                  (tmpCtx, copyFrom, targetRect, {
+                    x: 0, y: 0,
+                    w: foreSize.w, h: foreSize.h
+                  });
+              }
+              tmpCtx.restore();
+
+              var foreEffect = 1; //values['foreEffect'];
+
+              if (density == 'web') {
+                imagelib.drawing.fx([
+                  {
+                    effect: 'inner-shadow',
+                    color: '#fff',
+                    opacity: 0.25,
+                    blur: 0,
+                    translate: { y: 5 }
+                  },
+                  {
+                    effect: 'inner-shadow',
+                    color: '#000',
+                    opacity: 0.4,
+                    blur: 5,
+                    translate: { y: -5 }
+                  },
+                  {
+                    effect: 'outer-shadow',
+                    color: '#000',
+                    opacity: 0.4,
+                    blur: 8,
+                    translate: { y: 3 }
+                  }
+                ], outCtx, tmpCtx, iconSize);
+
+              } else {
+                imagelib.drawing.fx([
+                  {
+                    effect: 'inner-shadow',
+                    color: '#fff',
+                    opacity: 0.25,
+                    blur: 0,
+                    translate: { y: Math.ceil(0.5 * mult) }
+                  },
+                  {
+                    effect: 'inner-shadow',
+                    color: '#000',
+                    opacity: 0.6,
+                    blur: Math.ceil(1 * mult),
+                    translate: { y: -Math.ceil(0.5 * mult) }
+                  },
+                  {
+                    effect: 'outer-shadow',
+                    color: '#000',
+                    opacity: 0.3,
+                    blur: Math.ceil(2 * mult),
+                    translate: { y: Math.ceil(0.5 * mult) }
+                  }
+                ], outCtx, tmpCtx, iconSize);
+              }
+
+            } else {
+            */	
+            
+              var fillColor;
+              if (backgroundShape.match('tab') || backgroundShape.match('spinner')) {
+              	fillColor = values['accentColor'].color;
+              } else if (backgroundShape.match('stacked')) {
+              	fillColor = values['secondaryColor'].color; 
+              } else if (backgroundShape.match('menu')) {
+              	fillColor = values['tertiaryColor'].color;           
+              } else {
+              	fillColor = values['backColor'].color;
+              }
+            
+              tmpCtx.save();
+              tmpCtx.globalCompositeOperation = 'source-over';
+              imagelib.drawing.copy(tmpCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + '-mask'], iconSize);
+              tmpCtx.globalCompositeOperation = 'source-atop';
+              tmpCtx.fillStyle = fillColor;
+              tmpCtx.fillRect(0, 0, iconSize.w, iconSize.h);
+              if (foreCtx) {
+                var copyFrom = foreCtx;
+                var foreSize = {
+                  w: foreCtx.canvas.width,
+                  h: foreCtx.canvas.height
+                };
+
+                //if (values['foreColor'].alpha) {
+                  var tmpCtx2 = imagelib.drawing.context(foreSize);
+                  imagelib.drawing.copy(tmpCtx2, foreCtx, foreSize);
+                  tmpCtx2.globalCompositeOperation = 'source-atop';
+                  tmpCtx2.fillStyle = values['foreColor'].color;
+                  tmpCtx2.fillRect(0, 0, foreSize.w, foreSize.h);
+                  copyFrom = tmpCtx2;
+                  tmpCtx.globalAlpha = values['foreColor'].alpha / 100;
+                //}
+
+                //imagelib.drawing[values['crop'] ? 'drawCenterCrop' : 'drawCenterInside']
+                imagelib.drawing['drawCenterCrop']
+                  (tmpCtx, copyFrom, targetRect, {
+                    x: 0, y: 0,
+                    w: foreSize.w, h: foreSize.h
+                  });
+              }
+              tmpCtx.restore();
+
+              var foreEffect = 1; //values['foreEffect'];
+              imagelib.drawing.copy(outCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + '-back'], iconSize);
+              imagelib.drawing.copy(outCtx, tmpCtx, iconSize);
+              imagelib.drawing.copy(outCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + '-fore' + foreEffect], iconSize);
+            //}
+
+            zipper.add({
+              name: ('res/drawable-' + density + '/' + backgroundShape + '_' + styleName.toLowerCase() + '.9.png'),
+              base64data: outCtx.canvas.toDataURL().match(/;base64,(.+)/)[1]
+            });
+
+            //if (showGuides)
+            //  studio.ui.drawImageGuideRects(outCtx, iconSize, [
+            //    targetRect
+            //  ]);
+
+			if (density == 'xhdpi') {
+              imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(backgroundShape) {
+                return function(img) {
+                  $('#out-icon-' + backgroundShape).attr('src', img.src);
+                };
+              }(backgroundShape));
+            }
+          }
+          
+          } // JG
+        };
+
+        //if (values['foreground']) {
+        //  continue_(values['foreground'].ctx);
+        //} else {
+          continue_(null);
+        //}
+      }
+
+      var form = new studio.forms.Form('iconform', {
+        onChange: function(field) {
+          regenerate();
+        },
+        fields: [
+        
+          new studio.forms.TextField('name', {
+            title: 'Style name',
+            helpText: 'Used as name suffix when generating resources. No spaces or punctuation.',
+            defaultValue: 'example'
+          }),
+          new studio.forms.EnumField('compat', {
+            title: 'Style compatibility',
+            buttons: true,
+            options: [
+              { id: 'holo', title: 'Holo' },
+              { id: 'sherlock', title: 'Sherlock' }
+            ],
+            helpText: 'Sherlock styles require the <a href="http://actionbarsherlock.com">ActionBarSherlock</a> library.',
+            defaultValue: 'holo'
+          }),
+          new studio.forms.EnumField('theme', {
+            title: 'Base theme',
+            buttons: true,
+            options: [
+              { id: 'light', title: 'Light' },
+              { id: 'dark', title: 'Dark' }
+            ],
+            defaultValue: 'light'
+          }),
+          
+        
+        /*
+          new studio.forms.ImageField('foreground', {
+            title: 'Foreground',
+            defaultValueTrim: 1
+          }),
+          
+        
+          new studio.forms.BooleanField('crop', {
+            title: 'Foreground scaling',
+            defaultValue: false,
+            offText: 'Center',
+            onText: 'Crop'
+          }),
+          
+          
+          new studio.forms.EnumField('backgroundShape', {
+            title: 'Background Shape',
+            buttons: true,
+            options: [
+              { id: 'none', title: 'None' },
+              { id: 'square', title: 'Square' },
+              { id: 'circle', title: 'Circle' },
+              { id: 'tab-unselected-pressed', title: 'Tab' }
+            ],
+            defaultValue: 'none'
+          }),
+          
+          */
+          
+          new studio.forms.ColorField('backColor', {
+            title: 'Background color',
+            helpText: 'Main Action Bar background.',
+            defaultValue: '#E4E4E4'
+          }),
+          new studio.forms.ColorField('secondaryColor', {
+            title: 'Secondary color',
+            helpText: 'Stacked background.',
+            defaultValue: '#D6D6D6'
+          }),
+          new studio.forms.ColorField('tertiaryColor', {
+            title: 'Tertiary color',
+            helpText: 'Overflow menu and spinner popups.',
+            defaultValue: '#F2F2F2'
+          }),
+          new studio.forms.ColorField('accentColor', {
+            title: 'Accent color',
+            helpText: 'Tab highlights, selection and pressed state color.',
+            defaultValue: '#33B5E5'
+          }),
+          
+          /*
+          new studio.forms.ColorField('foreColor', {
+            title: 'Foreground color',
+            helpText: 'Only for alpha-transparent foregrounds',
+            defaultValue: '#000000',
+            alpha: true,
+            defaultAlpha: 0
+          })
+          */
+          
+          
+          /*,
+          new studio.forms.EnumField('foreEffect', {
+            title: 'Foreground effects',
+            buttons: true,
+            options: [
+              { id: '1', title: 'Simple' },
+              { id: '2', title: 'Fancy' },
+              { id: '3', title: 'Glossy' }
+            ],
+            defaultValue: '1'
+          })*/
+        ]
+      });
+      form.createUI($('#inputs-form').get(0));
+    </script>
+  
+    <a href="https://github.com/jgilfelt"><img style="position: absolute; top: 0; right: 0; border: 0;" src="images/ForkMe_Blk.png" alt="Fork me on GitHub" /></a>
+  
+  </body>
+</html>
