@@ -58,7 +58,7 @@
         <item name="android:background">@drawable/tab_indicator_ab_##style##</item>
     </style>
 	
-	<style name="##style##_DropDownNav" parent="@android:style/Widget.Holo##base##.Spinner">
+	<style name="##style##_DropDownNav" parent="@style/Widget.Sherlock##base##.Spinner.DropDown.ActionBar">
 		<item name="background">@drawable/spinner_background_ab_##style##</item>
 	
 		<item name="android:background">@drawable/spinner_background_ab_##style##</item>
