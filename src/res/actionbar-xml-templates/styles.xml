@@ -25,6 +25,7 @@
         <item name="android:actionBarTabStyle">@style/##style##_ActionBarTabStyle</item>
         <item name="android:actionDropDownStyle">@style/##style##_DropDownNav</item>
 		<item name="android:actionBarStyle">@style/##style##_ActionBar</item>
+		<item name="android:panelBackground">@drawable/menu_hardkey_panel_##style##</item>
 	</style>
 	
     <style name="##style##_ActionBar" parent="@android:style/Widget.Holo##base##.ActionBar">
