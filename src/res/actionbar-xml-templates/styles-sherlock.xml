@@ -48,7 +48,7 @@
 		<item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>	
 	</style>
 	
-	<style name="##style##_DropDownListView" parent="@style/Widget.Sherlock.ListView.DropDown">
+	<style name="##style##_DropDownListView" parent="@style/Widget.Sherlock##base##.ListView.DropDown">
 		<item name="android:listSelector">@drawable/selectable_background_##style##</item>
 	</style>
 
