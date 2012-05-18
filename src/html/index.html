@@ -100,28 +100,15 @@
 
     <script>
       $(studio.checkBrowser);
-      /*
-      $('#output-show-guides').button().click(regenerate);
-      $('#output-better-scaling').button().click(function() {
-        imagelib.ALLOW_MANUAL_RESCALE = $(this).is(':checked');
-        regenerate();
-      });
-
-      $('#generate-web-button').button().click(function() {
-        regenerate(true, true);
-      });
-      */
      
       var zipper = studio.zip.createDownloadifyZipButton($('#zip-button'));
-
-     
-      
 
       // Load image resources (stencils)
       var resList = {};
       
       var shapes = {
       	    'ab_solid':1,
+      	    'ab_transparent':1,
         	'ab_stacked_solid':1,
         	'ab_bottom_solid':1,
         	'menu_dropdown_panel':1,
@@ -239,6 +226,14 @@
          'hdpi-ab_solid': { w:  38, h:  38 },
          'mdpi-ab_solid': { w:  26, h:  26 },
          
+        'xhdpi-ab_transparent': { w:  50, h:  50 },
+         'hdpi-ab_transparent': { w:  38, h:  38 },
+         'mdpi-ab_transparent': { w:  26, h:  26 }, 
+         
+        'xhdpi-ab_solid': { w:  50, h:  50 },
+         'hdpi-ab_solid': { w:  38, h:  38 },
+         'mdpi-ab_solid': { w:  26, h:  26 },
+         
         'xhdpi-ab_stacked_solid': { w:  50, h:  50 },
          'hdpi-ab_stacked_solid': { w:  38, h:  38 },
          'mdpi-ab_stacked_solid': { w:  26, h:  26 },
@@ -271,14 +266,6 @@
          'hdpi-spinner_ab_disabled': { w:  35, h:  50 },
          'mdpi-spinner_ab_disabled': { w:  24, h:  34 },
 
-
-//         'ldpi-iconSize': { w:  36, h:  36 },
-
-//          'web-targetRect': { x: 21, y: 21, w: 470, h: 470 },
-//        'xhdpi-targetRect': { x:  0, y:  0, w:  10, h:  10 },
-//         'hdpi-targetRect': { x:  3, y:  3, w:  66, h:  66 },
-//         'mdpi-targetRect': { x:  2, y:  2, w:  44, h:  44 },
-//         'ldpi-targetRect': { x:  1, y:  1, w:  34, h:  34 }
       };
 
       /**
@@ -308,7 +295,8 @@
         var replaceStrings = {
         	'style':(styleName.toLowerCase()),
         	'base':((baseTheme == 'light') ? '.Light' : ''),
-        	'accent':(values['accentColor'].color.substring(1))
+        	'accent':(values['accentColor'].color.substring(1)),
+        	'actionbarstyle':(values['actionbarstyle'])
         };
         
         zipper.clear();
@@ -382,95 +370,10 @@
 
             var outCtx = imagelib.drawing.context(iconSize);
             var tmpCtx = imagelib.drawing.context(iconSize);
-
-			/*
-            if (backgroundShape == 'none') {
-              tmpCtx.save();
-              tmpCtx.globalCompositeOperation = 'source-over';
-              if (foreCtx) {
-                var copyFrom = foreCtx;
-                var foreSize = {
-                  w: foreCtx.canvas.width,
-                  h: foreCtx.canvas.height
-                };
-
-                if (values['foreColor'].alpha) {
-                  var tmpCtx2 = imagelib.drawing.context(foreSize);
-                  imagelib.drawing.copy(tmpCtx2, foreCtx, foreSize);
-                  tmpCtx2.globalCompositeOperation = 'source-atop';
-                  tmpCtx2.fillStyle = values['foreColor'].color;
-                  tmpCtx2.fillRect(0, 0, foreSize.w, foreSize.h);
-                  copyFrom = tmpCtx2;
-                  tmpCtx.globalAlpha = values['foreColor'].alpha / 100;
-                }
-
-                //imagelib.drawing[values['crop'] ? 'drawCenterCrop' : 'drawCenterInside']
-                imagelib.drawing['drawCenterCrop']
-                  (tmpCtx, copyFrom, targetRect, {
-                    x: 0, y: 0,
-                    w: foreSize.w, h: foreSize.h
-                  });
-              }
-              tmpCtx.restore();
-
-              var foreEffect = 1; //values['foreEffect'];
-
-              if (density == 'web') {
-                imagelib.drawing.fx([
-                  {
-                    effect: 'inner-shadow',
-                    color: '#fff',
-                    opacity: 0.25,
-                    blur: 0,
-                    translate: { y: 5 }
-                  },
-                  {
-                    effect: 'inner-shadow',
-                    color: '#000',
-                    opacity: 0.4,
-                    blur: 5,
-                    translate: { y: -5 }
-                  },
-                  {
-                    effect: 'outer-shadow',
-                    color: '#000',
-                    opacity: 0.4,
-                    blur: 8,
-                    translate: { y: 3 }
-                  }
-                ], outCtx, tmpCtx, iconSize);
-
-              } else {
-                imagelib.drawing.fx([
-                  {
-                    effect: 'inner-shadow',
-                    color: '#fff',
-                    opacity: 0.25,
-                    blur: 0,
-                    translate: { y: Math.ceil(0.5 * mult) }
-                  },
-                  {
-                    effect: 'inner-shadow',
-                    color: '#000',
-                    opacity: 0.6,
-                    blur: Math.ceil(1 * mult),
-                    translate: { y: -Math.ceil(0.5 * mult) }
-                  },
-                  {
-                    effect: 'outer-shadow',
-                    color: '#000',
-                    opacity: 0.3,
-                    blur: Math.ceil(2 * mult),
-                    translate: { y: Math.ceil(0.5 * mult) }
-                  }
-                ], outCtx, tmpCtx, iconSize);
-              }
-
-            } else {
-            */	
             
-              var fillColor;
-              if (backgroundShape.match('tab') || backgroundShape.match('spinner')) {
+            var fillColor;
+              if (backgroundShape.match('tab') || backgroundShape.match('spinner') ||
+              	backgroundShape.match('transparent')) {
               	fillColor = values['accentColor'].color;
               } else if (backgroundShape.match('stacked')) {
               	fillColor = values['secondaryColor'].color; 
@@ -577,80 +480,37 @@
             ],
             defaultValue: 'light'
           }),
-          
-        
-        /*
-          new studio.forms.ImageField('foreground', {
-            title: 'Foreground',
-            defaultValueTrim: 1
-          }),
-          
-        
-          new studio.forms.BooleanField('crop', {
-            title: 'Foreground scaling',
-            defaultValue: false,
-            offText: 'Center',
-            onText: 'Crop'
-          }),
-          
-          
-          new studio.forms.EnumField('backgroundShape', {
-            title: 'Background Shape',
+          new studio.forms.EnumField('actionbarstyle', {
+            title: 'Base action bar style',
             buttons: true,
             options: [
-              { id: 'none', title: 'None' },
-              { id: 'square', title: 'Square' },
-              { id: 'circle', title: 'Circle' },
-              { id: 'tab-unselected-pressed', title: 'Tab' }
+              { id: 'solid', title: 'Solid' },
+              { id: 'transparent', title: 'Transparent' }
             ],
-            defaultValue: 'none'
+            defaultValue: 'solid'
           }),
           
-          */
-          
           new studio.forms.ColorField('backColor', {
-            title: 'Background color',
-            helpText: 'Main Action Bar background.',
+            title: 'Action bar color',
+            helpText: 'Solid style action bar background color',
             defaultValue: '#E4E4E4'
           }),
           new studio.forms.ColorField('secondaryColor', {
-            title: 'Secondary color',
-            helpText: 'Stacked background.',
+            title: 'Stacked color',
+            helpText: 'Solid style stacked tab background color.',
             defaultValue: '#D6D6D6'
           }),
           new studio.forms.ColorField('tertiaryColor', {
-            title: 'Tertiary color',
-            helpText: 'Overflow menu and spinner popups.',
+            title: 'Menu popup color',
+            helpText: 'Overflow menu, submenu and spinner panel background color.',
             defaultValue: '#F2F2F2'
           }),
           new studio.forms.ColorField('accentColor', {
             title: 'Accent color',
-            helpText: 'Tab highlights, selection and pressed state color.',
+            helpText: 'Tab highlights, focus, pressed and transparent style keyline color.',
             defaultValue: '#33B5E5'
           }),
           
-          /*
-          new studio.forms.ColorField('foreColor', {
-            title: 'Foreground color',
-            helpText: 'Only for alpha-transparent foregrounds',
-            defaultValue: '#000000',
-            alpha: true,
-            defaultAlpha: 0
-          })
-          */
-          
-          
-          /*,
-          new studio.forms.EnumField('foreEffect', {
-            title: 'Foreground effects',
-            buttons: true,
-            options: [
-              { id: '1', title: 'Simple' },
-              { id: '2', title: 'Fancy' },
-              { id: '3', title: 'Glossy' }
-            ],
-            defaultValue: '1'
-          })*/
         ]
       });
       form.createUI($('#inputs-form').get(0));

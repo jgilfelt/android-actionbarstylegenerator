@@ -24,18 +24,18 @@
 		<item name="dropDownListViewStyle">@style/##style##_DropDownListView</item>
         <item name="actionBarTabStyle">@style/##style##_ActionBarTabStyle</item>
         <item name="actionDropDownStyle">@style/##style##_DropDownNav</item>
-		<item name="actionBarStyle">@style/##style##_ActionBar</item>
+		<item name="actionBarStyle">@style/##style##_##actionbarstyle##_ActionBar</item>
 	
 		<item name="android:selectableItemBackground">@drawable/selectable_background_##style##</item>
 		<item name="android:popupMenuStyle">@style/##style##_PopupMenu</item>
 		<item name="android:dropDownListViewStyle">@style/##style##_DropDownListView</item>
         <item name="android:actionBarTabStyle">@style/##style##_ActionBarTabStyle</item>
         <item name="android:actionDropDownStyle">@style/##style##_DropDownNav</item>
-		<item name="android:actionBarStyle">@style/##style##_ActionBar</item>
+		<item name="android:actionBarStyle">@style/##style##_##actionbarstyle##_ActionBar</item>
 		<item name="android:panelBackground">@drawable/menu_hardkey_panel_##style##</item>
 	</style>
 	
-    <style name="##style##_ActionBar" parent="@style/Widget.Sherlock##base##.ActionBar">
+    <style name="##style##_solid_ActionBar" parent="@style/Widget.Sherlock##base##.ActionBar.Solid">
     	<item name="background">@drawable/ab_solid_##style##</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
@@ -43,6 +43,12 @@
         <item name="android:background">@drawable/ab_solid_##style##</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
+    </style>
+    
+    <style name="##style##_transparent_ActionBar" parent="@style/Widget.Sherlock##base##.ActionBar">
+        <item name="background">@drawable/ab_transparent_##style##</item>
+        
+        <item name="android:background">@drawable/ab_transparent_##style##</item>
     </style>
 	
 	<style name="##style##_PopupMenu" parent="@android:style/Widget.Holo##base##.ListPopupWindow">

@@ -24,14 +24,18 @@
 		<item name="android:dropDownListViewStyle">@style/##style##_DropDownListView</item>
         <item name="android:actionBarTabStyle">@style/##style##_ActionBarTabStyle</item>
         <item name="android:actionDropDownStyle">@style/##style##_DropDownNav</item>
-		<item name="android:actionBarStyle">@style/##style##_ActionBar</item>
+		<item name="android:actionBarStyle">@style/##style##_##actionbarstyle##_ActionBar</item>
 		<item name="android:panelBackground">@drawable/menu_hardkey_panel_##style##</item>
 	</style>
 	
-    <style name="##style##_ActionBar" parent="@android:style/Widget.Holo##base##.ActionBar">
+    <style name="##style##_solid_ActionBar" parent="@android:style/Widget.Holo##base##.ActionBar.Solid">
         <item name="android:background">@drawable/ab_solid_##style##</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
+    </style>
+	
+	<style name="##style##_transparent_ActionBar" parent="@android:style/Widget.Holo##base##.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_##style##</item>
     </style>
 	
 	<style name="##style##_PopupMenu" parent="android:style/Widget.Holo##base##.ListPopupWindow">
