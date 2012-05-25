@@ -101,12 +101,16 @@
         	'tab_selected_pressed':1,
         	'tab_selected_focused':1,
         	'spinner_ab_focused':1,
-        	'spinner_ab_pressed':1
+        	'spinner_ab_pressed':1,
+        	'progress_primary':1,
+        	'progress_secondary':1,
+        	'list_focused':1
        };
        
        var nonStyledShapes = {
        	    'spinner_ab_default':1,
-       	    'spinner_ab_disabled':1
+       	    'spinner_ab_disabled':1,
+       	    'progress_bg':1
        }
        
        var xmlTemplates = {
@@ -246,7 +250,23 @@
         'xhdpi-spinner_ab_disabled': { w:  46, h:  66 },
          'hdpi-spinner_ab_disabled': { w:  35, h:  50 },
          'mdpi-spinner_ab_disabled': { w:  24, h:  34 },
-
+         
+        'xhdpi-list_focused': { w:  14, h:  14 },
+         'hdpi-list_focused': { w:  11, h:  11 },
+         'mdpi-list_focused': { w:  8, h:  8 },
+         
+        'xhdpi-progress_primary': { w:  46, h:  34 },
+         'hdpi-progress_primary': { w:  35, h:  26 },
+         'mdpi-progress_primary': { w:  24, h:  18 }, 
+         
+        'xhdpi-progress_secondary': { w:  10, h:  34 },
+         'hdpi-progress_secondary': { w:  8, h:  26 },
+         'mdpi-progress_secondary': { w:  6, h:  18 }, 
+         
+        'xhdpi-progress_bg': { w:  10, h:  34 },
+         'hdpi-progress_bg': { w:  8, h:  26 },
+         'mdpi-progress_bg': { w:  6, h:  18 }, 
+         
       };
       
       var DEFAULT_COLORS_LIGHT = {
@@ -370,12 +390,12 @@
           
           for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1}) {
             var mult = studio.util.getMultBaseMdpi(density);
-            if (density == 'web') {
-              mult = 1;
-              if (!generateWebIcon) {
-                continue;
-              }
-            }
+            //if (density == 'web') {
+            //  mult = 1;
+            //  if (!generateWebIcon) {
+            //    continue;
+            //  }
+            //}
 
             var iconSize = PARAM_RESOURCES[density + '-' + backgroundShape];
             //var targetRect = PARAM_RESOURCES[density + '-targetRect'];
@@ -386,7 +406,8 @@
             
             var fillColor;
               if (backgroundShape.match('tab') || backgroundShape.match('spinner') ||
-              	backgroundShape.match('transparent')) {
+              	backgroundShape.match('transparent') || backgroundShape.match('progress') ||
+              	backgroundShape.match('list') ) {
               	fillColor = values['accentColor'].color;
               } else if (backgroundShape.match('stacked')) {
               	fillColor = values['secondaryColor'].color; 
