@@ -39,16 +39,20 @@
         <item name="background">@drawable/ab_solid_##style##</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
+        <item name="progressBarStyle">@style/##style##_ProgressBar</item>
 
         <item name="android:background">@drawable/ab_solid_##style##</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
+        <item name="android:progressBarStyle">@style/##style##_ProgressBar</item>
     </style>
 
     <style name="##style##_transparent_ActionBar" parent="@style/Widget.Sherlock##base##.ActionBar">
         <item name="background">@drawable/ab_transparent_##style##</item>
+        <item name="progressBarStyle">@style/##style##_ProgressBar</item>
         
         <item name="android:background">@drawable/ab_transparent_##style##</item>
+        <item name="android:progressBarStyle">@style/##style##_ProgressBar</item>
     </style>
 	
     <style name="##style##_PopupMenu" parent="@android:style/Widget.Holo##base##.ListPopupWindow">
@@ -71,6 +75,10 @@
         <item name="android:background">@drawable/spinner_background_ab_##style##</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_##style##</item>
+    </style>
+    
+    <style name="##style##_ProgressBar" parent="@style/Widget.Sherlock##base##.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_##style##</item>
     </style>
 
 </resources>
