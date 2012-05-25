@@ -17,6 +17,5 @@
 -->
 
 <resources>
-    <color name="focused_##style##">#88##accent##</color>
     <color name="pressed_##style##">#CC##accent##</color>
 </resources>
