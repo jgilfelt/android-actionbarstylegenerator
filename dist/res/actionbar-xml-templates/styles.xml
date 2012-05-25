@@ -18,7 +18,7 @@
 
 <resources>
 
-    <style name="Theme.##style##" parent="android:style/Theme.Holo##base##">
+    <style name="Theme.##style##" parent="@android:style/Theme.Holo##base##">
         <item name="android:selectableItemBackground">@drawable/selectable_background_##style##</item>
         <item name="android:popupMenuStyle">@style/##style##_PopupMenu</item>
         <item name="android:dropDownListViewStyle">@style/##style##_DropDownListView</item>
@@ -32,28 +32,34 @@
         <item name="android:background">@drawable/ab_solid_##style##</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
+        <item name="android:progressBarStyle">@style/##style##_ProgressBar</item>
     </style>
 
     <style name="##style##_transparent_ActionBar" parent="@android:style/Widget.Holo##base##.ActionBar">
         <item name="android:background">@drawable/ab_transparent_##style##</item>
+        <item name="android:progressBarStyle">@style/##style##_ProgressBar</item>
     </style>
 
-    <style name="##style##_PopupMenu" parent="android:style/Widget.Holo##base##.ListPopupWindow">
+    <style name="##style##_PopupMenu" parent="@android:style/Widget.Holo##base##.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>	
     </style>
 
-    <style name="##style##_DropDownListView" parent="android:style/Widget.Holo##base##.ListView.DropDown">
+    <style name="##style##_DropDownListView" parent="@android:style/Widget.Holo##base##.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_##style##</item>
     </style>
 
-    <style name="##style##_ActionBarTabStyle" parent="android:style/Widget.Holo##base##.ActionBar.TabView">
+    <style name="##style##_ActionBarTabStyle" parent="@android:style/Widget.Holo##base##.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_##style##</item>
     </style>
 
-    <style name="##style##_DropDownNav" parent="android:style/Widget.Holo##base##.Spinner">
+    <style name="##style##_DropDownNav" parent="@android:style/Widget.Holo##base##.Spinner">
         <item name="android:background">@drawable/spinner_background_ab_##style##</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_##style##</item>
+    </style>
+    
+    <style name="##style##_ProgressBar" parent="@android:style/Widget.Holo##base##.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_##style##</item>
     </style>
 
 </resources>
