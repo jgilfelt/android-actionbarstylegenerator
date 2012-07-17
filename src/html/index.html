@@ -168,15 +168,26 @@
       for (var template in xmlTemplates)
         xmlList[template] = (
           'res/actionbar-xml-templates/' + template + '.xml');
+      
+      var previewList = {};
+      
+      for (var theme in {'light':1, 'dark':1}) {
+        for (var type in {'solid':1, 'transparent':1}) {
+          previewList['back' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'back.png');
+          previewList['fore2' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'fore2.png');
+          previewList['mask-ab-main' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_ab_main.png');
+          previewList['mask-ab-stacked' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_ab_stacked.png');
+          previewList['mask-accent' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_accent.png');
+          previewList['mask-popup' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_popup.png');
+        }
+      }
           
-      var previewList = {
-      	'back':'res/actionbar-preview/light-solid/back.png',
-      	'fore1':'res/actionbar-preview/light-solid/fore1.png',
-      	'mask-ab-main':'res/actionbar-preview/light-solid/mask_ab_main.png',
-      	'mask-ab-stacked':'res/actionbar-preview/light-solid/mask_ab_stacked.png',
-      	'mask-accent':'res/actionbar-preview/light-solid/mask_accent.png'
-      };
-
 	  var XML_RESOURCES = {};
 	  var IMAGE_RESOURCES = {};
 	  var PREVIEW_RESOURCES = {};
@@ -520,12 +531,15 @@
 			var tmpCtxAB = imagelib.drawing.context(iconSize);
 			var tmpCtxStacked = imagelib.drawing.context(iconSize);
 			var tmpCtxAccent = imagelib.drawing.context(iconSize);
+			var tmpCtxPopup = imagelib.drawing.context(iconSize);
 
 			var fillColor = values['backColor'].color;
+			
+			var abStyle = values['actionbarstyle'];
 
 			tmpCtxAB.save();
 			tmpCtxAB.globalCompositeOperation = 'source-over';
-			imagelib.drawing.copy(tmpCtxAB, PREVIEW_RESOURCES['mask-ab-main'], iconSize);
+			imagelib.drawing.copy(tmpCtxAB, PREVIEW_RESOURCES['mask-ab-main' + '-' + baseTheme + '-' + abStyle], iconSize);
 			tmpCtxAB.globalCompositeOperation = 'source-atop';
 			tmpCtxAB.fillStyle = fillColor;
 			tmpCtxAB.fillRect(0, 0, iconSize.w, iconSize.h);
@@ -535,7 +549,7 @@
 			
 			tmpCtxStacked.save();
 			tmpCtxStacked.globalCompositeOperation = 'source-over';
-			imagelib.drawing.copy(tmpCtxStacked, PREVIEW_RESOURCES['mask-ab-stacked'], iconSize);
+			imagelib.drawing.copy(tmpCtxStacked, PREVIEW_RESOURCES['mask-ab-stacked' + '-' + baseTheme + '-' + abStyle], iconSize);
 			tmpCtxStacked.globalCompositeOperation = 'source-atop';
 			tmpCtxStacked.fillStyle = fillColor;
 			tmpCtxStacked.fillRect(0, 0, iconSize.w, iconSize.h);
@@ -545,18 +559,29 @@
 			
 			tmpCtxAccent.save();
 			tmpCtxAccent.globalCompositeOperation = 'source-over';
-			imagelib.drawing.copy(tmpCtxAccent, PREVIEW_RESOURCES['mask-accent'], iconSize);
+			imagelib.drawing.copy(tmpCtxAccent, PREVIEW_RESOURCES['mask-accent' + '-' + baseTheme + '-' + abStyle], iconSize);
 			tmpCtxAccent.globalCompositeOperation = 'source-atop';
 			tmpCtxAccent.fillStyle = fillColor;
 			tmpCtxAccent.fillRect(0, 0, iconSize.w, iconSize.h);
 			tmpCtxAccent.restore();
 
-			var foreEffect = 1;
-			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['back'], iconSize);
+			fillColor = values['tertiaryColor'].color;
+			
+			tmpCtxPopup.save();
+			tmpCtxPopup.globalCompositeOperation = 'source-over';
+			imagelib.drawing.copy(tmpCtxPopup, PREVIEW_RESOURCES['mask-popup' + '-' + baseTheme + '-' + abStyle], iconSize);
+			tmpCtxPopup.globalCompositeOperation = 'source-atop';
+			tmpCtxPopup.fillStyle = fillColor;
+			tmpCtxPopup.fillRect(0, 0, iconSize.w, iconSize.h);
+			tmpCtxPopup.restore();
+
+			var foreEffect = 2;
+			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['back' + '-' + baseTheme + '-' + abStyle], iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxAB, iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxStacked, iconSize);
+			imagelib.drawing.copy(outCtx, tmpCtxPopup, iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxAccent, iconSize);
-			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['fore' + foreEffect], iconSize);
+			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['fore' + foreEffect + '-' + baseTheme + '-' + abStyle], iconSize);
 
 			imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(backgroundShape) {
 				return function(img) {
