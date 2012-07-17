@@ -22,21 +22,25 @@
 
 	<!-- icon -->
 	<item android:id="@+id/menu_refresh" android:showAsAction="ifRoom"
-		android:title="@string/action_label_refresh" android:icon="@drawable/ic_menu_refresh_holo_light" />
+		android:title="@string/action_label_refresh" 
+		android:icon="@drawable/ic_menu_refresh_holo_dark" />
+<!-- 		android:icon="@drawable/ic_menu_refresh_holo_light" /> -->
 
 	<!-- icon + text -->
 	<item android:id="@+id/menu_both" android:showAsAction="ifRoom|withText"
-		android:title="@string/action_label_both" android:icon="@drawable/ic_menu_star_holo_light" />
+		android:title="@string/action_label_both" 
+		android:icon="@drawable/ic_menu_star_holo_dark" />
+<!-- 		android:icon="@drawable/ic_menu_star_holo_light" /> -->
 
 	<!-- text -->
 	<item android:id="@+id/menu_text" android:showAsAction="ifRoom"
 		android:title="@string/action_label_text" />
 
-	<item android:id="@+id/menu_logo" android:showAsAction="ifRoom"
-		android:checkable="true" android:checked="false" android:title="@string/action_label_logo" />
+	<item android:id="@+id/menu_logo" android:showAsAction="never"
+		android:title="@string/action_label_logo" />
 
-	<item android:id="@+id/menu_up" android:showAsAction="ifRoom"
-		android:checkable="true" android:checked="false" android:title="@string/action_label_up" />
+	<item android:id="@+id/menu_up" android:showAsAction="never"
+		android:title="@string/action_label_up" />
 
 	<!-- Navigation submenu -->
 	<item android:id="@+id/menu_nav" android:title="@string/action_label_nav">

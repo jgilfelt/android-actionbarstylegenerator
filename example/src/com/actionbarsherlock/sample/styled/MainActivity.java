@@ -35,7 +35,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 //    private RoundedColourFragment leftFrag;
 //    private RoundedColourFragment rightFrag;
     private boolean useLogo = false;
-    private boolean showHomeUp = false;
+    private boolean showHomeUp = true;
 
     /** Called when the activity is first created. */
     @Override
@@ -129,12 +129,12 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
             return true;
         case R.id.menu_logo:
             useLogo = !useLogo;
-            item.setChecked(useLogo);
+            //item.setChecked(useLogo);
             getSupportActionBar().setDisplayUseLogoEnabled(useLogo);
             return true;
         case R.id.menu_up:
             showHomeUp = !showHomeUp;
-            item.setChecked(showHomeUp);
+            //item.setChecked(showHomeUp);
             getSupportActionBar().setDisplayHomeAsUpEnabled(showHomeUp);
             return true;
         case R.id.menu_nav_tabs:

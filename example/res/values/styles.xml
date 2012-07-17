@@ -1,5 +1,8 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.Sherlock.Light.ForceOverflow" />
+    <style name="AppTheme" parent="Theme.example" >
+<!--         <item name="actionBarStyle">@style/Widget.Sherlock.Light.ActionBar</item> -->
+<!--         <item name="android:actionBarStyle">@style/Widget.Sherlock.Light.ActionBar</item> -->
+    </style>
 
 </resources>
