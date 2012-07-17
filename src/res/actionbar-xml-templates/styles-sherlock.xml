@@ -55,7 +55,7 @@
         <item name="android:progressBarStyle">@style/##style##_ProgressBar</item>
     </style>
 	
-    <style name="##style##_PopupMenu" parent="@android:style/Widget.Holo##base##.ListPopupWindow">
+    <style name="##style##_PopupMenu" parent="@style/Widget.Sherlock##base##.ListPopupWindow">	
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>	
     </style>
 	
