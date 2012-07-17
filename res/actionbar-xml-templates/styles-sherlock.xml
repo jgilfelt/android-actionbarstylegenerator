@@ -26,7 +26,7 @@
         <item name="actionDropDownStyle">@style/##style##_DropDownNav</item>
         <item name="actionBarStyle">@style/##style##_##actionbarstyle##_ActionBar</item>
 
-        <item name="android:selectableItemBackground">@drawable/selectable_background_##style##</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_##style##</item>
         <item name="android:popupMenuStyle">@style/##style##_PopupMenu</item>
         <item name="android:dropDownListViewStyle">@style/##style##_DropDownListView</item>
         <item name="android:actionBarTabStyle">@style/##style##_ActionBarTabStyle</item>
@@ -55,7 +55,7 @@
         <item name="android:progressBarStyle">@style/##style##_ProgressBar</item>
     </style>
 	
-    <style name="##style##_PopupMenu" parent="@android:style/Widget.Holo##base##.ListPopupWindow">
+    <style name="##style##_PopupMenu" parent="@style/Widget.Sherlock##base##.ListPopupWindow">	
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>	
     </style>
 	
