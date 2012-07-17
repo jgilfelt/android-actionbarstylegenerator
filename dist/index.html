@@ -51,6 +51,11 @@
         <h1>Android Action Bar Style Generator</h1>
       </div>
       <div id="page-header">
+      	<div id="breadcrumb">
+          <p>
+      	    <a href="http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html">&lt;&lt; Android Asset Studio</a>
+      	  </p>
+      	</div>
         <p id="page-intro">
           The <strong>Android Action Bar Style Generator</strong> allows you to easily create a simple, 
           attractive and seamless custom action bar style for your Android application. It will generate
@@ -61,10 +66,15 @@
         <p>
           This is currently a beta product. Please <a href="https://github.com/jgilfelt/android-actionbarstylegenerator/issues">report bugs</a>.
         </p>
+        
       </div>
+      
       <div id="inputs">
         <div id="inputs-form"></div>
+        <div id="preview"></div>
+        <br style="clear:both" />
       </div>
+     
       <div id="outputs">
         <h3>
           Output resources
@@ -137,6 +147,16 @@
           id: 'out-icon-' + backgroundShape, //density,
           label: backgroundShape //(density == 'web') ? 'web, hi-res' : density
         });
+        
+      // preview 
+      var prev = studio.ui.createImageOutputGroup({
+        container: $('#preview')
+      }); 
+      studio.ui.createImageOutputSlot({
+        container: prev,
+        id: 'out-icon-' + 'preview', 
+        label: ''
+      });
       
       for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
         for (var backgroundShape in shapes)
@@ -155,9 +175,29 @@
       for (var template in xmlTemplates)
         xmlList[template] = (
           'res/actionbar-xml-templates/' + template + '.xml');
-
+      
+      var previewList = {};
+      
+      for (var theme in {'light':1, 'dark':1}) {
+        for (var type in {'solid':1, 'transparent':1}) {
+          previewList['back' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'back.png');
+          previewList['fore2' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'fore2.png');
+          previewList['mask-ab-main' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_ab_main.png');
+          previewList['mask-ab-stacked' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_ab_stacked.png');
+          previewList['mask-accent' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_accent.png');
+          previewList['mask-popup' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_popup.png');
+        }
+      }
+          
 	  var XML_RESOURCES = {};
 	  var IMAGE_RESOURCES = {};
+	  var PREVIEW_RESOURCES = {};
 	  
       imagelib.loadImageResources(resList, function(r) {
         IMAGE_RESOURCES = r;
@@ -168,7 +208,13 @@
         imagelib.loadXmlTemplates(xmlList, function(r2) {
           XML_RESOURCES = r2;
           XML_RESOURCES._loaded = true;
-          regenerate();
+          //regenerate();
+          
+          imagelib.loadImageResources(previewList, function(r3) {
+          	PREVIEW_RESOURCES = r3;
+          	PREVIEW_RESOURCES._loaded = true;
+          	regenerate();
+          });
           
         });
         
@@ -476,6 +522,82 @@
           }
           
           } // JG
+          
+          // ***** PREVIEW ******
+
+			var iconSize = { w: 480, h: 728 };
+			var targetRect = {
+				x : 0,
+				y : 0,
+				w : iconSize.h,
+				h : iconSize.h
+			};
+
+			var outCtx = imagelib.drawing.context(iconSize);
+			
+			var tmpCtxAB = imagelib.drawing.context(iconSize);
+			var tmpCtxStacked = imagelib.drawing.context(iconSize);
+			var tmpCtxAccent = imagelib.drawing.context(iconSize);
+			var tmpCtxPopup = imagelib.drawing.context(iconSize);
+
+			var fillColor = values['backColor'].color;
+			
+			var abStyle = values['actionbarstyle'];
+
+			tmpCtxAB.save();
+			tmpCtxAB.globalCompositeOperation = 'source-over';
+			imagelib.drawing.copy(tmpCtxAB, PREVIEW_RESOURCES['mask-ab-main' + '-' + baseTheme + '-' + abStyle], iconSize);
+			tmpCtxAB.globalCompositeOperation = 'source-atop';
+			tmpCtxAB.fillStyle = fillColor;
+			tmpCtxAB.fillRect(0, 0, iconSize.w, iconSize.h);
+			tmpCtxAB.restore();
+			
+			fillColor = values['secondaryColor'].color;
+			
+			tmpCtxStacked.save();
+			tmpCtxStacked.globalCompositeOperation = 'source-over';
+			imagelib.drawing.copy(tmpCtxStacked, PREVIEW_RESOURCES['mask-ab-stacked' + '-' + baseTheme + '-' + abStyle], iconSize);
+			tmpCtxStacked.globalCompositeOperation = 'source-atop';
+			tmpCtxStacked.fillStyle = fillColor;
+			tmpCtxStacked.fillRect(0, 0, iconSize.w, iconSize.h);
+			tmpCtxStacked.restore();
+			
+			fillColor = values['accentColor'].color;
+			
+			tmpCtxAccent.save();
+			tmpCtxAccent.globalCompositeOperation = 'source-over';
+			imagelib.drawing.copy(tmpCtxAccent, PREVIEW_RESOURCES['mask-accent' + '-' + baseTheme + '-' + abStyle], iconSize);
+			tmpCtxAccent.globalCompositeOperation = 'source-atop';
+			tmpCtxAccent.fillStyle = fillColor;
+			tmpCtxAccent.fillRect(0, 0, iconSize.w, iconSize.h);
+			tmpCtxAccent.restore();
+
+			fillColor = values['tertiaryColor'].color;
+			
+			tmpCtxPopup.save();
+			tmpCtxPopup.globalCompositeOperation = 'source-over';
+			imagelib.drawing.copy(tmpCtxPopup, PREVIEW_RESOURCES['mask-popup' + '-' + baseTheme + '-' + abStyle], iconSize);
+			tmpCtxPopup.globalCompositeOperation = 'source-atop';
+			tmpCtxPopup.fillStyle = fillColor;
+			tmpCtxPopup.fillRect(0, 0, iconSize.w, iconSize.h);
+			tmpCtxPopup.restore();
+
+			var foreEffect = 2;
+			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['back' + '-' + baseTheme + '-' + abStyle], iconSize);
+			imagelib.drawing.copy(outCtx, tmpCtxAB, iconSize);
+			imagelib.drawing.copy(outCtx, tmpCtxStacked, iconSize);
+			imagelib.drawing.copy(outCtx, tmpCtxPopup, iconSize);
+			imagelib.drawing.copy(outCtx, tmpCtxAccent, iconSize);
+			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['fore' + foreEffect + '-' + baseTheme + '-' + abStyle], iconSize);
+
+			imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(backgroundShape) {
+				return function(img) {
+					$('#out-icon-' + backgroundShape).attr('src', img.src);
+				};
+			}('preview'));
+			
+          // ***** END PREVIEW ******
+          
         };
 
         //if (values['foreground']) {
