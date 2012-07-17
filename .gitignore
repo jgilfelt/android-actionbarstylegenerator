@@ -1,2 +1,4 @@
 *.DS_Store
-
+example/local.properties
+example/bin/
+example/gen/
