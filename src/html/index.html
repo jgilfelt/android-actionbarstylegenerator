@@ -64,7 +64,10 @@
       </div>
       <div id="inputs">
         <div id="inputs-form"></div>
+        <div id="preview"></div>
+        <br style="clear:both" />
       </div>
+     
       <div id="outputs">
         <h3>
           Output resources
@@ -137,6 +140,16 @@
           id: 'out-icon-' + backgroundShape, //density,
           label: backgroundShape //(density == 'web') ? 'web, hi-res' : density
         });
+        
+      // preview 
+      var prev = studio.ui.createImageOutputGroup({
+        container: $('#preview')
+      }); 
+      studio.ui.createImageOutputSlot({
+        container: prev,
+        id: 'out-icon-' + 'preview', 
+        label: ''
+      });
       
       for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
         for (var backgroundShape in shapes)
@@ -155,9 +168,18 @@
       for (var template in xmlTemplates)
         xmlList[template] = (
           'res/actionbar-xml-templates/' + template + '.xml');
+          
+      var previewList = {
+      	'back':'res/actionbar-preview/light-solid/back.png',
+      	'fore1':'res/actionbar-preview/light-solid/fore1.png',
+      	'mask-ab-main':'res/actionbar-preview/light-solid/mask_ab_main.png',
+      	'mask-ab-stacked':'res/actionbar-preview/light-solid/mask_ab_stacked.png',
+      	'mask-accent':'res/actionbar-preview/light-solid/mask_accent.png'
+      };
 
 	  var XML_RESOURCES = {};
 	  var IMAGE_RESOURCES = {};
+	  var PREVIEW_RESOURCES = {};
 	  
       imagelib.loadImageResources(resList, function(r) {
         IMAGE_RESOURCES = r;
@@ -168,7 +190,13 @@
         imagelib.loadXmlTemplates(xmlList, function(r2) {
           XML_RESOURCES = r2;
           XML_RESOURCES._loaded = true;
-          regenerate();
+          //regenerate();
+          
+          imagelib.loadImageResources(previewList, function(r3) {
+          	PREVIEW_RESOURCES = r3;
+          	PREVIEW_RESOURCES._loaded = true;
+          	regenerate();
+          });
           
         });
         
@@ -476,6 +504,68 @@
           }
           
           } // JG
+          
+          // ***** PREVIEW ******
+
+			var iconSize = { w: 480, h: 728 };
+			var targetRect = {
+				x : 0,
+				y : 0,
+				w : iconSize.h,
+				h : iconSize.h
+			};
+
+			var outCtx = imagelib.drawing.context(iconSize);
+			
+			var tmpCtxAB = imagelib.drawing.context(iconSize);
+			var tmpCtxStacked = imagelib.drawing.context(iconSize);
+			var tmpCtxAccent = imagelib.drawing.context(iconSize);
+
+			var fillColor = values['backColor'].color;
+
+			tmpCtxAB.save();
+			tmpCtxAB.globalCompositeOperation = 'source-over';
+			imagelib.drawing.copy(tmpCtxAB, PREVIEW_RESOURCES['mask-ab-main'], iconSize);
+			tmpCtxAB.globalCompositeOperation = 'source-atop';
+			tmpCtxAB.fillStyle = fillColor;
+			tmpCtxAB.fillRect(0, 0, iconSize.w, iconSize.h);
+			tmpCtxAB.restore();
+			
+			fillColor = values['secondaryColor'].color;
+			
+			tmpCtxStacked.save();
+			tmpCtxStacked.globalCompositeOperation = 'source-over';
+			imagelib.drawing.copy(tmpCtxStacked, PREVIEW_RESOURCES['mask-ab-stacked'], iconSize);
+			tmpCtxStacked.globalCompositeOperation = 'source-atop';
+			tmpCtxStacked.fillStyle = fillColor;
+			tmpCtxStacked.fillRect(0, 0, iconSize.w, iconSize.h);
+			tmpCtxStacked.restore();
+			
+			fillColor = values['accentColor'].color;
+			
+			tmpCtxAccent.save();
+			tmpCtxAccent.globalCompositeOperation = 'source-over';
+			imagelib.drawing.copy(tmpCtxAccent, PREVIEW_RESOURCES['mask-accent'], iconSize);
+			tmpCtxAccent.globalCompositeOperation = 'source-atop';
+			tmpCtxAccent.fillStyle = fillColor;
+			tmpCtxAccent.fillRect(0, 0, iconSize.w, iconSize.h);
+			tmpCtxAccent.restore();
+
+			var foreEffect = 1;
+			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['back'], iconSize);
+			imagelib.drawing.copy(outCtx, tmpCtxAB, iconSize);
+			imagelib.drawing.copy(outCtx, tmpCtxStacked, iconSize);
+			imagelib.drawing.copy(outCtx, tmpCtxAccent, iconSize);
+			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['fore' + foreEffect], iconSize);
+
+			imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(backgroundShape) {
+				return function(img) {
+					$('#out-icon-' + backgroundShape).attr('src', img.src);
+				};
+			}('preview'));
+			
+          // ***** END PREVIEW ******
+          
         };
 
         //if (values['foreground']) {

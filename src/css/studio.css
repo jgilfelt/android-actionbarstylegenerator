@@ -42,7 +42,7 @@ a {
 
 #main-container {
   background-color: #fff;
-  width: 800px;
+  width: 900px;
   margin: 24px auto;
   border-radius: 4px;
   padding: 4px;
@@ -125,10 +125,23 @@ a {
 
 #inputs {
   background-color: #eee;
+  /* float:left; */
+}
+
+#inputs-form {
+  background-color: #eee;
+  float:left;
+}
+
+#preview {
+  background-color: #eee;
+  float:right;
+  padding-left:5px;
 }
 
 #outputs {
   background-color: #ccc;
+  clear:both;
 }
 
 #inputs h3, #outputs h3 {
