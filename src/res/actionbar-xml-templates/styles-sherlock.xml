@@ -26,7 +26,7 @@
         <item name="actionDropDownStyle">@style/##style##_DropDownNav</item>
         <item name="actionBarStyle">@style/##style##_##actionbarstyle##_ActionBar</item>
 
-        <item name="android:selectableItemBackground">@drawable/selectable_background_##style##</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_##style##</item>
         <item name="android:popupMenuStyle">@style/##style##_PopupMenu</item>
         <item name="android:dropDownListViewStyle">@style/##style##_DropDownListView</item>
         <item name="android:actionBarTabStyle">@style/##style##_ActionBarTabStyle</item>
