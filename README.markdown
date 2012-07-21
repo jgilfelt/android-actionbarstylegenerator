@@ -9,6 +9,7 @@ Build Dependencies
 ------------------
 
 flintjs - http://code.google.com/p/flintjs/
+
 pngcrush - http://pmt.sourceforge.net/pngcrush/index.html
 
 Credits
