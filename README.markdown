@@ -5,6 +5,12 @@ The Android Action Bar Style Generator allows you to easily create a simple, att
 
 Try it here: http://jgilfelt.github.com/android-actionbarstylegenerator/
 
+Build Dependencies
+------------------
+
+flintjs - http://code.google.com/p/flintjs/
+pngcrush - http://pmt.sourceforge.net/pngcrush/index.html
+
 Credits
 -------
 

@@ -22,5 +22,5 @@
   <!-- global properties -->
   <property file="build.properties"/>
   <property file="local.properties"/>
-  <import file="/Users/jgilfelt/flintjs-0.1.1/flintjs.build.xml"/>
+  <import file="${flintjs.dir}/flintjs.build.xml"/>
 </project>
