@@ -19,11 +19,15 @@ package com.actionbarsherlock.sample.styled;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
@@ -36,6 +40,8 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 //    private RoundedColourFragment rightFrag;
     private boolean useLogo = false;
     private boolean showHomeUp = true;
+    
+    ActionMode mMode;
 
     /** Called when the activity is first created. */
     @Override
@@ -81,6 +87,24 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 //        ft.add(R.id.root, leftFrag);
 //        ft.add(R.id.root, rightFrag);
 //        ft.commit();
+        
+        
+        ((Button)findViewById(R.id.start)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMode = startActionMode(new AnActionModeOfEpicProportions());
+            }
+        });
+        ((Button)findViewById(R.id.cancel)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mMode != null) {
+                    mMode.finish();
+                }
+            }
+        });
+
+        
     }
 
     @Override
@@ -206,5 +230,58 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
         // FIXME implement this
     }
+    
+    
+    private final class AnActionModeOfEpicProportions implements ActionMode.Callback {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            //Used to put dark icons on light action bar
+            boolean isLight = false; //SampleList.THEME == R.style.Theme_Sherlock_Light;
+
+            menu.add("Save")
+                .setIcon(isLight ? R.drawable.ic_menu_star_holo_light : R.drawable.ic_menu_star_holo_dark)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+            menu.add("Search")
+                .setIcon(isLight ? R.drawable.ic_menu_star_holo_light : R.drawable.ic_menu_star_holo_dark)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+            menu.add("Refresh")
+                .setIcon(isLight ? R.drawable.ic_menu_star_holo_light : R.drawable.ic_menu_star_holo_dark)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+            menu.add("Save")
+                .setIcon(isLight ? R.drawable.ic_menu_star_holo_light : R.drawable.ic_menu_star_holo_dark)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+            menu.add("Search")
+                .setIcon(isLight ? R.drawable.ic_menu_star_holo_light : R.drawable.ic_menu_star_holo_dark)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+            menu.add("Refresh")
+                .setIcon(isLight ? R.drawable.ic_menu_star_holo_light : R.drawable.ic_menu_star_holo_dark)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            Toast.makeText(MainActivity.this, "Got click: " + item, Toast.LENGTH_SHORT).show();
+            mode.finish();
+            return true;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+        }
+    }
+
+    
 
 }

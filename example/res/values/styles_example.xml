@@ -18,13 +18,13 @@
 
 <resources>
 
-    <style name="Theme.example" parent="@style/Theme.Sherlock">
+    <style name="Theme.example" parent="@style/Theme.Sherlock.Light.DarkActionBar">
         <item name="actionBarItemBackground">@drawable/selectable_background_example</item>
         <item name="popupMenuStyle">@style/example_PopupMenu</item>
         <item name="dropDownListViewStyle">@style/example_DropDownListView</item>
         <item name="actionBarTabStyle">@style/example_ActionBarTabStyle</item>
         <item name="actionDropDownStyle">@style/example_DropDownNav</item>
-        <item name="actionBarStyle">@style/example_transparent_ActionBar</item>
+        <item name="actionBarStyle">@style/example_solid_ActionBar</item>
 
         <item name="android:actionBarItemBackground">@drawable/selectable_background_example</item>
         <item name="android:popupMenuStyle">@style/example_PopupMenu</item>
@@ -33,9 +33,18 @@
         <item name="android:actionDropDownStyle">@style/example_DropDownNav</item>
         <item name="android:actionBarStyle">@style/example_solid_ActionBar</item>
         <item name="android:panelBackground">@drawable/menu_hardkey_panel_example</item>
+        
+                <!-- Light.DarkActionBar specific -->
+        <item name="actionBarWidgetTheme">@style/Theme.example.widget</item>
+        <item name="android:actionBarWidgetTheme">@style/Theme.example.widget</item>
+        <item name="spinnerDropDownItemStyle">@style/example_DropDownItem</item>
+        <item name="android:spinnerDropDownItemStyle">@style/example_DropDownItem</item>
+        <item name="spinnerItemStyle">@style/example_SpinnerItem</item>
+        <item name="android:spinnerItemStyle">@style/example_SpinnerItem</item>
+
     </style>
 
-    <style name="example_solid_ActionBar" parent="@style/Widget.Sherlock.ActionBar.Solid">
+    <style name="example_solid_ActionBar" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
         <item name="background">@drawable/ab_solid_example</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_example</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_example</item>
@@ -79,6 +88,23 @@
     
     <style name="example_ProgressBar" parent="@style/Widget.Sherlock.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_example</item>
+    </style>
+    
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.example.widget" parent="@style/Theme.Sherlock">
+        <item name="popupMenuStyle">@style/example_PopupMenu</item>
+        <item name="dropDownListViewStyle">@style/example_DropDownListView</item>
+        
+        <item name="android:popupMenuStyle">@style/example_PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/example_DropDownListView</item>
+    </style>    
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="example_DropDownItem" parent="@style/Widget.Sherlock.Light.DropDownItem.Spinner">
+        <item name="android:textAppearance">?android:attr/textAppearanceInverse</item>
+    </style>
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="example_SpinnerItem" parent="@style/Widget.Sherlock.TextView.SpinnerItem">
+        <item name="android:textAppearance">?android:attr/textAppearanceInverse</item>
     </style>
 
 </resources>
