@@ -380,7 +380,7 @@
           }, 1000);
           return;
         }
- 
+        
         if (!IMAGE_RESOURCES._loaded || !XML_RESOURCES._loaded)
           return;
 
@@ -392,8 +392,16 @@
         var compat = values['compat'];
         var coreTheme = ((baseTheme == 'light_dark') ? 'dark' : baseTheme);
         
-        if (baseTheme != baseThemeSetting) {
+        if (baseThemeSetting == null) {
+        	//console.log('theme null');
+        	//console.log('baseTheme=' + baseTheme);
+        	baseThemeSetting = baseTheme;
+        } else if (baseTheme != baseThemeSetting) {
         	// theme changed
+        	
+        	//console.log('theme changed');
+        	//console.log('baseThemeSetting=' + baseThemeSetting);
+        	//console.log('baseTheme=' + baseTheme);
         	setDefaultColorPalette(baseTheme);
         	baseThemeSetting = baseTheme;
         }
@@ -709,8 +717,7 @@
       });
       form.createUI($('#inputs-form').get(0));
       
-      var values = form.getValues();
-      var baseThemeSetting = values['theme']; //'light';
+      var baseThemeSetting = null; //'light';
       
     </script>
   
