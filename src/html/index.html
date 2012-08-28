@@ -418,7 +418,7 @@
         	
         	'parent_theme':((baseTheme == 'light_dark') ? '.Light.DarkActionBar' : ((baseTheme == 'light') ? '.Light' : '')),
         	'inverse':((baseTheme == 'light_dark') ? '.Inverse' : ''),
-        	'actionbar_base':((baseTheme == 'light_dark') ? '.Light' : baseTheme),
+        	'actionbar_base':((baseTheme == 'light_dark') ? '.Light' : ((baseTheme == 'light') ? '.Light' : '')),
         	'inverse_attrs':inverseAttrs
         };
         
