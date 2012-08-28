@@ -332,15 +332,40 @@
       	'actionbarstyle':'transparent'
       }
       
-      var baseThemeSetting = 'light';
+      var DEFAULT_COLORS_INVERSE = {
+      	'backColor':'#2D2D2D',
+      	'secondaryColor':'#555555',
+      	'tertiaryColor':'#3F3F3F',
+      	'accentColor':'#33B5E5',
+      	'actionbarstyle':'solid'
+      }
+      
+      
       
       function setDefaultColorPalette(theme) {
       	if (theme == 'light') {
       		form.setValuesSerialized(DEFAULT_COLORS_LIGHT);
-      	} else {
+      	} else if (theme == 'dark') {
       		form.setValuesSerialized(DEFAULT_COLORS_DARK);
+      	} else {
+      		form.setValuesSerialized(DEFAULT_COLORS_INVERSE);
       	}
       }
+   
+      var INVERSE_THEME_ATTRS = 
+'        <!-- Light.DarkActionBar specific -->\n'+
+'        <item name="android:actionBarWidgetTheme">@style/Theme.##style##.widget</item>\n'+
+'        <item name="android:spinnerDropDownItemStyle">@style/##style##_DropDownItem</item>\n'+
+'        <item name="android:spinnerItemStyle">@style/##style##_SpinnerItem</item>\n';   
+      
+      var INVERSE_THEME_ATTRS_SHERLOCK = 
+'        <!-- Light.DarkActionBar specific -->\n'+
+'        <item name="actionBarWidgetTheme">@style/Theme.##style##.widget</item>\n'+
+'        <item name="android:actionBarWidgetTheme">@style/Theme.##style##.widget</item>\n'+
+'        <item name="spinnerDropDownItemStyle">@style/##style##_DropDownItem</item>\n'+
+'        <item name="android:spinnerDropDownItemStyle">@style/##style##_DropDownItem</item>\n'+
+'        <item name="spinnerItemStyle">@style/##style##_SpinnerItem</item>\n'+
+'        <item name="android:spinnerItemStyle">@style/##style##_SpinnerItem</item>\n';
 
       /**
        * Main image generation routine.
@@ -365,6 +390,7 @@
         var styleName = values['name'];
         var baseTheme = values['theme'];
         var compat = values['compat'];
+        var coreTheme = ((baseTheme == 'light_dark') ? 'dark' : baseTheme);
         
         if (baseTheme != baseThemeSetting) {
         	// theme changed
@@ -372,11 +398,20 @@
         	baseThemeSetting = baseTheme;
         }
         
+        var rx = new RegExp('##style##', "g");
+        var inverseAttrs = (baseTheme == 'light_dark') ? ((compat == 'sherlock') ? 
+        	INVERSE_THEME_ATTRS_SHERLOCK.replace(rx, styleName) : INVERSE_THEME_ATTRS.replace(rx, styleName)) : '';
+        
         var replaceStrings = {
         	'style':(styleName.toLowerCase()),
         	'base':((baseTheme == 'light') ? '.Light' : ''),
         	'accent':(values['accentColor'].color.substring(1)),
-        	'actionbarstyle':(values['actionbarstyle'])
+        	'actionbarstyle':(values['actionbarstyle']),
+        	
+        	'parent_theme':((baseTheme == 'light_dark') ? '.Light.DarkActionBar' : ((baseTheme == 'light') ? '.Light' : '')),
+        	'inverse':((baseTheme == 'light_dark') ? '.Inverse' : ''),
+        	'actionbar_base':((baseTheme == 'light_dark') ? '.Light' : baseTheme),
+        	'inverse_attrs':inverseAttrs
         };
         
         zipper.clear();
@@ -421,7 +456,7 @@
 
               var outCtx = imagelib.drawing.context(iconSize);
               
-              imagelib.drawing.copy(outCtx, IMAGE_RESOURCES[nonStyledShape + '-' + density + '-' + baseTheme], iconSize);
+              imagelib.drawing.copy(outCtx, IMAGE_RESOURCES[nonStyledShape + '-' + density + '-' + coreTheme], iconSize);
              
               zipper.add({
                 name: ('res/drawable-' + density + '/' + nonStyledShape + '_' + styleName.toLowerCase() + '.9.png'),
@@ -546,7 +581,7 @@
 
 			tmpCtxAB.save();
 			tmpCtxAB.globalCompositeOperation = 'source-over';
-			imagelib.drawing.copy(tmpCtxAB, PREVIEW_RESOURCES['mask-ab-main' + '-' + baseTheme + '-' + abStyle], iconSize);
+			imagelib.drawing.copy(tmpCtxAB, PREVIEW_RESOURCES['mask-ab-main' + '-' + coreTheme + '-' + abStyle], iconSize);
 			tmpCtxAB.globalCompositeOperation = 'source-atop';
 			tmpCtxAB.fillStyle = fillColor;
 			tmpCtxAB.fillRect(0, 0, iconSize.w, iconSize.h);
@@ -556,7 +591,7 @@
 			
 			tmpCtxStacked.save();
 			tmpCtxStacked.globalCompositeOperation = 'source-over';
-			imagelib.drawing.copy(tmpCtxStacked, PREVIEW_RESOURCES['mask-ab-stacked' + '-' + baseTheme + '-' + abStyle], iconSize);
+			imagelib.drawing.copy(tmpCtxStacked, PREVIEW_RESOURCES['mask-ab-stacked' + '-' + coreTheme + '-' + abStyle], iconSize);
 			tmpCtxStacked.globalCompositeOperation = 'source-atop';
 			tmpCtxStacked.fillStyle = fillColor;
 			tmpCtxStacked.fillRect(0, 0, iconSize.w, iconSize.h);
@@ -566,7 +601,7 @@
 			
 			tmpCtxAccent.save();
 			tmpCtxAccent.globalCompositeOperation = 'source-over';
-			imagelib.drawing.copy(tmpCtxAccent, PREVIEW_RESOURCES['mask-accent' + '-' + baseTheme + '-' + abStyle], iconSize);
+			imagelib.drawing.copy(tmpCtxAccent, PREVIEW_RESOURCES['mask-accent' + '-' + coreTheme + '-' + abStyle], iconSize);
 			tmpCtxAccent.globalCompositeOperation = 'source-atop';
 			tmpCtxAccent.fillStyle = fillColor;
 			tmpCtxAccent.fillRect(0, 0, iconSize.w, iconSize.h);
@@ -576,19 +611,19 @@
 			
 			tmpCtxPopup.save();
 			tmpCtxPopup.globalCompositeOperation = 'source-over';
-			imagelib.drawing.copy(tmpCtxPopup, PREVIEW_RESOURCES['mask-popup' + '-' + baseTheme + '-' + abStyle], iconSize);
+			imagelib.drawing.copy(tmpCtxPopup, PREVIEW_RESOURCES['mask-popup' + '-' + coreTheme + '-' + abStyle], iconSize);
 			tmpCtxPopup.globalCompositeOperation = 'source-atop';
 			tmpCtxPopup.fillStyle = fillColor;
 			tmpCtxPopup.fillRect(0, 0, iconSize.w, iconSize.h);
 			tmpCtxPopup.restore();
 
 			var foreEffect = 2;
-			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['back' + '-' + baseTheme + '-' + abStyle], iconSize);
+			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['back' + '-' + ((baseTheme == 'light_dark') ? 'light' : coreTheme) + '-' + abStyle], iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxAB, iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxStacked, iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxPopup, iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxAccent, iconSize);
-			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['fore' + foreEffect + '-' + baseTheme + '-' + abStyle], iconSize);
+			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['fore' + foreEffect + '-' + coreTheme + '-' + abStyle], iconSize);
 
 			imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(backgroundShape) {
 				return function(img) {
@@ -631,10 +666,11 @@
           new studio.forms.EnumField('theme', {
             title: 'Base theme',
             helpText: 'The application base theme. Changing this setting will reset the form to Android defaults.',
-            buttons: true,
+            buttons: false,
             options: [
               { id: 'light', title: 'Light' },
-              { id: 'dark', title: 'Dark' }
+              { id: 'dark', title: 'Dark' },
+              { id: 'light_dark', title: 'Light - Dark Action Bar' }
             ],
             defaultValue: 'light'
           }),
@@ -672,6 +708,10 @@
         ]
       });
       form.createUI($('#inputs-form').get(0));
+      
+      var values = form.getValues();
+      var baseThemeSetting = values['theme']; //'light';
+      
     </script>
   
     <a href="https://github.com/jgilfelt/android-actionbarstylegenerator"><img style="position: absolute; top: 0; right: 0; border: 0;" src="images/ForkMe_Blk.png" alt="Fork me on GitHub" /></a>

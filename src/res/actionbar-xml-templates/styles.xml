@@ -18,7 +18,7 @@
 
 <resources>
 
-    <style name="Theme.##style##" parent="@android:style/Theme.Holo##base##">
+    <style name="Theme.##style##" parent="@android:style/Theme.Holo##parent_theme##">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_##style##</item>
         <item name="android:popupMenuStyle">@style/##style##_PopupMenu</item>
         <item name="android:dropDownListViewStyle">@style/##style##_DropDownListView</item>
@@ -26,9 +26,10 @@
         <item name="android:actionDropDownStyle">@style/##style##_DropDownNav</item>
         <item name="android:actionBarStyle">@style/##style##_##actionbarstyle##_ActionBar</item>
         <item name="android:panelBackground">@drawable/menu_hardkey_panel_##style##</item>
+        ##inverse_attrs##
     </style>
 
-    <style name="##style##_solid_ActionBar" parent="@android:style/Widget.Holo##base##.ActionBar.Solid">
+    <style name="##style##_solid_ActionBar" parent="@android:style/Widget.Holo##actionbar_base##.ActionBar.Solid##inverse##">
         <item name="android:background">@drawable/ab_solid_##style##</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
@@ -60,6 +61,20 @@
     
     <style name="##style##_ProgressBar" parent="@android:style/Widget.Holo##base##.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_##style##</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.##style##.widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/##style##_PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/##style##_DropDownListView</item>
+    </style>    
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="##style##_DropDownItem" parent="@android:style/Widget.Holo.Light.DropDownItem.Spinner">
+        <item name="android:textAppearance">?android:attr/textAppearanceInverse</item>
+    </style>
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="##style##_SpinnerItem" parent="@android:style/Widget.Holo.TextView.SpinnerItem">
+        <item name="android:textAppearance">?android:attr/textAppearanceInverse</item>
     </style>
 
 </resources>
