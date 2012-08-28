@@ -18,7 +18,7 @@
 
 <resources>
 
-    <style name="Theme.##style##" parent="@style/Theme.Sherlock##base##">
+    <style name="Theme.##style##" parent="@style/Theme.Sherlock##parent_theme##">
         <item name="actionBarItemBackground">@drawable/selectable_background_##style##</item>
         <item name="popupMenuStyle">@style/##style##_PopupMenu</item>
         <item name="dropDownListViewStyle">@style/##style##_DropDownListView</item>
@@ -33,9 +33,11 @@
         <item name="android:actionDropDownStyle">@style/##style##_DropDownNav</item>
         <item name="android:actionBarStyle">@style/##style##_##actionbarstyle##_ActionBar</item>
         <item name="android:panelBackground">@drawable/menu_hardkey_panel_##style##</item>
+        
+        ##inverse_attrs##
     </style>
 
-    <style name="##style##_solid_ActionBar" parent="@style/Widget.Sherlock##base##.ActionBar.Solid">
+    <style name="##style##_solid_ActionBar" parent="@style/Widget.Sherlock##actionbar_base##.ActionBar.Solid##inverse##">
         <item name="background">@drawable/ab_solid_##style##</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
@@ -79,6 +81,23 @@
     
     <style name="##style##_ProgressBar" parent="@style/Widget.Sherlock##base##.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_##style##</item>
+    </style>
+    
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.##style##.widget" parent="@style/Theme.Sherlock">
+        <item name="popupMenuStyle">@style/##style##_PopupMenu</item>
+        <item name="dropDownListViewStyle">@style/##style##_DropDownListView</item>
+        
+        <item name="android:popupMenuStyle">@style/##style##_PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/##style##_DropDownListView</item>
+    </style>    
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="##style##_DropDownItem" parent="@style/Widget.Sherlock.Light.DropDownItem.Spinner">
+        <item name="android:textAppearance">?android:attr/textAppearanceInverse</item>
+    </style>
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="##style##_SpinnerItem" parent="@style/Widget.Sherlock.TextView.SpinnerItem">
+        <item name="android:textAppearance">?android:attr/textAppearanceInverse</item>
     </style>
 
 </resources>
