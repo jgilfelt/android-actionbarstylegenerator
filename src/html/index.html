@@ -408,7 +408,7 @@
         
         var rx = new RegExp('##style##', "g");
         var inverseAttrs = (baseTheme == 'light_dark') ? ((compat == 'sherlock') ? 
-        	INVERSE_THEME_ATTRS_SHERLOCK.replace(rx, styleName) : INVERSE_THEME_ATTRS.replace(rx, styleName)) : '';
+        	INVERSE_THEME_ATTRS_SHERLOCK.replace(rx, styleName.toLowerCase()) : INVERSE_THEME_ATTRS.replace(rx, styleName.toLowerCase())) : '';
         
         var replaceStrings = {
         	'style':(styleName.toLowerCase()),
