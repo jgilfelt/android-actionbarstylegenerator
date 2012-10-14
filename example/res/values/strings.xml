@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ActionBarStyleExample</string>
     <string name="activity_name">Preview</string>
+    <string name="activity_name_ics">Preview ICS</string>
     <string name="action_label_refresh">Refresh</string>
     <string name="action_label_search">Search</string>
     <string name="action_label_both">Both</string>

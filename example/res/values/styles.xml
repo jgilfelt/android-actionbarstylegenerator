@@ -5,5 +5,7 @@
 <!--         <item name="actionBarStyle">@style/Widget.Sherlock.Light.ActionBar</item> -->
 <!--         <item name="android:actionBarStyle">@style/Widget.Sherlock.Light.ActionBar</item> -->
     </style>
+    
+    <style name="AppThemeICS" parent="Theme.example_ics" />
 
 </resources>

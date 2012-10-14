@@ -61,7 +61,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 
         // set up list nav
         ab.setListNavigationCallbacks(ArrayAdapter
-                .createFromResource(this, R.array.sections,
+                .createFromResource(ab.getThemedContext(), R.array.sections,
                         R.layout.sherlock_spinner_dropdown_item),
                 new OnNavigationListener() {
                     public boolean onNavigationItemSelected(int itemPosition,
