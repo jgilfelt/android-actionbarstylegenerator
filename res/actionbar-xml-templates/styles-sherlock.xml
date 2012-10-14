@@ -90,14 +90,6 @@
         
         <item name="android:popupMenuStyle">@style/##style##_PopupMenu</item>
         <item name="android:dropDownListViewStyle">@style/##style##_DropDownListView</item>
-    </style>    
-    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="##style##_DropDownItem" parent="@style/Widget.Sherlock.Light.DropDownItem.Spinner">
-        <item name="android:textAppearance">?android:attr/textAppearanceInverse</item>
-    </style>
-    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="##style##_SpinnerItem" parent="@style/Widget.Sherlock.TextView.SpinnerItem">
-        <item name="android:textAppearance">?android:attr/textAppearanceInverse</item>
     </style>
 
 </resources>
