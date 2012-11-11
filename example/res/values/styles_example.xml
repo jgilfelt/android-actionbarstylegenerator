@@ -32,7 +32,7 @@
         <item name="android:actionBarTabStyle">@style/example_ActionBarTabStyle</item>
         <item name="android:actionDropDownStyle">@style/example_DropDownNav</item>
         <item name="android:actionBarStyle">@style/example_solid_ActionBar</item>
-        <item name="android:panelBackground">@drawable/menu_hardkey_panel_example</item>
+<!--         <item name="android:panelBackground">@drawable/menu_hardkey_panel_example</item> -->
         
                 <!-- Light.DarkActionBar specific -->
         <item name="actionBarWidgetTheme">@style/Theme.example.widget</item>

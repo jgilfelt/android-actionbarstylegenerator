@@ -16,7 +16,7 @@
      limitations under the License.
 -->
 
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.example_ics" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_example_ics</item>
@@ -25,7 +25,8 @@
         <item name="android:actionBarTabStyle">@style/example_ics_ActionBarTabStyle</item>
         <item name="android:actionDropDownStyle">@style/example_ics_DropDownNav</item>
         <item name="android:actionBarStyle">@style/example_ics_solid_ActionBar</item>
-        <item name="android:panelBackground">@drawable/menu_hardkey_panel_example_ics</item>
+<!--         <item name="android:panelBackground">@drawable/menu_hardkey_panel_example_ics</item> -->
+       
                 <!-- Light.DarkActionBar specific -->
         <item name="android:actionBarWidgetTheme">@style/Theme.example_ics.widget</item>
 
