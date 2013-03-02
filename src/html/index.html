@@ -385,7 +385,7 @@
         var values = form.getValues();
         //var showGuides = $('#output-show-guides').is(':checked');
 
-        var styleName = values['name'];
+        var styleName = values['name'].replace(/[^a-z0-9_]/ig, '');
         var baseTheme = values['theme'];
         var compat = values['compat'];
         var coreTheme = ((baseTheme == 'light_dark') ? 'dark' : baseTheme);
