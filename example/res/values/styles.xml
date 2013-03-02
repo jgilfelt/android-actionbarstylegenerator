@@ -1,11 +1,11 @@
 <resources>
 
 <!--     <style name="AppTheme" parent="Theme.Sherlock" > -->
-    <style name="AppTheme" parent="Theme.example" >
+    <style name="AppTheme" parent="Theme.Example" >
 <!--         <item name="actionBarStyle">@style/Widget.Sherlock.Light.ActionBar</item> -->
 <!--         <item name="android:actionBarStyle">@style/Widget.Sherlock.Light.ActionBar</item> -->
     </style>
     
-    <style name="AppThemeICS" parent="Theme.example_ics" />
+    <style name="AppThemeICS" parent="Theme.Example_ics" />
 
 </resources>

@@ -16,60 +16,59 @@
      limitations under the License.
 -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
 
-    <style name="Theme.example_ics" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="Theme.Example_ics" parent="@android:style/Theme.Holo.Light.DarkActionBar"> 
         <item name="android:actionBarItemBackground">@drawable/selectable_background_example_ics</item>
-        <item name="android:popupMenuStyle">@style/example_ics_PopupMenu</item>
-        <item name="android:dropDownListViewStyle">@style/example_ics_DropDownListView</item>
-        <item name="android:actionBarTabStyle">@style/example_ics_ActionBarTabStyle</item>
-        <item name="android:actionDropDownStyle">@style/example_ics_DropDownNav</item>
-        <item name="android:actionBarStyle">@style/example_ics_solid_ActionBar</item>
-<!--         <item name="android:panelBackground">@drawable/menu_hardkey_panel_example_ics</item> -->
-       
+        <item name="android:popupMenuStyle">@style/PopupMenu.Example_ics</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Example_ics</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Example_ics</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Example_ics</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Example_ics</item>
+        <item name="android:panelBackground">@drawable/menu_hardkey_panel_example_ics</item>
                 <!-- Light.DarkActionBar specific -->
-        <item name="android:actionBarWidgetTheme">@style/Theme.example_ics.widget</item>
+        <item name="android:actionBarWidgetTheme">@style/Theme.Example_ics.Widget</item>
 
     </style>
 
-    <style name="example_ics_solid_ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+    <style name="ActionBar.Solid.Example_ics" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/ab_solid_example_ics</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_example_ics</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_example_ics</item>
-        <item name="android:progressBarStyle">@style/example_ics_ProgressBar</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Example_ics</item>
     </style>
 
-    <style name="example_ics_transparent_ActionBar" parent="@android:style/Widget.Holo.ActionBar">
+    <style name="ActionBar.Transparent.Example_ics" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:background">@drawable/ab_transparent_example_ics</item>
-        <item name="android:progressBarStyle">@style/example_ics_ProgressBar</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Example_ics</item>
     </style>
 
-    <style name="example_ics_PopupMenu" parent="@android:style/Widget.Holo.ListPopupWindow">
+    <style name="PopupMenu.Example_ics" parent="@android:style/Widget.Holo.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_example_ics</item>	
     </style>
 
-    <style name="example_ics_DropDownListView" parent="@android:style/Widget.Holo.ListView.DropDown">
+    <style name="DropDownListView.Example_ics" parent="@android:style/Widget.Holo.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_example_ics</item>
     </style>
 
-    <style name="example_ics_ActionBarTabStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
+    <style name="ActionBarTabStyle.Example_ics" parent="@android:style/Widget.Holo.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_example_ics</item>
     </style>
 
-    <style name="example_ics_DropDownNav" parent="@android:style/Widget.Holo.Spinner">
+    <style name="DropDownNav.Example_ics" parent="@android:style/Widget.Holo.Spinner">
         <item name="android:background">@drawable/spinner_background_ab_example_ics</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_example_ics</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_example_ics</item>
     </style>
     
-    <style name="example_ics_ProgressBar" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+    <style name="ProgressBar.Example_ics" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_example_ics</item>
     </style>
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.example_ics.widget" parent="@android:style/Theme.Holo">
-        <item name="android:popupMenuStyle">@style/example_ics_PopupMenu</item>
-        <item name="android:dropDownListViewStyle">@style/example_ics_DropDownListView</item>
+    <style name="Theme.Example_ics.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Example_ics</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Example_ics</item>
     </style>
 
 </resources>
