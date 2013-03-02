@@ -18,20 +18,18 @@
 
 <resources>
 
-    <style name="Theme.Example_ics" parent="@android:style/Theme.Holo.Light.DarkActionBar"> 
+    <style name="Theme.Example_ics" parent="@android:style/Theme.Holo">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_example_ics</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Example_ics</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Example_ics</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Example_ics</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.Example_ics</item>
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Example_ics</item>
-        <item name="android:panelBackground">@drawable/menu_hardkey_panel_example_ics</item>
-                <!-- Light.DarkActionBar specific -->
-        <item name="android:actionBarWidgetTheme">@style/Theme.Example_ics.Widget</item>
-
+        
+        
     </style>
 
-    <style name="ActionBar.Solid.Example_ics" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+    <style name="ActionBar.Solid.Example_ics" parent="@android:style/Widget.Holo.ActionBar.Solid">
         <item name="android:background">@drawable/ab_solid_example_ics</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_example_ics</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_example_ics</item>
