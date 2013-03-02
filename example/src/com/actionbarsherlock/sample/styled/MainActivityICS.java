@@ -68,6 +68,8 @@ public class MainActivityICS extends FragmentActivity implements ActionBar.TabLi
         ab.setListNavigationCallbacks(ArrayAdapter
                 .createFromResource(ab.getThemedContext(), R.array.sections,
                         android.R.layout.simple_spinner_dropdown_item),
+//        		.createFromResource(this, R.array.sections,
+//                      android.R.layout.simple_spinner_dropdown_item),
                 new OnNavigationListener() {
         		@Override
                     public boolean onNavigationItemSelected(int itemPosition,
