@@ -38,8 +38,8 @@
     <script src="lib/colorpicker/js/colorpicker.js"></script>
 
     <!-- for .ZIP downloads -->
-    <script src="lib/swfobject-2.2.js"></script>
-    <script src="lib/downloadify/js/downloadify.min.js"></script>
+    <!-- <script src="lib/swfobject-2.2.js"></script> -->
+    <!-- <script src="lib/downloadify/js/downloadify.min.js"></script> -->
     <script src="lib/jszip/jszip.js"></script>
 
     <script src="js/asset-studio.pack.js"></script>
@@ -78,7 +78,7 @@
       <div id="outputs">
         <h3>
           Output resources
-          <div id="zip-button"></div>          
+          <div id="zip-button-stub"></div>         
         </h3>
       </div>
       <div id="footer">
@@ -96,7 +96,7 @@
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
       }
      
-      var zipper = studio.zip.createDownloadifyZipButton($('#zip-button'));
+      var zipper = studio.zip.createDownloadifyZipButton($('#zip-button-stub'));
 
       // Load image resources (stencils)
       var resList = {};
