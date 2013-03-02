@@ -25,7 +25,7 @@
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.##stylep##</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.##stylep##</item>
         <item name="android:actionBarStyle">@style/ActionBar.##actionbarstyle##.##stylep##</item>
-        <item name="android:panelBackground">@drawable/menu_hardkey_panel_##style##</item>
+        
         ##inverse_attrs##
     </style>
 
@@ -64,7 +64,7 @@
     </style>
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.##style##.Widget" parent="@android:style/Theme.Holo">
+    <style name="Theme.##stylep##.Widget" parent="@android:style/Theme.Holo">
         <item name="android:popupMenuStyle">@style/PopupMenu.##stylep##</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.##stylep##</item>
     </style>
