@@ -71,3 +71,13 @@ imagelib.util.runWorkerJs = function(js, params, callback) {
     };
   }
 };
+
+// https://github.com/gildas-lormeau/zip.js/issues/17#issuecomment-8513258
+// thanks Eric!
+imagelib.util.hasBlobConstructor = function() {
+  try {
+    return !!new Blob();
+  } catch(e) {
+    return false;
+  }
+};

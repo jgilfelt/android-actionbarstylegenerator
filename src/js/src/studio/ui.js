@@ -60,3 +60,19 @@ studio.ui.drawImageGuideRects = function(ctx, size, guides) {
 studio.ui.drawImageGuideRects.guideColors_ = [
   '#f00'
 ];
+
+studio.ui.setupDragout = function() {
+  if (studio.ui.setupDragout.completed_) {
+    return;
+  }
+  studio.ui.setupDragout.completed_ = true;
+
+  $(document).ready(function() {
+    document.body.addEventListener('dragstart', function(e) {
+      var a = e.target;
+      if (a.classList.contains('dragout')) {
+        e.dataTransfer.setData('DownloadURL', a.dataset.downloadurl);
+      }
+    }, false);
+  });
+};

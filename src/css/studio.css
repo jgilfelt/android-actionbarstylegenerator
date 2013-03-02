@@ -342,11 +342,13 @@ a {
   height: 1px;
 }
 
+/*
 #zip-button {
   display: inline-block;
   margin-left: 12px;
   vertical-align: middle;
 }
+*/
 
 /* alternative state styles */
 
@@ -363,4 +365,48 @@ a {
 
 .colorpicker {
   z-index: 10000; /* bugfix for jQuery UI sliders appearing above colorpicker */
+}
+
+
+
+.form-button,
+button {
+  margin: 0;
+  color: #fff;
+  display: inline-block;
+  vertical-align: top;
+  text-decoration: none;
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: 13px;
+  line-height: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  background-color: #33b5e5;
+  border: 1px solid #33b5e5;
+  cursor: pointer;
+  
+  margin-left: 12px;
+  vertical-align: middle;
+}
+
+.form-button[disabled],
+button[disabled] {
+  background-color: transparent;
+  border-color: #000;
+  color: #000;
+  opacity: 0.2;
+  cursor: default;
+}
+
+.form-button:not([disabled]):hover,
+button:not([disabled]):hover {
+  background-color: #09c;
+  border-color: #09c;
+}
+
+.form-button:not([disabled]):active,
+button:not([disabled]):active {
+  background-color: #069;
+  border-color: #069;
 }
