@@ -25,7 +25,7 @@
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.##stylep##</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.##stylep##</item>
         <item name="android:actionBarStyle">@style/ActionBar.##actionbarstyle##.##stylep##</item>
-        <item name="android:panelBackground">@drawable/menu_hardkey_panel_##style##</item>
+        
         ##inverse_attrs##
     </style>
 
