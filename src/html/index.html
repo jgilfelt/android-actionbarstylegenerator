@@ -130,6 +130,7 @@
        var xmlTemplates = {
        	    'styles':1,
        	    'styles-sherlock':1,
+       	    'styles-v14-sherlock':1,
        	    'colors':1,
        	    //'focused_background':1,
        	    'pressed_background':1,
@@ -362,8 +363,7 @@
       
       var INVERSE_THEME_ATTRS_SHERLOCK = 
 '        <!-- Light.DarkActionBar specific -->\n'+
-'        <item name="actionBarWidgetTheme">@style/Theme.##stylep##.Widget</item>\n'+
-'        <item name="android:actionBarWidgetTheme">@style/Theme.##stylep##.Widget</item>\n';
+'        <item name="actionBarWidgetTheme">@style/Theme.##stylep##.Widget</item>\n';
 
       /**
        * Main image generation routine.
@@ -407,8 +407,8 @@
         var styleNameTC = toTitleCase(styleName);
         
         var rx = new RegExp('##stylep##', "g");
-        var inverseAttrs = (baseTheme == 'light_dark') ? ((compat == 'sherlock') ? 
-        	INVERSE_THEME_ATTRS_SHERLOCK.replace(rx, styleNameTC) : INVERSE_THEME_ATTRS.replace(rx, styleNameTC)) : '';
+        var inverseAttrs = (baseTheme == 'light_dark') ? INVERSE_THEME_ATTRS.replace(rx, styleNameTC) : '';
+        var inverseAttrsSherlock = (baseTheme == 'light_dark') ? INVERSE_THEME_ATTRS_SHERLOCK.replace(rx, styleNameTC) : '';
         
         var replaceStrings = {
         	'style':(styleName.toLowerCase()),
@@ -420,7 +420,8 @@
         	'parent_theme':((baseTheme == 'light_dark') ? '.Light.DarkActionBar' : ((baseTheme == 'light') ? '.Light' : '')),
         	'inverse':((baseTheme == 'light_dark') ? '.Inverse' : ''),
         	'actionbar_base':((baseTheme == 'light_dark') ? '.Light' : ((baseTheme == 'light') ? '.Light' : '')),
-        	'inverse_attrs':inverseAttrs
+        	'inverse_attrs':inverseAttrs,
+        	'inverse_attrs_sherlock':inverseAttrsSherlock
         };
         
         zipper.clear();
@@ -433,13 +434,18 @@
           // process xml
           for (var template in xmlTemplates) {
           	if (template == 'styles-sherlock') continue;
+          	if (template == 'styles-v14-sherlock' && compat != 'sherlock') continue;
           	var dir;
           	var suffix = '';
           	if (template == 'styles' || template == 'colors') {
           		dir = 'res/values/';
           		if (template == 'styles' && compat == 'sherlock') {
-          			suffix = '-sherlock'
+          			suffix = '-sherlock';
           		}
+            } else if (template == 'styles-v14-sherlock') {
+            	template = 'styles';
+            	suffix = '-v14-sherlock';
+            	dir = 'res/values-v14/';
           	} else {
           		dir = 'res/drawable/';
           	}
