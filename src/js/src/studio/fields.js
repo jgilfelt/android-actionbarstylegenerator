@@ -186,7 +186,7 @@ studio.forms.AutocompleteTextField = studio.forms.Field.extend({
     this.setValue(s);
   }
 });
-
+/*
 studio.forms.ColorField = studio.forms.Field.extend({
   createUI: function(container) {
     var fieldContainer = $('.form-field-container', this.base(container));
@@ -278,6 +278,117 @@ studio.forms.ColorField = studio.forms.Field.extend({
     this.setValue(val);
   }
 });
+*/
+studio.forms.ColorField = studio.forms.Field.extend({
+  createUI: function(container) {
+    var fieldContainer = $('.form-field-container', this.base(container));
+    var me = this;
+    this.el_ = $('<input>')
+      .addClass('form-color')
+      .attr('type', 'text')
+      .attr('id', this.getHtmlId())
+      .css('background-color', this.getValue().color)
+      .appendTo(fieldContainer);
+
+    this.el_.spectrum({
+      color: this.getValue().color,
+      showInput: true,
+      showPalette: true,
+      preferredFormat: "hex6",
+      showSelectionPalette: true,
+      //maxPaletteSize: 10,
+      palette: [
+        ['#ffffff', '#000000'],
+        ['#33b5e5', '#0099cc'],
+        ['#aa66cc', '#9933cc'],
+        ['#99cc00', '#669900'],
+        ['#ffbb33', '#ff8800'],
+        ['#ff4444', '#cc0000']
+      ],
+      localStorageKey: 'recentcolors',
+      showInitial: true,
+      showButtons: false,
+      change: function(color) {
+        me.setValue({ color: color.toHexString() }, true);
+      }
+    });
+
+    if (this.params_.alpha) {
+      this.alphaEl_ = $('<input>')
+        .attr('type', 'range')
+        .attr('min', 0)
+        .attr('max', 100)
+        .val(this.getValue().alpha)
+        .addClass('form-range')
+        .change(function() {
+                        me.setValue({ alpha: Number(me.alphaEl_.val()) }, true);
+        })
+        .appendTo(fieldContainer);
+
+      this.alphaTextEl_ = $('<div>')
+        .addClass('form-range-text')
+        .text(this.getValue().alpha + '%')
+        .appendTo(fieldContainer);
+    }
+  },
+
+  getValue: function() {
+    var color = this.value_ || this.params_.defaultValue || '#000000';
+    if (/^([0-9a-f]{6}|[0-9a-f]{3})$/i.test(color)) {
+      color = '#' + color;
+    }
+
+    var alpha = this.alpha_;
+    if (typeof alpha != 'number') {
+      alpha = this.params_.defaultAlpha;
+      if (typeof alpha != 'number')
+        alpha = 100;
+    }
+
+    return { color: color, alpha: alpha };
+  },
+
+  setValue: function(val, pauseUi) {
+    val = val || {};
+    if ('color' in val) {
+      this.value_ = val.color;
+    }
+    if ('alpha' in val) {
+      this.alpha_ = val.alpha;
+    }
+
+    var computedValue = this.getValue();
+    this.el_.css('background-color', computedValue.color);
+    if (!pauseUi) {
+      $(this.el_).spectrum('set', computedValue.color);
+      if (this.alphaEl_) {
+        this.alphaEl_.val(computedValue.alpha);
+      }
+    }
+    if (this.alphaTextEl_) {
+      this.alphaTextEl_.text(computedValue.alpha + '%');
+    }
+    this.form_.notifyChanged_(this);
+  },
+
+  serializeValue: function() {
+    var computedValue = this.getValue();
+    return computedValue.color.replace(/^#/, '') + ',' + computedValue.alpha;
+  },
+
+  deserializeValue: function(s) {
+    var val = {};
+    var arr = s.split(',', 2);
+    if (arr.length >= 1) {
+      val.color = arr[0];
+    }
+    if (arr.length >= 2) {
+      val.alpha = parseInt(arr[1], 10);
+    }
+    this.setValue(val);
+  }
+});
+
 
 studio.forms.EnumField = studio.forms.Field.extend({
   createUI: function(container) {
