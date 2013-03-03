@@ -8,20 +8,15 @@ Use it online here: http://jgilfelt.github.com/android-actionbarstylegenerator/
 Building
 --------
 
-1. Ensure the following build dependencies are installed:
-
-+ Java Runtime Environment
-+ Ant
-+ [pngcrush](http://pmt.sourceforge.net/pngcrush/index.html)
-+ [flintjs](http://code.google.com/p/flintjs/) 
-
-2. Clone the repository.
-
-3. Create a `local.properties` file in the `src/js` folder containing the path to flintjs (e.g. `flintjs.dir=/Users/foo/flintjs-0.1.1`).
-
-4. Run `make.sh`. The build is generated in the `dist` folder.
-
-5. Access `dist/index.html` from a local web server.
+- Ensure the following build dependencies are installed:
+  + Java Runtime Environment
+  + Ant
+  + [pngcrush](http://pmt.sourceforge.net/pngcrush/index.html)
+  + [flintjs](http://code.google.com/p/flintjs/) 
+- Clone the repository.
+- Create a `local.properties` file in the `src/js` folder containing the path to flintjs (e.g. `flintjs.dir=/Users/foo/flintjs-0.1.1`).
+- Run `make.sh`. The build is generated in the `dist` folder.
+- Access `dist/index.html` from a local web server.
 
 Credits
 -------
