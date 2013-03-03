@@ -34,8 +34,11 @@
     <script src="lib/canvg/canvg.js"></script>
 
     <!-- prereq. for asset studio lib -->
-    <link rel="stylesheet" href="lib/colorpicker/css/colorpicker.css">
-    <script src="lib/colorpicker/js/colorpicker.js"></script>
+    <!-- <link rel="stylesheet" href="lib/colorpicker/css/colorpicker.css"> -->
+    <!-- <script src="lib/colorpicker/js/colorpicker.js"></script> -->
+    
+    <link rel="stylesheet" href="lib/spectrum/spectrum-assetstudio.css">
+    <script src="lib/spectrum/spectrum.js"></script>
 
     <!-- for .ZIP downloads -->
     <!-- <script src="lib/swfobject-2.2.js"></script> -->
@@ -410,11 +413,16 @@
         var inverseAttrs = (baseTheme == 'light_dark') ? INVERSE_THEME_ATTRS.replace(rx, styleNameTC) : '';
         var inverseAttrsSherlock = (baseTheme == 'light_dark') ? INVERSE_THEME_ATTRS_SHERLOCK.replace(rx, styleNameTC) : '';
         
+        var acc = values['accentColor'].color.substring(1);        
+        if (acc.length == 3) {
+        	acc = acc[0] + acc[0] + acc[1] + acc[1] + acc[2] + acc[2];
+        }	
+        
         var replaceStrings = {
         	'style':(styleName.toLowerCase()),
         	'stylep':(styleNameTC),
         	'base':((baseTheme == 'light') ? '.Light' : ''),
-        	'accent':(values['accentColor'].color.substring(1)),
+        	'accent':(acc),
         	'actionbarstyle':(toTitleCase(values['actionbarstyle'])),
         	
         	'parent_theme':((baseTheme == 'light_dark') ? '.Light.DarkActionBar' : ((baseTheme == 'light') ? '.Light' : '')),
