@@ -121,13 +121,18 @@
         	'spinner_ab_pressed':1,
         	'progress_primary':1,
         	'progress_secondary':1,
-        	'list_focused':1
+        	'list_focused':1,
+        	'btn_cab_done_focused':1,
+        	'btn_cab_done_pressed':1,
+        	'cab_background_top':1,
+        	'cab_background_bottom':1
        };
        
        var nonStyledShapes = {
        	    'spinner_ab_default':1,
        	    'spinner_ab_disabled':1,
-       	    'progress_bg':1
+       	    'progress_bg':1,
+       	    'btn_cab_done_default':1
        }
        
        var xmlTemplates = {
@@ -140,7 +145,8 @@
        	    'selectable_background':1,
        	    'spinner_background_ab':1,
        	    'tab_indicator_ab':1,
-       	    'progress_horizontal':1
+       	    'progress_horizontal':1,
+       	    'btn_cab_done':1
        }
       
        // Create image output slots
@@ -171,6 +177,12 @@
           for (var type in {'back':1, 'fore1':1, 'mask':1})
             resList[backgroundShape + '-' + density + '-' + type] = (
               'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + type + '.png');
+      
+      // cab assets need 2nd mask
+      for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
+        for (var backgroundShape in {'cab_background_top':1, 'cab_background_bottom':1})
+          resList[backgroundShape + '-' + density + '-' + 'mask1'] = (
+            'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + 'mask1' + '.png');
 
       for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
         for (var nonStyledShape in nonStyledShapes)
@@ -322,6 +334,26 @@
          'hdpi-progress_bg': { w:  8, h:  26 },
          'mdpi-progress_bg': { w:  6, h:  18 }, 
          
+        'xhdpi-btn_cab_done_default': { w:  5, h:  56 },
+         'hdpi-btn_cab_done_default': { w:  4, h:  44 },
+         'mdpi-btn_cab_done_default': { w:  4, h:  32 },
+         
+        'xhdpi-btn_cab_done_focused': { w:  5, h:  56 },
+         'hdpi-btn_cab_done_focused': { w:  4, h:  44 },
+         'mdpi-btn_cab_done_focused': { w:  4, h:  32 },
+         
+        'xhdpi-btn_cab_done_pressed': { w:  5, h:  56 },
+         'hdpi-btn_cab_done_pressed': { w:  4, h:  44 },
+         'mdpi-btn_cab_done_pressed': { w:  4, h:  32 },
+         
+        'xhdpi-cab_background_top': { w:  50, h:  50 },
+         'hdpi-cab_background_top': { w:  38, h:  38 },
+         'mdpi-cab_background_top': { w:  26, h:  26 },
+         
+        'xhdpi-cab_background_bottom': { w:  50, h:  50 },
+         'hdpi-cab_background_bottom': { w:  38, h:  38 },
+         'mdpi-cab_background_bottom': { w:  26, h:  26 },
+         
       };
       
       var DEFAULT_COLORS_LIGHT = {
@@ -329,7 +361,9 @@
       	'secondaryColor':'#D6D6D6',
       	'tertiaryColor':'#F2F2F2',
       	'accentColor':'#33B5E5',
-      	'actionbarstyle':'solid'
+      	'actionbarstyle':'solid',
+      	'cabBackColor':'#FFFFFF',
+      	'cabHighlightColor':'33B5E5'
       }
       
       var DEFAULT_COLORS_DARK = {
@@ -337,7 +371,9 @@
       	'secondaryColor':'#151515',
       	'tertiaryColor':'#3F3F3F',
       	'accentColor':'#33B5E5',
-      	'actionbarstyle':'transparent'
+      	'actionbarstyle':'transparent',
+      	'cabBackColor':'#002E3E',
+      	'cabHighlightColor':'33B5E5'
       }
       
       var DEFAULT_COLORS_INVERSE = {
@@ -345,7 +381,9 @@
       	'secondaryColor':'#555555',
       	'tertiaryColor':'#3F3F3F',
       	'accentColor':'#33B5E5',
-      	'actionbarstyle':'solid'
+      	'actionbarstyle':'solid',
+      	'cabBackColor':'#002E3E',
+      	'cabHighlightColor':'33B5E5'
       }
       
       
@@ -422,7 +460,7 @@
         	'style':(styleName.toLowerCase()),
         	'stylep':(styleNameTC),
         	'base':((baseTheme == 'light') ? '.Light' : ''),
-        	'accent':(acc),
+        	'accent':(acc.toUpperCase()),
         	'actionbarstyle':(toTitleCase(values['actionbarstyle'])),
         	
         	'parent_theme':((baseTheme == 'light_dark') ? '.Light.DarkActionBar' : ((baseTheme == 'light') ? '.Light' : '')),
@@ -512,15 +550,19 @@
             var fillColor;
               if (backgroundShape.match('tab') || backgroundShape.match('spinner') ||
               	backgroundShape.match('transparent') || backgroundShape.match('progress') ||
-              	backgroundShape.match('list') ) {
+              	backgroundShape.match('list') || backgroundShape.match('cab_done') ) {
               	fillColor = values['accentColor'].color;
               } else if (backgroundShape.match('stacked')) {
               	fillColor = values['secondaryColor'].color; 
               } else if (backgroundShape.match('menu')) {
-              	fillColor = values['tertiaryColor'].color;           
+              	fillColor = values['tertiaryColor'].color;
+              } else if (backgroundShape.match('cab_background')) {
+              	fillColor = values['cabBackColor'].color;
               } else {
               	fillColor = values['backColor'].color;
               }
+              
+              var altFillColor = (backgroundShape.match('cab_background')) ? values['cabHighlightColor'].color : null;
             
               tmpCtx.save();
               tmpCtx.globalCompositeOperation = 'source-over';
@@ -528,6 +570,7 @@
               tmpCtx.globalCompositeOperation = 'source-atop';
               tmpCtx.fillStyle = fillColor;
               tmpCtx.fillRect(0, 0, iconSize.w, iconSize.h);
+                            
               if (foreCtx) {
                 var copyFrom = foreCtx;
                 var foreSize = {
@@ -553,10 +596,27 @@
                   });
               }
               tmpCtx.restore();
+              
+              // TODO
+              var tmpCtxAlt;
+              if (altFillColor) {
+              	tmpCtxAlt = imagelib.drawing.context(iconSize);
+              	tmpCtxAlt.save();
+                tmpCtxAlt.globalCompositeOperation = 'source-over';
+                imagelib.drawing.copy(tmpCtxAlt, IMAGE_RESOURCES[backgroundShape + '-' + density + '-mask1'], iconSize);
+                tmpCtxAlt.globalCompositeOperation = 'source-atop';
+                tmpCtxAlt.fillStyle = altFillColor;
+                tmpCtxAlt.fillRect(0, 0, iconSize.w, iconSize.h);
+                tmpCtxAlt.restore();
+              }
+
 
               var foreEffect = 1; //values['foreEffect'];
               imagelib.drawing.copy(outCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + '-back'], iconSize);
               imagelib.drawing.copy(outCtx, tmpCtx, iconSize);
+              if (altFillColor) {
+              	imagelib.drawing.copy(outCtx, tmpCtxAlt, iconSize);
+              }
               imagelib.drawing.copy(outCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + '-fore' + foreEffect], iconSize);
             //}
 
@@ -726,6 +786,17 @@
             title: 'Accent color',
             helpText: 'Tab highlights, focus, press, horizontal progress and transparent action bar keyline.',
             defaultValue: DEFAULT_COLORS_LIGHT['accentColor']
+          }),
+          
+          new studio.forms.ColorField('cabBackColor', {
+            title: 'Action mode background color',
+            helpText: 'Contextual action bar background.',
+            defaultValue: DEFAULT_COLORS_LIGHT['cabBackColor']
+          }),
+          new studio.forms.ColorField('cabHighlightColor', {
+            title: 'Action mode highlight color',
+            helpText: 'Contextual action bar highlight.',
+            defaultValue: DEFAULT_COLORS_LIGHT['cabHighlightColor']
           }),
           
         ]
