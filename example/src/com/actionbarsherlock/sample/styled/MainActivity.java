@@ -237,22 +237,28 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             //Used to put dark icons on light action bar
             boolean isLight = false; //SampleList.THEME == R.style.Theme_Sherlock_Light;
+            
+            mode.setTitle("Action Mode");
 
-            menu.add("Save")
+            menu.add("Star")
                 .setIcon(isLight ? R.drawable.ic_menu_star_holo_light : R.drawable.ic_menu_star_holo_dark)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
-            menu.add("Search")
-                .setIcon(isLight ? R.drawable.ic_menu_star_holo_light : R.drawable.ic_menu_star_holo_dark)
+            menu.add("Copy")
+                .setIcon(R.drawable.ic_action_copy)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
-            menu.add("Refresh")
-                .setIcon(isLight ? R.drawable.ic_menu_star_holo_light : R.drawable.ic_menu_star_holo_dark)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
-            menu.add("Save")
-                .setIcon(isLight ? R.drawable.ic_menu_star_holo_light : R.drawable.ic_menu_star_holo_dark)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            
+            menu.add("Forward")
+        		.setIcon(R.drawable.ic_action_fwd)
+        		.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            
+            menu.add("Tag")
+            	.setIcon(R.drawable.ic_action_tag)
+            	.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            
+            menu.add("Delete")
+            	.setIcon(R.drawable.ic_action_delete)
+            	.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
             menu.add("Search")
                 .setIcon(isLight ? R.drawable.ic_menu_star_holo_light : R.drawable.ic_menu_star_holo_dark)
