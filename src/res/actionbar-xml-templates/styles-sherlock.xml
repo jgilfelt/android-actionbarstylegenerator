@@ -25,6 +25,8 @@
         <item name="actionBarTabStyle">@style/ActionBarTabStyle.##stylep##</item>
         <item name="actionDropDownStyle">@style/DropDownNav.##stylep##</item>
         <item name="actionBarStyle">@style/ActionBar.##actionbarstyle##.##stylep##</item>
+        <item name="actionModeBackground">@drawable/cab_background_top_##style##</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_##style##</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.##stylep##</item>
 
         ##inverse_attrs_sherlock##

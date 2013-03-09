@@ -25,6 +25,8 @@
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.##stylep##</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.##stylep##</item>
         <item name="android:actionBarStyle">@style/ActionBar.##actionbarstyle##.##stylep##</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_##style##</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_##style##</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.##stylep##</item>
         
         ##inverse_attrs##
