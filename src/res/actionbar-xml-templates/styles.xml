@@ -25,6 +25,7 @@
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.##stylep##</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.##stylep##</item>
         <item name="android:actionBarStyle">@style/ActionBar.##actionbarstyle##.##stylep##</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.##stylep##</item>
         
         ##inverse_attrs##
     </style>
@@ -61,6 +62,10 @@
     
     <style name="ProgressBar.##stylep##" parent="@android:style/Widget.Holo##base##.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_##style##</item>
+    </style>
+    
+    <style name="ActionButton.CloseMode.##stylep##" parent="@android:style/Widget.Holo##base##.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_##style##</item>
     </style>
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
