@@ -292,22 +292,38 @@ License: MIT
     display:inline-block;
     *zoom: 1;
     *display: inline;
-    border: 0;
-    background: transparent;
+    /*border: 0;
+    background: transparent;*/
+    
+    border: solid 1px #ccc;
+    background: #eee;
+    padding: 4px;
+    border-radius: 5px;
+    
     color: #333;
     vertical-align: middle;
 }
-.sp-dd { 
+/*.sp-dd { 
     display: none;
+}*/
+.sp-dd { 
+    padding: 2px 0;
+    height: 16px; 
+    line-height: 16px;
+    float:left;
+    font-size:10px;
 }
 .sp-preview {
     border: 1px solid #ccc;
     width: 25px;
-    height: 25px;
+    /*height: 25px;*/
     float:left;
+    
+    height: 20px;
+    margin-right: 5px;
 }
-.sp-replacer:hover .sp-preview, .sp-replacer.sp-active .sp-preview {
-    border-color: #000;
+.sp-replacer:hover, .sp-replacer.sp-active {
+    border-color: #999;
 }
 
 .sp-palette  
