@@ -45,14 +45,6 @@
         <item name="android:background">@drawable/ab_transparent_example</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Example</item>
     </style>
-	
-    <style name="PopupMenu.Example" parent="@style/Widget.Sherlock.ListPopupWindow">	
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>	
-    </style>
-	
-    <style name="DropDownListView.Example" parent="@style/Widget.Sherlock.ListView.DropDown">
-        <item name="android:listSelector">@drawable/selectable_background_example</item>
-    </style>
     
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
     <style name="Theme.Example.Widget" parent="@style/Theme.Sherlock">
