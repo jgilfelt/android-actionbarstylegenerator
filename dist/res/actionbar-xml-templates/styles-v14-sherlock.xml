@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- File created by the Android Action Bar Style Generator
 
+     Copyright (C) 2011 The Android Open Source Project
      Copyright (C) 2012 readyState Software Ltd
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,14 +43,6 @@
     <style name="ActionBar.Transparent.##stylep##" parent="@style/Widget.Sherlock##base##.ActionBar">
         <item name="android:background">@drawable/ab_transparent_##style##</item>
         <item name="android:progressBarStyle">@style/ProgressBar.##stylep##</item>
-    </style>
-	
-    <style name="PopupMenu.##stylep##" parent="@style/Widget.Sherlock##base##.ListPopupWindow">	
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>	
-    </style>
-	
-    <style name="DropDownListView.##stylep##" parent="@style/Widget.Sherlock##base##.ListView.DropDown">
-        <item name="android:listSelector">@drawable/selectable_background_##style##</item>
     </style>
     
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
