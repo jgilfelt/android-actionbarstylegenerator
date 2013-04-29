@@ -766,7 +766,19 @@
             ],
             defaultValue: 'solid'
           }),
-          
+          new studio.forms.BooleanField('texture', {
+            title: 'Action bar texture',
+            helpText: 'Solid style action bar texture effect on API 14+.',
+            defaultValue: false,
+            offText: 'Off',
+            onText: 'On'
+          }),
+          new studio.forms.BooleanField('hairline', {
+            title: 'Tab hairline',
+            defaultValue: false,
+            offText: 'Off',
+            onText: 'On'
+          }),
           new studio.forms.ColorField('backColor', {
             title: 'Action bar color',
             helpText: 'Solid style action bar background.',
@@ -776,6 +788,10 @@
             title: 'Stacked color',
             helpText: 'Solid style stacked tab background.',
             defaultValue: DEFAULT_COLORS_LIGHT['secondaryColor']
+          }),
+          new studio.forms.ColorField('tabColor', {
+            title: 'Tab indicator color',
+            defaultValue: DEFAULT_COLORS_LIGHT['accentColor']
           }),
           new studio.forms.ColorField('tertiaryColor', {
             title: 'Popup color',
@@ -787,7 +803,6 @@
             helpText: 'Tab highlights, focus, press, horizontal progress and transparent action bar keyline.',
             defaultValue: DEFAULT_COLORS_LIGHT['accentColor']
           }),
-          
           new studio.forms.ColorField('cabBackColor', {
             title: 'Action mode background color',
             helpText: 'Contextual action bar background.',
