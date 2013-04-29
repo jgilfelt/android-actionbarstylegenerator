@@ -111,7 +111,7 @@
         	'ab_bottom_solid':1,
         	'menu_dropdown_panel':1,
         	//'menu_hardkey_panel':1,
-        	//'tab_unselected':1, 
+        	'tab_unselected':1, 
         	'tab_unselected_pressed':1,
         	'tab_unselected_focused':1,
         	'tab_selected':1, 
@@ -183,6 +183,12 @@
         for (var backgroundShape in {'cab_background_top':1, 'cab_background_bottom':1})
           resList[backgroundShape + '-' + density + '-' + 'mask1'] = (
             'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + 'mask1' + '.png');
+       
+      // tab hairline      
+      for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
+        for (var backgroundShape in {'tab_unselected_focused':1, 'tab_unselected_pressed':1})
+          resList[backgroundShape + '-' + density + '-' + 'mask_old'] = (
+            'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + 'mask_old' + '.png');
 
       for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
         for (var nonStyledShape in nonStyledShapes)
@@ -463,6 +469,8 @@
         	'accent':(acc.toUpperCase()),
         	'actionbarstyle':(toTitleCase(values['actionbarstyle'])),
         	
+        	'tab_unselected':((values['hairline'] == true) ? '@drawable/tab_unselected_' + styleName.toLowerCase() : '@android:color/transparent'),
+        	
         	'parent_theme':((baseTheme == 'light_dark') ? '.Light.DarkActionBar' : ((baseTheme == 'light') ? '.Light' : '')),
         	'inverse':((baseTheme == 'light_dark') ? '.Inverse' : ''),
         	'actionbar_base':((baseTheme == 'light_dark') ? '.Light' : ((baseTheme == 'light') ? '.Light' : '')),
@@ -563,10 +571,14 @@
               }
               
               var altFillColor = (backgroundShape.match('cab_background')) ? values['cabHighlightColor'].color : null;
+              
+              var maskName = (backgroundShape.match('tab_unselected_') && (values['hairline'] == true)) ? '-mask_old' : '-mask';
+            	
+              console.log(backgroundShape + " - " + maskName);
             
               tmpCtx.save();
               tmpCtx.globalCompositeOperation = 'source-over';
-              imagelib.drawing.copy(tmpCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + '-mask'], iconSize);
+              imagelib.drawing.copy(tmpCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + maskName], iconSize);
               tmpCtx.globalCompositeOperation = 'source-atop';
               tmpCtx.fillStyle = fillColor;
               tmpCtx.fillRect(0, 0, iconSize.w, iconSize.h);
