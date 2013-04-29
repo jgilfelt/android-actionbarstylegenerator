@@ -180,15 +180,18 @@
       
       // cab assets need 2nd mask
       for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
-        for (var backgroundShape in {'cab_background_top':1, 'cab_background_bottom':1})
+        for (var backgroundShape in {'cab_background_top':1, 'cab_background_bottom':1, 'tab_selected_focused':1, 'tab_selected_pressed':1, 'tab_unselected_focused':1, 'tab_unselected_pressed':1})
           resList[backgroundShape + '-' + density + '-' + 'mask1'] = (
             'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + 'mask1' + '.png');
        
       // tab hairline      
       for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
-        for (var backgroundShape in {'tab_unselected_focused':1, 'tab_unselected_pressed':1})
+        for (var backgroundShape in {'tab_unselected_focused':1, 'tab_unselected_pressed':1}) {
           resList[backgroundShape + '-' + density + '-' + 'mask_old'] = (
             'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + 'mask_old' + '.png');
+          resList[backgroundShape + '-' + density + '-' + 'mask_old1'] = (
+            'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + 'mask_old1' + '.png');
+        }
 
       for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
         for (var nonStyledShape in nonStyledShapes)
@@ -556,7 +559,7 @@
             var tmpCtx = imagelib.drawing.context(iconSize);
             
             var fillColor;
-              if (backgroundShape.match('tab') || backgroundShape.match('spinner') ||
+              if ( backgroundShape.match('spinner') ||
               	backgroundShape.match('transparent') || backgroundShape.match('progress') ||
               	backgroundShape.match('list') || backgroundShape.match('cab_done') ) {
               	fillColor = values['accentColor'].color;
@@ -566,11 +569,14 @@
               	fillColor = values['tertiaryColor'].color;
               } else if (backgroundShape.match('cab_background')) {
               	fillColor = values['cabBackColor'].color;
+              } else if (backgroundShape.match('tab')) {
+              	fillColor = values['tabColor'].color;
               } else {
               	fillColor = values['backColor'].color;
               }
               
-              var altFillColor = (backgroundShape.match('cab_background')) ? values['cabHighlightColor'].color : null;
+              var altFillColor = (backgroundShape.match('cab_background')) ? values['cabHighlightColor'].color : 
+                (backgroundShape.match('tab_selected_') || backgroundShape.match('tab_unselected_')) ? values['accentColor'].color : null;
               
               var maskName = (backgroundShape.match('tab_unselected_') && (values['hairline'] == true)) ? '-mask_old' : '-mask';
             	
@@ -615,7 +621,7 @@
               	tmpCtxAlt = imagelib.drawing.context(iconSize);
               	tmpCtxAlt.save();
                 tmpCtxAlt.globalCompositeOperation = 'source-over';
-                imagelib.drawing.copy(tmpCtxAlt, IMAGE_RESOURCES[backgroundShape + '-' + density + '-mask1'], iconSize);
+                imagelib.drawing.copy(tmpCtxAlt, IMAGE_RESOURCES[backgroundShape + '-' + density + maskName + '1'], iconSize);
                 tmpCtxAlt.globalCompositeOperation = 'source-atop';
                 tmpCtxAlt.fillStyle = altFillColor;
                 tmpCtxAlt.fillRect(0, 0, iconSize.w, iconSize.h);
