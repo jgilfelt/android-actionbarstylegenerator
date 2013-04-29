@@ -31,6 +31,7 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.actionbarsherlock.view.Window;
 import com.example.actionbarstyleexample.R;
 
 public class MainActivity extends SherlockFragmentActivity implements ActionBar.TabListener {
@@ -42,11 +43,32 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
     private boolean showHomeUp = true;
     
     ActionMode mMode;
+    
+    Handler mHandler = new Handler();
+    Runnable mProgressRunner = new Runnable() {
+        @Override
+        public void run() {
+            mProgress += 2;
+
+            //Normalize our progress along the progress bar's scale
+            int progress = (Window.PROGRESS_END - Window.PROGRESS_START) / 100 * mProgress;
+            setSupportProgress(progress);
+
+            if (mProgress < 100) {
+                mHandler.postDelayed(mProgressRunner, 50);
+            }
+        }
+    };
+
+    private int mProgress = 100;
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        requestWindowFeature(Window.FEATURE_PROGRESS);
+        
         setContentView(R.layout.main);
         final ActionBar ab = getSupportActionBar();
 
@@ -100,6 +122,16 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
             public void onClick(View v) {
                 if (mMode != null) {
                     mMode.finish();
+                }
+            }
+        });
+        
+        ((Button)findViewById(R.id.progress)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	if (mProgress == 100) {
+                    mProgress = 0;
+                    mProgressRunner.run();
                 }
             }
         });

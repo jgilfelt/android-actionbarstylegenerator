@@ -35,9 +35,9 @@
     </style>
 
     <style name="ActionBar.Solid.Example" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/ab_solid_example</item>
+        <item name="android:background">@drawable/ab_background_textured_example</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_example</item>
-        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_example</item>
+        <item name="android:backgroundSplit">@drawable/ab_background_textured_example</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Example</item>
     </style>
 
