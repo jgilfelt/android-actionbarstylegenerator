@@ -223,6 +223,12 @@
               'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_accent.png');
           previewList['mask-popup' + '-' + theme + '-' + type] = (
               'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_popup.png');
+          previewList['mask-tab' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_tab.png');
+          previewList['mask-tab-hairline' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_tab_hairline.png');
+          previewList['mask-ab-main-textured' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_ab_main_textured.png');
         }
       }
           
@@ -592,7 +598,7 @@
               
               var maskName = (backgroundShape.match('tab_unselected_') && (values['hairline'] == true)) ? '-mask_old' : '-mask';
             	
-              console.log(backgroundShape + " - " + maskName);
+              //console.log(backgroundShape + " - " + maskName);
             
               tmpCtx.save();
               tmpCtx.globalCompositeOperation = 'source-over';
@@ -687,11 +693,14 @@
 			var tmpCtxStacked = imagelib.drawing.context(iconSize);
 			var tmpCtxAccent = imagelib.drawing.context(iconSize);
 			var tmpCtxPopup = imagelib.drawing.context(iconSize);
+			var tmpCtxTab = imagelib.drawing.context(iconSize);
 
 			var fillColor = values['backColor'].color;
 			
 			var abStyle = values['actionbarstyle'];
-
+			
+			var tabKey = (values['hairline'] == true) ? 'mask-tab-hairline' : 'mask-tab';
+			
 			tmpCtxAB.save();
 			tmpCtxAB.globalCompositeOperation = 'source-over';
 			imagelib.drawing.copy(tmpCtxAB, PREVIEW_RESOURCES['mask-ab-main' + '-' + coreTheme + '-' + abStyle], iconSize);
@@ -719,6 +728,16 @@
 			tmpCtxAccent.fillStyle = fillColor;
 			tmpCtxAccent.fillRect(0, 0, iconSize.w, iconSize.h);
 			tmpCtxAccent.restore();
+			
+			fillColor = values['tabColor'].color;
+			
+			tmpCtxTab.save();
+			tmpCtxTab.globalCompositeOperation = 'source-over';
+			imagelib.drawing.copy(tmpCtxTab, PREVIEW_RESOURCES[tabKey + '-' + coreTheme + '-' + abStyle], iconSize);
+			tmpCtxTab.globalCompositeOperation = 'source-atop';
+			tmpCtxTab.fillStyle = fillColor;
+			tmpCtxTab.fillRect(0, 0, iconSize.w, iconSize.h);
+			tmpCtxTab.restore();
 
 			fillColor = values['tertiaryColor'].color;
 			
@@ -733,8 +752,14 @@
 			var foreEffect = 2;
 			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['back' + '-' + ((baseTheme == 'light_dark') ? 'light' : coreTheme) + '-' + abStyle], iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxAB, iconSize);
+			
+			if (values['texture'] == true && abStyle == 'solid') {
+				imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['mask-ab-main-textured' + '-' + coreTheme + '-' + abStyle], iconSize);
+			}
+			
 			imagelib.drawing.copy(outCtx, tmpCtxStacked, iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxPopup, iconSize);
+			imagelib.drawing.copy(outCtx, tmpCtxTab, iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxAccent, iconSize);
 			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['fore' + foreEffect + '-' + coreTheme + '-' + abStyle], iconSize);
 
@@ -804,7 +829,7 @@
             onText: 'On'
           }),
           new studio.forms.BooleanField('hairline', {
-            title: 'Tab hairline',
+            title: 'Tab hairline style',
             defaultValue: false,
             offText: 'Off',
             onText: 'On'
@@ -830,7 +855,7 @@
           }),
           new studio.forms.ColorField('accentColor', {
             title: 'Accent color',
-            helpText: 'Tab highlights, focus, press, horizontal progress and transparent action bar keyline.',
+            helpText: 'Focus & pressed states, horizontal progress and transparent action bar keyline.',
             defaultValue: DEFAULT_COLORS_LIGHT['accentColor']
           }),
           new studio.forms.ColorField('cabBackColor', {
