@@ -109,6 +109,7 @@
       	    'ab_transparent':1,
         	'ab_stacked_solid':1,
         	'ab_bottom_solid':1,
+        	'ab_texture_tile':1,
         	'menu_dropdown_panel':1,
         	//'menu_hardkey_panel':1,
         	'tab_unselected':1, 
@@ -146,7 +147,8 @@
        	    'spinner_background_ab':1,
        	    'tab_indicator_ab':1,
        	    'progress_horizontal':1,
-       	    'btn_cab_done':1
+       	    'btn_cab_done':1,
+       	    'ab_background_textured':1
        }
       
        // Create image output slots
@@ -363,6 +365,10 @@
          'hdpi-cab_background_bottom': { w:  38, h:  38 },
          'mdpi-cab_background_bottom': { w:  26, h:  26 },
          
+        'xhdpi-ab_texture_tile': { w:  8, h:  8 },
+         'hdpi-ab_texture_tile': { w:  6, h:  6 },
+         'mdpi-ab_texture_tile': { w:  6, h:  6 },
+         
       };
       
       var DEFAULT_COLORS_LIGHT = {
@@ -372,7 +378,8 @@
       	'accentColor':'#33B5E5',
       	'actionbarstyle':'solid',
       	'cabBackColor':'#FFFFFF',
-      	'cabHighlightColor':'33B5E5'
+      	'cabHighlightColor':'33B5E5',
+      	'tabColor':'#33B5E5'
       }
       
       var DEFAULT_COLORS_DARK = {
@@ -382,7 +389,8 @@
       	'accentColor':'#33B5E5',
       	'actionbarstyle':'transparent',
       	'cabBackColor':'#002E3E',
-      	'cabHighlightColor':'33B5E5'
+      	'cabHighlightColor':'33B5E5',
+      	'tabColor':'#33B5E5'
       }
       
       var DEFAULT_COLORS_INVERSE = {
@@ -392,7 +400,8 @@
       	'accentColor':'#33B5E5',
       	'actionbarstyle':'solid',
       	'cabBackColor':'#002E3E',
-      	'cabHighlightColor':'33B5E5'
+      	'cabHighlightColor':'33B5E5',
+      	'tabColor':'#33B5E5'
       }
       
       
@@ -473,6 +482,8 @@
         	'actionbarstyle':(toTitleCase(values['actionbarstyle'])),
         	
         	'tab_unselected':((values['hairline'] == true) ? '@drawable/tab_unselected_' + styleName.toLowerCase() : '@android:color/transparent'),
+        	'solid_ab_bg':((values['texture'] == true) ? 'background_textured' : 'solid'),
+        	'solid_ab_bottom_bg':((values['texture'] == true) ? 'background_textured' : 'bottom_solid'),
         	
         	'parent_theme':((baseTheme == 'light_dark') ? '.Light.DarkActionBar' : ((baseTheme == 'light') ? '.Light' : '')),
         	'inverse':((baseTheme == 'light_dark') ? '.Inverse' : ''),
@@ -560,7 +571,8 @@
             
             var fillColor;
               if ( backgroundShape.match('spinner') ||
-              	backgroundShape.match('transparent') || backgroundShape.match('progress') ||
+              	backgroundShape.match('transparent') || 
+              	backgroundShape.match('progress') ||
               	backgroundShape.match('list') || backgroundShape.match('cab_done') ) {
               	fillColor = values['accentColor'].color;
               } else if (backgroundShape.match('stacked')) {
@@ -809,7 +821,7 @@
           }),
           new studio.forms.ColorField('tabColor', {
             title: 'Tab indicator color',
-            defaultValue: DEFAULT_COLORS_LIGHT['accentColor']
+            defaultValue: DEFAULT_COLORS_LIGHT['tabColor']
           }),
           new studio.forms.ColorField('tertiaryColor', {
             title: 'Popup color',
