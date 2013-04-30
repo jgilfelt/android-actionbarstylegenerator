@@ -34,9 +34,9 @@
     </style>
 
     <style name="ActionBar.Solid.##stylep##" parent="@android:style/Widget.Holo##actionbar_base##.ActionBar.Solid##inverse##">
-        <item name="android:background">@drawable/ab_solid_##style##</item>
+        <item name="android:background">@drawable/ab_##solid_ab_bg##_##style##</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
-        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
+        <item name="android:backgroundSplit">@drawable/ab_##solid_ab_bottom_bg##_##style##</item>
         <item name="android:progressBarStyle">@style/ProgressBar.##stylep##</item>
     </style>
 

@@ -109,9 +109,10 @@
       	    'ab_transparent':1,
         	'ab_stacked_solid':1,
         	'ab_bottom_solid':1,
+        	'ab_texture_tile':1,
         	'menu_dropdown_panel':1,
         	//'menu_hardkey_panel':1,
-        	//'tab_unselected':1, 
+        	'tab_unselected':1, 
         	'tab_unselected_pressed':1,
         	'tab_unselected_focused':1,
         	'tab_selected':1, 
@@ -146,7 +147,8 @@
        	    'spinner_background_ab':1,
        	    'tab_indicator_ab':1,
        	    'progress_horizontal':1,
-       	    'btn_cab_done':1
+       	    'btn_cab_done':1,
+       	    'ab_background_textured':1
        }
       
        // Create image output slots
@@ -180,9 +182,18 @@
       
       // cab assets need 2nd mask
       for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
-        for (var backgroundShape in {'cab_background_top':1, 'cab_background_bottom':1})
+        for (var backgroundShape in {'cab_background_top':1, 'cab_background_bottom':1, 'tab_selected_focused':1, 'tab_selected_pressed':1, 'tab_unselected_focused':1, 'tab_unselected_pressed':1})
           resList[backgroundShape + '-' + density + '-' + 'mask1'] = (
             'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + 'mask1' + '.png');
+       
+      // tab hairline      
+      for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
+        for (var backgroundShape in {'tab_unselected_focused':1, 'tab_unselected_pressed':1}) {
+          resList[backgroundShape + '-' + density + '-' + 'mask_old'] = (
+            'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + 'mask_old' + '.png');
+          resList[backgroundShape + '-' + density + '-' + 'mask_old1'] = (
+            'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + 'mask_old1' + '.png');
+        }
 
       for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
         for (var nonStyledShape in nonStyledShapes)
@@ -212,6 +223,12 @@
               'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_accent.png');
           previewList['mask-popup' + '-' + theme + '-' + type] = (
               'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_popup.png');
+          previewList['mask-tab' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_tab.png');
+          previewList['mask-tab-hairline' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_tab_hairline.png');
+          previewList['mask-ab-main-textured' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_ab_main_textured.png');
         }
       }
           
@@ -354,6 +371,10 @@
          'hdpi-cab_background_bottom': { w:  38, h:  38 },
          'mdpi-cab_background_bottom': { w:  26, h:  26 },
          
+        'xhdpi-ab_texture_tile': { w:  8, h:  8 },
+         'hdpi-ab_texture_tile': { w:  6, h:  6 },
+         'mdpi-ab_texture_tile': { w:  6, h:  6 },
+         
       };
       
       var DEFAULT_COLORS_LIGHT = {
@@ -363,7 +384,8 @@
       	'accentColor':'#33B5E5',
       	'actionbarstyle':'solid',
       	'cabBackColor':'#FFFFFF',
-      	'cabHighlightColor':'33B5E5'
+      	'cabHighlightColor':'33B5E5',
+      	'tabColor':'#33B5E5'
       }
       
       var DEFAULT_COLORS_DARK = {
@@ -373,7 +395,8 @@
       	'accentColor':'#33B5E5',
       	'actionbarstyle':'transparent',
       	'cabBackColor':'#002E3E',
-      	'cabHighlightColor':'33B5E5'
+      	'cabHighlightColor':'33B5E5',
+      	'tabColor':'#33B5E5'
       }
       
       var DEFAULT_COLORS_INVERSE = {
@@ -383,7 +406,8 @@
       	'accentColor':'#33B5E5',
       	'actionbarstyle':'solid',
       	'cabBackColor':'#002E3E',
-      	'cabHighlightColor':'33B5E5'
+      	'cabHighlightColor':'33B5E5',
+      	'tabColor':'#33B5E5'
       }
       
       
@@ -462,6 +486,10 @@
         	'base':((baseTheme == 'light') ? '.Light' : ''),
         	'accent':(acc.toUpperCase()),
         	'actionbarstyle':(toTitleCase(values['actionbarstyle'])),
+        	
+        	'tab_unselected':((values['hairline'] == true) ? '@drawable/tab_unselected_' + styleName.toLowerCase() : '@android:color/transparent'),
+        	'solid_ab_bg':((values['texture'] == true) ? 'background_textured' : 'solid'),
+        	'solid_ab_bottom_bg':((values['texture'] == true) ? 'background_textured' : 'bottom_solid'),
         	
         	'parent_theme':((baseTheme == 'light_dark') ? '.Light.DarkActionBar' : ((baseTheme == 'light') ? '.Light' : '')),
         	'inverse':((baseTheme == 'light_dark') ? '.Inverse' : ''),
@@ -548,8 +576,9 @@
             var tmpCtx = imagelib.drawing.context(iconSize);
             
             var fillColor;
-              if (backgroundShape.match('tab') || backgroundShape.match('spinner') ||
-              	backgroundShape.match('transparent') || backgroundShape.match('progress') ||
+              if ( backgroundShape.match('spinner') ||
+              	backgroundShape.match('transparent') || 
+              	backgroundShape.match('progress') ||
               	backgroundShape.match('list') || backgroundShape.match('cab_done') ) {
               	fillColor = values['accentColor'].color;
               } else if (backgroundShape.match('stacked')) {
@@ -558,15 +587,22 @@
               	fillColor = values['tertiaryColor'].color;
               } else if (backgroundShape.match('cab_background')) {
               	fillColor = values['cabBackColor'].color;
+              } else if (backgroundShape.match('tab')) {
+              	fillColor = values['tabColor'].color;
               } else {
               	fillColor = values['backColor'].color;
               }
               
-              var altFillColor = (backgroundShape.match('cab_background')) ? values['cabHighlightColor'].color : null;
+              var altFillColor = (backgroundShape.match('cab_background')) ? values['cabHighlightColor'].color : 
+                (backgroundShape.match('tab_selected_') || backgroundShape.match('tab_unselected_')) ? values['accentColor'].color : null;
+              
+              var maskName = (backgroundShape.match('tab_unselected_') && (values['hairline'] == true)) ? '-mask_old' : '-mask';
+            	
+              //console.log(backgroundShape + " - " + maskName);
             
               tmpCtx.save();
               tmpCtx.globalCompositeOperation = 'source-over';
-              imagelib.drawing.copy(tmpCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + '-mask'], iconSize);
+              imagelib.drawing.copy(tmpCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + maskName], iconSize);
               tmpCtx.globalCompositeOperation = 'source-atop';
               tmpCtx.fillStyle = fillColor;
               tmpCtx.fillRect(0, 0, iconSize.w, iconSize.h);
@@ -603,7 +639,7 @@
               	tmpCtxAlt = imagelib.drawing.context(iconSize);
               	tmpCtxAlt.save();
                 tmpCtxAlt.globalCompositeOperation = 'source-over';
-                imagelib.drawing.copy(tmpCtxAlt, IMAGE_RESOURCES[backgroundShape + '-' + density + '-mask1'], iconSize);
+                imagelib.drawing.copy(tmpCtxAlt, IMAGE_RESOURCES[backgroundShape + '-' + density + maskName + '1'], iconSize);
                 tmpCtxAlt.globalCompositeOperation = 'source-atop';
                 tmpCtxAlt.fillStyle = altFillColor;
                 tmpCtxAlt.fillRect(0, 0, iconSize.w, iconSize.h);
@@ -657,11 +693,14 @@
 			var tmpCtxStacked = imagelib.drawing.context(iconSize);
 			var tmpCtxAccent = imagelib.drawing.context(iconSize);
 			var tmpCtxPopup = imagelib.drawing.context(iconSize);
+			var tmpCtxTab = imagelib.drawing.context(iconSize);
 
 			var fillColor = values['backColor'].color;
 			
 			var abStyle = values['actionbarstyle'];
-
+			
+			var tabKey = (values['hairline'] == true) ? 'mask-tab-hairline' : 'mask-tab';
+			
 			tmpCtxAB.save();
 			tmpCtxAB.globalCompositeOperation = 'source-over';
 			imagelib.drawing.copy(tmpCtxAB, PREVIEW_RESOURCES['mask-ab-main' + '-' + coreTheme + '-' + abStyle], iconSize);
@@ -689,6 +728,16 @@
 			tmpCtxAccent.fillStyle = fillColor;
 			tmpCtxAccent.fillRect(0, 0, iconSize.w, iconSize.h);
 			tmpCtxAccent.restore();
+			
+			fillColor = values['tabColor'].color;
+			
+			tmpCtxTab.save();
+			tmpCtxTab.globalCompositeOperation = 'source-over';
+			imagelib.drawing.copy(tmpCtxTab, PREVIEW_RESOURCES[tabKey + '-' + coreTheme + '-' + abStyle], iconSize);
+			tmpCtxTab.globalCompositeOperation = 'source-atop';
+			tmpCtxTab.fillStyle = fillColor;
+			tmpCtxTab.fillRect(0, 0, iconSize.w, iconSize.h);
+			tmpCtxTab.restore();
 
 			fillColor = values['tertiaryColor'].color;
 			
@@ -703,8 +752,14 @@
 			var foreEffect = 2;
 			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['back' + '-' + ((baseTheme == 'light_dark') ? 'light' : coreTheme) + '-' + abStyle], iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxAB, iconSize);
+			
+			if (values['texture'] == true && abStyle == 'solid') {
+				imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['mask-ab-main-textured' + '-' + coreTheme + '-' + abStyle], iconSize);
+			}
+			
 			imagelib.drawing.copy(outCtx, tmpCtxStacked, iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxPopup, iconSize);
+			imagelib.drawing.copy(outCtx, tmpCtxTab, iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxAccent, iconSize);
 			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['fore' + foreEffect + '-' + coreTheme + '-' + abStyle], iconSize);
 
@@ -766,7 +821,19 @@
             ],
             defaultValue: 'solid'
           }),
-          
+          new studio.forms.BooleanField('texture', {
+            title: 'Action bar texture',
+            helpText: 'Solid style action bar texture effect on API 14+.',
+            defaultValue: false,
+            offText: 'Off',
+            onText: 'On'
+          }),
+          new studio.forms.BooleanField('hairline', {
+            title: 'Tab hairline style',
+            defaultValue: false,
+            offText: 'Off',
+            onText: 'On'
+          }),
           new studio.forms.ColorField('backColor', {
             title: 'Action bar color',
             helpText: 'Solid style action bar background.',
@@ -777,6 +844,10 @@
             helpText: 'Solid style stacked tab background.',
             defaultValue: DEFAULT_COLORS_LIGHT['secondaryColor']
           }),
+          new studio.forms.ColorField('tabColor', {
+            title: 'Tab indicator color',
+            defaultValue: DEFAULT_COLORS_LIGHT['tabColor']
+          }),
           new studio.forms.ColorField('tertiaryColor', {
             title: 'Popup color',
             helpText: 'Overflow menu, submenu and spinner panel background.',
@@ -784,10 +855,9 @@
           }),
           new studio.forms.ColorField('accentColor', {
             title: 'Accent color',
-            helpText: 'Tab highlights, focus, press, horizontal progress and transparent action bar keyline.',
+            helpText: 'Focus & pressed states, horizontal progress and transparent action bar keyline.',
             defaultValue: DEFAULT_COLORS_LIGHT['accentColor']
           }),
-          
           new studio.forms.ColorField('cabBackColor', {
             title: 'Action mode background color',
             helpText: 'Contextual action bar background.',
