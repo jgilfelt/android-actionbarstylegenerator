@@ -655,9 +655,11 @@
               }
               imagelib.drawing.copy(outCtx, IMAGE_RESOURCES[backgroundShape + '-' + density + '-fore' + foreEffect], iconSize);
             //}
+            
+            var ext = (backgroundShape.match('ab_texture_tile')) ? '.png' : '.9.png';
 
             zipper.add({
-              name: ('res/drawable-' + density + '/' + backgroundShape + '_' + styleName.toLowerCase() + '.9.png'),
+              name: ('res/drawable-' + density + '/' + backgroundShape + '_' + styleName.toLowerCase() + ext),
               base64data: outCtx.canvas.toDataURL().match(/;base64,(.+)/)[1]
             });
 
