@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- File created by the Android Action Bar Style Generator
 
+     Copyright (C) 2011 The Android Open Source Project
      Copyright (C) 2012 readyState Software Ltd
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +19,7 @@
 
 <resources>
 
-    <style name="Theme.Example" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+    <style name="Theme.Example" parent="@style/Theme.Sherlock.Light">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_example</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Example</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Example</item>
@@ -29,19 +30,17 @@
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_example</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Example</item>
         
-                <!-- Light.DarkActionBar specific -->
-        <item name="android:actionBarWidgetTheme">@style/Theme.Example.Widget</item>
-
+        
     </style>
 
-    <style name="ActionBar.Solid.Example" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+    <style name="ActionBar.Solid.Example" parent="@style/Widget.Sherlock.Light.ActionBar.Solid">
         <item name="android:background">@drawable/ab_background_textured_example</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_example</item>
         <item name="android:backgroundSplit">@drawable/ab_background_textured_example</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Example</item>
     </style>
 
-    <style name="ActionBar.Transparent.Example" parent="@style/Widget.Sherlock.ActionBar">
+    <style name="ActionBar.Transparent.Example" parent="@style/Widget.Sherlock.Light.ActionBar">
         <item name="android:background">@drawable/ab_transparent_example</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Example</item>
     </style>

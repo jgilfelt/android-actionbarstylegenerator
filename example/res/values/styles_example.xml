@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- File created by the Android Action Bar Style Generator
 
+     Copyright (C) 2011 The Android Open Source Project
      Copyright (C) 2012 readyState Software Ltd
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +19,7 @@
 
 <resources>
 
-    <style name="Theme.Example" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+    <style name="Theme.Example" parent="@style/Theme.Sherlock.Light">
         <item name="actionBarItemBackground">@drawable/selectable_background_example</item>
         <item name="popupMenuStyle">@style/PopupMenu.Example</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.Example</item>
@@ -29,46 +30,44 @@
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_example</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Example</item>
 
-                <!-- Light.DarkActionBar specific -->
-        <item name="actionBarWidgetTheme">@style/Theme.Example.Widget</item>
-
+        
     </style>
 
-    <style name="ActionBar.Solid.Example" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+    <style name="ActionBar.Solid.Example" parent="@style/Widget.Sherlock.Light.ActionBar.Solid">
         <item name="background">@drawable/ab_solid_example</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_example</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_example</item>
         <item name="progressBarStyle">@style/ProgressBar.Example</item>
     </style>
 
-    <style name="ActionBar.Transparent.Example" parent="@style/Widget.Sherlock.ActionBar">
+    <style name="ActionBar.Transparent.Example" parent="@style/Widget.Sherlock.Light.ActionBar">
         <item name="background">@drawable/ab_transparent_example</item>
         <item name="progressBarStyle">@style/ProgressBar.Example</item>
     </style>
 	
-    <style name="PopupMenu.Example" parent="@style/Widget.Sherlock.ListPopupWindow">	
+    <style name="PopupMenu.Example" parent="@style/Widget.Sherlock.Light.ListPopupWindow">	
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>	
     </style>
 	
-    <style name="DropDownListView.Example" parent="@style/Widget.Sherlock.ListView.DropDown">
+    <style name="DropDownListView.Example" parent="@style/Widget.Sherlock.Light.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_example</item>
     </style>
 
-    <style name="ActionBarTabStyle.Example" parent="@style/Widget.Sherlock.ActionBar.TabView">
+    <style name="ActionBarTabStyle.Example" parent="@style/Widget.Sherlock.Light.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_example</item>
     </style>
 	
-    <style name="DropDownNav.Example" parent="@style/Widget.Sherlock.Spinner.DropDown.ActionBar">
+    <style name="DropDownNav.Example" parent="@style/Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_background_ab_example</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_example</item>
     </style>
     
-    <style name="ProgressBar.Example" parent="@style/Widget.Sherlock.ProgressBar.Horizontal">
+    <style name="ProgressBar.Example" parent="@style/Widget.Sherlock.Light.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_example</item>
     </style>
     
-    <style name="ActionButton.CloseMode.Example" parent="@style/Widget.Sherlock.ActionButton.CloseMode">
+    <style name="ActionButton.CloseMode.Example" parent="@style/Widget.Sherlock.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_example</item>
     </style>
     
