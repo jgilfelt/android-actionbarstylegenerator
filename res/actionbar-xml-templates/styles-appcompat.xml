@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+    <style name="Theme.##stylep##" parent="@style/Theme.AppCompat##parent_theme##">
+        <item name="actionBarItemBackground">@drawable/selectable_background_##style##</item>
+        <item name="popupMenuStyle">@style/PopupMenu.##stylep##</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.##stylep##</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle.##stylep##</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.##stylep##</item>
+        <item name="actionBarStyle">@style/ActionBar.##actionbarstyle##.##stylep##</item>
+        <item name="actionModeBackground">@drawable/cab_background_top_##style##</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_##style##</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.##stylep##</item>
+
+        ##inverse_attrs_sherlock##
+    </style>
+
+    <style name="ActionBar.Solid.##stylep##" parent="@style/Widget.AppCompat##actionbar_base##.ActionBar.Solid##inverse##">
+        <item name="background">@drawable/ab_solid_##style##</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
+        <item name="progressBarStyle">@style/ProgressBar.##stylep##</item>
+    </style>
+
+    <style name="ActionBar.Transparent.##stylep##" parent="@style/Widget.AppCompat##base##.ActionBar">
+        <item name="background">@drawable/ab_transparent_##style##</item>
+        <item name="progressBarStyle">@style/ProgressBar.##stylep##</item>
+    </style>
+	
+    <style name="PopupMenu.##stylep##" parent="@style/Widget.AppCompat##base##.PopupMenu">	
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>	
+    </style>
+	
+    <style name="DropDownListView.##stylep##" parent="@style/Widget.AppCompat##base##.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_##style##</item>
+    </style>
+
+    <style name="ActionBarTabStyle.##stylep##" parent="@style/Widget.AppCompat##base##.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_##style##</item>
+    </style>
+	
+    <style name="DropDownNav.##stylep##" parent="@style/Widget.AppCompat##base##.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/spinner_background_ab_##style##</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_##style##</item>
+    </style>
+    
+    <style name="ProgressBar.##stylep##" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_##style##</item>
+    </style>
+    
+    <style name="ActionButton.CloseMode.##stylep##" parent="@style/Widget.AppCompat##base##.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_##style##</item>
+    </style>
+    
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.##stylep##.Widget" parent="@style/Theme.AppCompat">
+        <item name="popupMenuStyle">@style/PopupMenu.##stylep##</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.##stylep##</item>
+    </style>
+
+</resources>
