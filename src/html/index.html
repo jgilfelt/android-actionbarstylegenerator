@@ -510,6 +510,7 @@
           // process xml
           for (var template in xmlTemplates) {
           	if (template == 'styles-sherlock') continue;
+          	if (template == 'styles-appcompat') continue;
           	if (template == 'styles-v14-sherlock' && compat != 'sherlock') continue;
           	if (template == 'styles-v14-appcompat' && compat != 'appcompat') continue;
           	var dir;
