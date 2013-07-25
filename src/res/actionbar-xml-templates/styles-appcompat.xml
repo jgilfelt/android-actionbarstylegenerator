@@ -45,7 +45,7 @@
         <item name="progressBarStyle">@style/ProgressBar.##stylep##</item>
     </style>
 	
-    <style name="PopupMenu.##stylep##" parent="@style/Widget.AppCompat##base##.ListPopupWindow">	
+    <style name="PopupMenu.##stylep##" parent="@style/Widget.AppCompat##base##.PopupMenu">	
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>	
     </style>
 	
@@ -63,7 +63,7 @@
         <item name="android:dropDownSelector">@drawable/selectable_background_##style##</item>
     </style>
     
-    <style name="ProgressBar.##stylep##" parent="@style/Widget.AppCompat##base##.ProgressBar.Horizontal">
+    <style name="ProgressBar.##stylep##" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_##style##</item>
     </style>
     
