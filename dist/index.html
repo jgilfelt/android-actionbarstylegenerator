@@ -140,6 +140,8 @@
        	    'styles':1,
        	    'styles-sherlock':1,
        	    'styles-v14-sherlock':1,
+       	    'styles-appcompat':1,
+       	    'styles-v14-appcompat':1,
        	    'colors':1,
        	    //'focused_background':1,
        	    'pressed_background':1,
@@ -508,7 +510,9 @@
           // process xml
           for (var template in xmlTemplates) {
           	if (template == 'styles-sherlock') continue;
+          	if (template == 'styles-appcompat') continue;
           	if (template == 'styles-v14-sherlock' && compat != 'sherlock') continue;
+          	if (template == 'styles-v14-appcompat' && compat != 'appcompat') continue;
           	var dir;
           	var suffix = '';
           	if (template == 'styles' || template == 'colors') {
@@ -516,9 +520,16 @@
           		if (template == 'styles' && compat == 'sherlock') {
           			suffix = '-sherlock';
           		}
+          		if (template == 'styles' && compat == 'appcompat') {
+          			suffix = '-appcompat';
+          		}
             } else if (template == 'styles-v14-sherlock') {
             	template = 'styles';
             	suffix = '-v14-sherlock';
+            	dir = 'res/values-v14/';
+            } else if (template == 'styles-v14-appcompat') {
+            	template = 'styles';
+            	suffix = '-v14-appcompat';
             	dir = 'res/values-v14/';
           	} else {
           		dir = 'res/drawable/';
@@ -795,9 +806,10 @@
           }),
           new studio.forms.EnumField('compat', {
             title: 'Style compatibility',
-            buttons: true,
+            buttons: false,
             options: [
               { id: 'holo', title: 'Holo' },
+              { id: 'appcompat', title: 'AppCompat' },
               { id: 'sherlock', title: 'Sherlock' }
             ],
             helpText: 'Sherlock styles require the <a href="http://actionbarsherlock.com">ActionBarSherlock</a> library.',
