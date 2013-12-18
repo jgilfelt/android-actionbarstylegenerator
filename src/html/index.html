@@ -137,6 +137,12 @@
        	    'btn_cab_done_default':1
        }
        
+       var neutralOptionNonStyledShapes = {
+       	    'btn_cab_done_pressed':1,
+       	    'spinner_ab_pressed':1,
+       	    'list_pressed':1
+       }
+       
        var xmlTemplates = {
        	    'styles':1,
        	    'styles-sherlock':1,
@@ -203,6 +209,13 @@
           for (var type in {'light':1, 'dark':1})
             resList[nonStyledShape + '-' + density + '-' + type] = (
               'res/actionbar-stencil/' + nonStyledShape + '/' + density + '/' + type + '.png');
+      
+      // neutral        
+      for (var density in {'xxhdpi':1, 'xhdpi':1, 'hdpi':1, 'mdpi':1})
+        for (var neutralOptionNonStyledShape in neutralOptionNonStyledShapes)
+          for (var type in {'light':1, 'dark':1})
+            resList[neutralOptionNonStyledShape + '-' + density + '-' + type] = (
+              'res/actionbar-stencil/' + neutralOptionNonStyledShape + '/' + density + '/' + type + '.png');
 
       // JG
       var xmlList = {};
@@ -484,6 +497,7 @@
         var baseTheme = values['theme'];
         var compat = values['compat'];
         var coreTheme = ((baseTheme == 'light_dark') ? 'dark' : baseTheme);
+        var neutralPressed = values['neutralPressed'];
         
         if (baseThemeSetting == null) {
         	//console.log('theme null');
@@ -595,6 +609,41 @@
           }
           
           
+          // TODO
+          
+          // process neutral non-styled assets
+          if (neutralPressed) {
+            for (var neutralOptionNonStyledShape in neutralOptionNonStyledShapes) {
+          	  for (var density in {'xxhdpi':1, 'xhdpi':1, 'hdpi':1, 'mdpi':1}) {
+                var mult = studio.util.getMultBaseMdpi(density);
+          	    var iconSize = PARAM_RESOURCES[density + '-' + neutralOptionNonStyledShape];
+                var targetRect = { x:  0, y:  0, w:  iconSize.h, h:  iconSize.h };
+
+                var outCtx = imagelib.drawing.context(iconSize);
+              
+                imagelib.drawing.copy(outCtx, IMAGE_RESOURCES[neutralOptionNonStyledShape + '-' + density + '-' + coreTheme], iconSize);
+             
+                zipper.add({
+                  name: ('res/drawable-' + density + '/' + neutralOptionNonStyledShape + '_' + styleName.toLowerCase() + '.9.png'),
+                  base64data: outCtx.canvas.toDataURL().match(/;base64,(.+)/)[1]
+                });
+                
+                if (density == 'xhdpi') {
+                  imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(neutralOptionNonStyledShape) {
+                    return function(img) {
+                      $('#out-icon-' + neutralOptionNonStyledShape).attr('src', img.src);
+                    };
+                  }(neutralOptionNonStyledShape));
+                }
+              
+          	  }
+            }
+          }
+          
+          
+          
+          
+          
           // process styled assets
           for (var backgroundShape in shapes) {
           
@@ -606,6 +655,11 @@
             //    continue;
             //  }
             //}
+            
+            // bail if we've already processed a neutral version
+            if (neutralPressed && neutralOptionNonStyledShapes.hasOwnProperty(backgroundShape)) {
+              continue;
+            }	
 
             var iconSize = PARAM_RESOURCES[density + '-' + backgroundShape];
             //var targetRect = PARAM_RESOURCES[density + '-targetRect'];
