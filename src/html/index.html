@@ -453,7 +453,7 @@
       	'tabColor':'#33B5E5'
       }
       
-      
+      var NEUTRAL_PRESSED_COLOR = '#F0F0F0';
       
       function setDefaultColorPalette(theme) {
       	if (theme == 'light') {
@@ -608,9 +608,6 @@
           	}
           }
           
-          
-          // TODO
-          
           // process neutral non-styled assets
           if (neutralPressed) {
             for (var neutralOptionNonStyledShape in neutralOptionNonStyledShapes) {
@@ -639,11 +636,7 @@
           	  }
             }
           }
-          
-          
-          
-          
-          
+
           // process styled assets
           for (var backgroundShape in shapes) {
           
@@ -688,6 +681,10 @@
               
               var altFillColor = (backgroundShape.match('cab_background')) ? values['cabHighlightColor'].color : 
                 (backgroundShape.match('tab_selected_') || backgroundShape.match('tab_unselected_')) ? values['accentColor'].color : null;
+                
+              if (neutralPressed && ((backgroundShape.match('tab_selected_pressed') || backgroundShape.match('tab_unselected_pressed')))) {
+              	altFillColor = NEUTRAL_PRESSED_COLOR;
+              }
               
               var maskName = (backgroundShape.match('tab_unselected_') && (values['hairline'] == true)) ? '-mask_old' : '-mask';
             	
