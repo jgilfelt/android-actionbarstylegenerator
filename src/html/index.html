@@ -176,20 +176,20 @@
         label: ''
       });
       
-      for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
+      for (var density in {'xxhdpi':1, 'xhdpi':1, 'hdpi':1, 'mdpi':1})
         for (var backgroundShape in shapes)
           for (var type in {'back':1, 'fore1':1, 'mask':1})
             resList[backgroundShape + '-' + density + '-' + type] = (
               'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + type + '.png');
       
       // cab assets need 2nd mask
-      for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
+      for (var density in {'xxhdpi':1, 'xhdpi':1, 'hdpi':1, 'mdpi':1})
         for (var backgroundShape in {'cab_background_top':1, 'cab_background_bottom':1, 'tab_selected_focused':1, 'tab_selected_pressed':1, 'tab_unselected_focused':1, 'tab_unselected_pressed':1})
           resList[backgroundShape + '-' + density + '-' + 'mask1'] = (
             'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + 'mask1' + '.png');
        
       // tab hairline      
-      for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
+      for (var density in {'xxhdpi':1, 'xhdpi':1, 'hdpi':1, 'mdpi':1})
         for (var backgroundShape in {'tab_unselected_focused':1, 'tab_unselected_pressed':1}) {
           resList[backgroundShape + '-' + density + '-' + 'mask_old'] = (
             'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + 'mask_old' + '.png');
@@ -197,7 +197,7 @@
             'res/actionbar-stencil/' + backgroundShape + '/' + density + '/' + 'mask_old1' + '.png');
         }
 
-      for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1})
+      for (var density in {'xxhdpi':1, 'xhdpi':1, 'hdpi':1, 'mdpi':1})
         for (var nonStyledShape in nonStyledShapes)
           for (var type in {'light':1, 'dark':1})
             resList[nonStyledShape + '-' + density + '-' + type] = (
@@ -269,50 +269,57 @@
       });
 */
       var PARAM_RESOURCES = {
+       'xxhdpi-tab_unselected_pressed': { w:  8, h:  14 },
         'xhdpi-tab_unselected_pressed': { w:  6, h:  10 },
          'hdpi-tab_unselected_pressed': { w:  5, h:  8 },
          'mdpi-tab_unselected_pressed': { w:  4, h:  6 },
 
+       'xxhdpi-tab_unselected_focused': { w:  8, h:  14 },
         'xhdpi-tab_unselected_focused': { w:  6, h:  10 },
          'hdpi-tab_unselected_focused': { w:  5, h:  8 },
          'mdpi-tab_unselected_focused': { w:  4, h:  6 },
 
+       'xxhdpi-tab_unselected': { w:  8, h:  14 },
         'xhdpi-tab_unselected': { w:  6, h:  10 },
          'hdpi-tab_unselected': { w:  5, h:  8 },
          'mdpi-tab_unselected': { w:  4, h:  6 },
          
+       'xxhdpi-tab_selected_pressed': { w:  8, h:  26 },
         'xhdpi-tab_selected_pressed': { w:  6, h:  18 },
          'hdpi-tab_selected_pressed': { w:  5, h:  14 },
          'mdpi-tab_selected_pressed': { w:  4, h:  10 },
 
+       'xxhdpi-tab_selected_focused': { w:  8, h:  26 },
         'xhdpi-tab_selected_focused': { w:  6, h:  18 },
          'hdpi-tab_selected_focused': { w:  5, h:  14 },
          'mdpi-tab_selected_focused': { w:  4, h:  10 },
 
+       'xxhdpi-tab_selected': { w:  8, h:  26 },
         'xhdpi-tab_selected': { w:  6, h:  18 },
          'hdpi-tab_selected': { w:  5, h:  14 },
          'mdpi-tab_selected': { w:  4, h:  10 },
-         
+
+       'xxhdpi-ab_solid': { w:  74, h:  74 },         
         'xhdpi-ab_solid': { w:  50, h:  50 },
          'hdpi-ab_solid': { w:  38, h:  38 },
          'mdpi-ab_solid': { w:  26, h:  26 },
-         
+
+       'xxhdpi-ab_transparent': { w:  74, h:  74 },          
         'xhdpi-ab_transparent': { w:  50, h:  50 },
          'hdpi-ab_transparent': { w:  38, h:  38 },
          'mdpi-ab_transparent': { w:  26, h:  26 }, 
-         
-        'xhdpi-ab_solid': { w:  50, h:  50 },
-         'hdpi-ab_solid': { w:  38, h:  38 },
-         'mdpi-ab_solid': { w:  26, h:  26 },
-         
+
+       'xxhdpi-ab_stacked_solid': { w:  74, h:  74 },            
         'xhdpi-ab_stacked_solid': { w:  50, h:  50 },
          'hdpi-ab_stacked_solid': { w:  38, h:  38 },
          'mdpi-ab_stacked_solid': { w:  26, h:  26 },
-         
+
+       'xxhdpi-ab_bottom_solid': { w:  74, h:  74 },            
         'xhdpi-ab_bottom_solid': { w:  50, h:  50 },
          'hdpi-ab_bottom_solid': { w:  38, h:  38 },
          'mdpi-ab_bottom_solid': { w:  26, h:  26 },
          
+       'xxhdpi-menu_dropdown_panel': { w:  194, h:  98 },
         'xhdpi-menu_dropdown_panel': { w:  130, h:  66 },
          'hdpi-menu_dropdown_panel': { w:  98, h:  50 },
          'mdpi-menu_dropdown_panel': { w:  66, h:  34 },
@@ -321,58 +328,73 @@
          'hdpi-menu_hardkey_panel': { w:  98, h:  38 },
          'mdpi-menu_hardkey_panel': { w:  66, h:  26 },
 */         
+
+       'xxhdpi-spinner_ab_focused': { w:  68, h:  98 },
         'xhdpi-spinner_ab_focused': { w:  46, h:  66 },
          'hdpi-spinner_ab_focused': { w:  35, h:  50 },
          'mdpi-spinner_ab_focused': { w:  24, h:  34 },
-         
+
+       'xxhdpi-spinner_ab_pressed': { w:  68, h:  98 },         
         'xhdpi-spinner_ab_pressed': { w:  46, h:  66 },
          'hdpi-spinner_ab_pressed': { w:  35, h:  50 },
          'mdpi-spinner_ab_pressed': { w:  24, h:  34 },
-         
+
+       'xxhdpi-spinner_ab_default': { w:  68, h:  98 },         
         'xhdpi-spinner_ab_default': { w:  46, h:  66 },
          'hdpi-spinner_ab_default': { w:  35, h:  50 },
          'mdpi-spinner_ab_default': { w:  24, h:  34 },
-         
+
+       'xxhdpi-spinner_ab_disabled': { w:  68, h:  98 },         
         'xhdpi-spinner_ab_disabled': { w:  46, h:  66 },
          'hdpi-spinner_ab_disabled': { w:  35, h:  50 },
          'mdpi-spinner_ab_disabled': { w:  24, h:  34 },
-         
+
+       'xxhdpi-list_focused': { w:  20, h:  20 },
         'xhdpi-list_focused': { w:  14, h:  14 },
          'hdpi-list_focused': { w:  11, h:  11 },
          'mdpi-list_focused': { w:  8, h:  8 },
-         
+
+       'xxhdpi-progress_primary': { w:  68, h:  50 },         
         'xhdpi-progress_primary': { w:  46, h:  34 },
          'hdpi-progress_primary': { w:  35, h:  26 },
          'mdpi-progress_primary': { w:  24, h:  18 }, 
-         
+
+       'xxhdpi-progress_secondary': { w:  14, h:  50 },         
         'xhdpi-progress_secondary': { w:  10, h:  34 },
          'hdpi-progress_secondary': { w:  8, h:  26 },
          'mdpi-progress_secondary': { w:  6, h:  18 }, 
          
+       'xxhdpi-progress_bg': { w:  14, h:  50 },
         'xhdpi-progress_bg': { w:  10, h:  34 },
          'hdpi-progress_bg': { w:  8, h:  26 },
          'mdpi-progress_bg': { w:  6, h:  18 }, 
-         
+
+       'xxhdpi-btn_cab_done_default': { w:  6, h:  80 },         
         'xhdpi-btn_cab_done_default': { w:  5, h:  56 },
          'hdpi-btn_cab_done_default': { w:  4, h:  44 },
          'mdpi-btn_cab_done_default': { w:  4, h:  32 },
-         
+
+       'xxhdpi-btn_cab_done_focused': { w:  6, h:  80 },         
         'xhdpi-btn_cab_done_focused': { w:  5, h:  56 },
          'hdpi-btn_cab_done_focused': { w:  4, h:  44 },
          'mdpi-btn_cab_done_focused': { w:  4, h:  32 },
-         
+
+       'xxhdpi-btn_cab_done_pressed': { w:  6, h:  80 },         
         'xhdpi-btn_cab_done_pressed': { w:  5, h:  56 },
          'hdpi-btn_cab_done_pressed': { w:  4, h:  44 },
          'mdpi-btn_cab_done_pressed': { w:  4, h:  32 },
-         
+
+       'xxhdpi-cab_background_top': { w:  74, h:  74 },         
         'xhdpi-cab_background_top': { w:  50, h:  50 },
          'hdpi-cab_background_top': { w:  38, h:  38 },
          'mdpi-cab_background_top': { w:  26, h:  26 },
-         
+
+       'xxhdpi-cab_background_bottom': { w:  74, h:  74 },         
         'xhdpi-cab_background_bottom': { w:  50, h:  50 },
          'hdpi-cab_background_bottom': { w:  38, h:  38 },
          'mdpi-cab_background_bottom': { w:  26, h:  26 },
          
+       'xxhdpi-ab_texture_tile': { w:  12, h:  12 },         
         'xhdpi-ab_texture_tile': { w:  8, h:  8 },
          'hdpi-ab_texture_tile': { w:  6, h:  6 },
          'mdpi-ab_texture_tile': { w:  6, h:  6 },
@@ -549,7 +571,7 @@
           
           // process non-styled assets
           for (var nonStyledShape in nonStyledShapes) {
-          	for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1}) {
+          	for (var density in {'xxhdpi':1, 'xhdpi':1, 'hdpi':1, 'mdpi':1}) {
               var mult = studio.util.getMultBaseMdpi(density);
           	  var iconSize = PARAM_RESOURCES[density + '-' + nonStyledShape];
               var targetRect = { x:  0, y:  0, w:  iconSize.h, h:  iconSize.h };
@@ -570,7 +592,7 @@
           // process styled assets
           for (var backgroundShape in shapes) {
           
-          for (var density in {'xhdpi':1, 'hdpi':1, 'mdpi':1}) {
+          for (var density in {'xxhdpi':1, 'xhdpi':1, 'hdpi':1, 'mdpi':1}) {
             var mult = studio.util.getMultBaseMdpi(density);
             //if (density == 'web') {
             //  mult = 1;
