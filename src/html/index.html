@@ -237,6 +237,8 @@
               'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_ab_stacked.png');
           previewList['mask-accent' + '-' + theme + '-' + type] = (
               'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_accent.png');
+          previewList['mask-pressed' + '-' + theme + '-' + type] = (
+              'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_pressed.png');
           previewList['mask-popup' + '-' + theme + '-' + type] = (
               'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_popup.png');
           previewList['mask-tab' + '-' + theme + '-' + type] = (
@@ -453,7 +455,8 @@
       	'tabColor':'#33B5E5'
       }
       
-      var NEUTRAL_PRESSED_COLOR = '#F0F0F0';
+      var NEUTRAL_PRESSED_COLOR_DARK = '#F0F0F0';
+      var NEUTRAL_PRESSED_COLOR_LIGHT = '#999999';
       
       function setDefaultColorPalette(theme) {
       	if (theme == 'light') {
@@ -683,7 +686,7 @@
                 (backgroundShape.match('tab_selected_') || backgroundShape.match('tab_unselected_')) ? values['accentColor'].color : null;
                 
               if (neutralPressed && ((backgroundShape.match('tab_selected_pressed') || backgroundShape.match('tab_unselected_pressed')))) {
-              	altFillColor = NEUTRAL_PRESSED_COLOR;
+              	altFillColor = (coreTheme == 'dark') ? NEUTRAL_PRESSED_COLOR_DARK : NEUTRAL_PRESSED_COLOR_LIGHT;
               }
               
               var maskName = (backgroundShape.match('tab_unselected_') && (values['hairline'] == true)) ? '-mask_old' : '-mask';
@@ -784,6 +787,7 @@
 			var tmpCtxAB = imagelib.drawing.context(iconSize);
 			var tmpCtxStacked = imagelib.drawing.context(iconSize);
 			var tmpCtxAccent = imagelib.drawing.context(iconSize);
+			var tmpCtxPressed = imagelib.drawing.context(iconSize);
 			var tmpCtxPopup = imagelib.drawing.context(iconSize);
 			var tmpCtxTab = imagelib.drawing.context(iconSize);
 
@@ -821,6 +825,16 @@
 			tmpCtxAccent.fillRect(0, 0, iconSize.w, iconSize.h);
 			tmpCtxAccent.restore();
 			
+			fillColor = (neutralPressed) ? (coreTheme == 'dark') ? NEUTRAL_PRESSED_COLOR_DARK : NEUTRAL_PRESSED_COLOR_LIGHT : values['accentColor'].color;
+			
+			tmpCtxPressed.save();
+			tmpCtxPressed.globalCompositeOperation = 'source-over';
+			imagelib.drawing.copy(tmpCtxPressed, PREVIEW_RESOURCES['mask-pressed' + '-' + coreTheme + '-' + abStyle], iconSize);
+			tmpCtxPressed.globalCompositeOperation = 'source-atop';
+			tmpCtxPressed.fillStyle = fillColor;
+			tmpCtxPressed.fillRect(0, 0, iconSize.w, iconSize.h);
+			tmpCtxPressed.restore();
+			
 			fillColor = values['tabColor'].color;
 			
 			tmpCtxTab.save();
@@ -853,6 +867,7 @@
 			imagelib.drawing.copy(outCtx, tmpCtxPopup, iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxTab, iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxAccent, iconSize);
+			imagelib.drawing.copy(outCtx, tmpCtxPressed, iconSize);
 			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['fore' + foreEffect + '-' + coreTheme + '-' + abStyle], iconSize);
 
 			imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(backgroundShape) {
@@ -929,7 +944,7 @@
           }),
           new studio.forms.BooleanField('neutralPressed', {
             title: 'Neutral pressed states',
-            helpText: 'KitKat style pressed colors.',
+            helpText: 'Default KitKat style.',
             defaultValue: true,
             offText: 'Off',
             onText: 'On'
