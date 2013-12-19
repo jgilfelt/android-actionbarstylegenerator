@@ -290,6 +290,7 @@ imagelib.drawing.context = function(size) {
 };
 
 imagelib.drawing.copy = function(dstCtx, src, size) {
+  dstCtx.imageSmoothingEnabled = false; // JG
   dstCtx.drawImage(src.canvas || src, 0, 0, size.w, size.h);
 };
 
