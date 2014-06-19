@@ -38,11 +38,18 @@
         <item name="backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_##style##</item>
         <item name="progressBarStyle">@style/ProgressBar.##stylep##</item>
+        <item name="titleTextStyle">@style/##stylep##TitleText</item>
     </style>
 
     <style name="ActionBar.Transparent.##stylep##" parent="@style/Widget.Sherlock##base##.ActionBar">
         <item name="background">@drawable/ab_transparent_##style##</item>
         <item name="progressBarStyle">@style/ProgressBar.##stylep##</item>
+        <item name="titleTextStyle">@style/##stylep##TitleText</item>
+    </style>
+    
+    <style name="##stylep##TitleText" parent="@style/TextAppearance.Sherlock.Widget.ActionBar.Title">
+        <item name="android:textColor">##actionbar_text_color##</item>
+        <item name="textColor">##actionbar_text_color##</item>
     </style>
 	
     <style name="PopupMenu.##stylep##" parent="@style/Widget.Sherlock##base##.ListPopupWindow">	
