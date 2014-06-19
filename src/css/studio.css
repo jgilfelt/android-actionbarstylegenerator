@@ -56,6 +56,11 @@ a {
   padding: 24px;
 }
 
+#inputs {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 #header {
   background-color: #33B5E5;
   color: #fff;
@@ -385,7 +390,7 @@ button {
   background-color: #33b5e5;
   border: 1px solid #33b5e5;
   cursor: pointer;
-  
+
   margin-left: 12px;
   vertical-align: middle;
 }
