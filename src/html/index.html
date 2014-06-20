@@ -424,6 +424,7 @@
         'tabTextColor': '#000000',
       	'secondaryColor':'#D6D6D6',
       	'tertiaryColor':'#F2F2F2',
+        'popupTextColor': '#000000',
       	'accentColor':'#33B5E5',
       	'actionbarstyle':'solid',
       	'cabBackColor':'#FFFFFF',
@@ -437,6 +438,7 @@
         'tabTextColor': '#ffffff',
       	'secondaryColor':'#151515',
       	'tertiaryColor':'#303030',
+        'popupTextColor': '#ffffff',
       	'accentColor':'#33B5E5',
       	'actionbarstyle':'transparent',
       	'cabBackColor':'#002E3E',
@@ -450,6 +452,7 @@
         'tabTextColor': '#ffffff',
       	'secondaryColor':'#555555',
       	'tertiaryColor':'#303030',
+        'popupTextColor': '#ffffff',
       	'accentColor':'#33B5E5',
       	'actionbarstyle':'solid',
       	'cabBackColor':'#002E3E',
@@ -505,6 +508,7 @@
         var neutralPressed = values['neutralPressed'];
         var abTextColor = values['abTextColor'];
         var tabTextColor = values['tabTextColor'];
+        var popupTextColor = values['popupTextColor'];
         
         if (baseThemeSetting == null) {
         	//console.log('theme null');
@@ -547,6 +551,7 @@
         	'actionbar_base':((baseTheme == 'light_dark') ? '.Light' : ((baseTheme == 'light') ? '.Light' : '')),
           'actionbar_text_color': abTextColor.color,
           'tab_text_color': tabTextColor.color,
+          'popup_text_color': popupTextColor.color,
         	'inverse_attrs':inverseAttrs,
         	'inverse_attrs_sherlock':inverseAttrsSherlock
         };
@@ -805,6 +810,7 @@
 
       var abTextColor = values['abTextColor'].color;
       var tabTextColor = values['tabTextColor'].color;
+      var popupTextColor = values['popupTextColor'].color;
 			
 			tmpCtxAB.save();
 			tmpCtxAB.globalCompositeOperation = 'source-over';
@@ -888,6 +894,11 @@
       outCtx.fillText("TAB 1", 56, 153);
       outCtx.fillText("TAB 2", 216, 153);
       outCtx.fillText("TAB 3", 377, 153);
+      outCtx.fillStyle = popupTextColor;
+      outCtx.font = "26px sans-serif";
+      outCtx.fillText("Navigation Mode", 201, 629);
+      outCtx.fillText("Up", 201, 556);
+      outCtx.fillText("Logo", 201, 483);
       outCtx.restore();
 
 
@@ -997,6 +1008,11 @@
             title: 'Popup color',
             helpText: 'Overflow menu, submenu and spinner panel background.',
             defaultValue: DEFAULT_COLORS_LIGHT['tertiaryColor']
+          }),
+          new studio.forms.ColorField('popupTextColor', {
+            title: 'Popup text color',
+            helpText: 'Overflow menu, submenu and spinner panel foreground.',
+            defaultValue: DEFAULT_COLORS_LIGHT['popupTextColor']
           }),
           new studio.forms.ColorField('accentColor', {
             title: 'Accent color',

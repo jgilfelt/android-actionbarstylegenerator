@@ -30,6 +30,8 @@
         <item name="actionModeBackground">@drawable/cab_background_top_##style##</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_##style##</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.##stylep##</item>
+        <item name="textAppearanceLargePopupMenu">@style/##stylep##PopupMenuTextLarge</item>
+        <item name="textAppearanceSmallPopupMenu">@style/##stylep##PopupMenuTextSmall</item>
 
         ##inverse_attrs_sherlock##
     </style>
@@ -54,6 +56,14 @@
 
     <style name="PopupMenu.##stylep##" parent="@style/Widget.AppCompat##base##.PopupMenu">	
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>	
+    </style>
+
+    <style name="##stylep##PopupMenuTextLarge" parent="@style/TextAppearance.AppCompat##base##.Widget.PopupMenu.Large">
+        <item name="android:textColor">##popup_text_color##</item>
+    </style>
+
+    <style name="##stylep##PopupMenuTextSmall" parent="@style/TextAppearance.AppCompat##base##.Widget.PopupMenu.Small">
+        <item name="android:textColor">##popup_text_color##</item>
     </style>
 	
     <style name="DropDownListView.##stylep##" parent="@style/Widget.AppCompat##base##.ListView.DropDown">

@@ -30,6 +30,8 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_##style##</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_##style##</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.##stylep##</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/##stylep##PopupMenuTextLarge</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/##stylep##PopupMenuTextSmall</item>
         
         ##inverse_attrs##
     </style>
