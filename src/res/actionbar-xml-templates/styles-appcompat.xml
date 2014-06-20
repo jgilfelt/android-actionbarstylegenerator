@@ -24,6 +24,7 @@
         <item name="popupMenuStyle">@style/PopupMenu.##stylep##</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.##stylep##</item>
         <item name="actionBarTabStyle">@style/ActionBarTabStyle.##stylep##</item>
+        <item name="actionBarTabTextStyle">@style/##stylep##TabText</item>
         <item name="actionDropDownStyle">@style/DropDownNav.##stylep##</item>
         <item name="actionBarStyle">@style/ActionBar.##actionbarstyle##.##stylep##</item>
         <item name="actionModeBackground">@drawable/cab_background_top_##style##</item>
@@ -61,6 +62,10 @@
 
     <style name="ActionBarTabStyle.##stylep##" parent="@style/Widget.AppCompat##base##.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_##style##</item>
+    </style>
+
+    <style name="##stylep##TabText" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">##tab_text_color##</item>
     </style>
 	
     <style name="DropDownNav.##stylep##" parent="@style/Widget.AppCompat##base##.Spinner.DropDown.ActionBar">

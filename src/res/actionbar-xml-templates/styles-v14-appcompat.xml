@@ -24,6 +24,7 @@
         <item name="android:popupMenuStyle">@style/PopupMenu.##stylep##</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.##stylep##</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.##stylep##</item>
+        <item name="android:actionBarTabTextStyle">@style/##stylep##TabText</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.##stylep##</item>
         <item name="android:actionBarStyle">@style/ActionBar.##actionbarstyle##.##stylep##</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_##style##</item>

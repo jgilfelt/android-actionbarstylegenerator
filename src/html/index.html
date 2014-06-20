@@ -421,6 +421,7 @@
       var DEFAULT_COLORS_LIGHT = {
       	'backColor':'#E4E4E4',
         'abTextColor':'#000000',
+        'tabTextColor': '#000000',
       	'secondaryColor':'#D6D6D6',
       	'tertiaryColor':'#F2F2F2',
       	'accentColor':'#33B5E5',
@@ -433,6 +434,7 @@
       var DEFAULT_COLORS_DARK = {
       	'backColor':'#2D2D2D',
         'abTextColor':'#ffffff',
+        'tabTextColor': '#ffffff',
       	'secondaryColor':'#151515',
       	'tertiaryColor':'#303030',
       	'accentColor':'#33B5E5',
@@ -445,6 +447,7 @@
       var DEFAULT_COLORS_INVERSE = {
       	'backColor':'#2D2D2D',
         'abTextColor':'#ffffff',
+        'tabTextColor': '#ffffff',
       	'secondaryColor':'#555555',
       	'tertiaryColor':'#303030',
       	'accentColor':'#33B5E5',
@@ -501,6 +504,7 @@
         var coreTheme = ((baseTheme == 'light_dark') ? 'dark' : baseTheme);
         var neutralPressed = values['neutralPressed'];
         var abTextColor = values['abTextColor'];
+        var tabTextColor = values['tabTextColor'];
         
         if (baseThemeSetting == null) {
         	//console.log('theme null');
@@ -542,6 +546,7 @@
         	'inverse':((baseTheme == 'light_dark') ? '.Inverse' : ''),
         	'actionbar_base':((baseTheme == 'light_dark') ? '.Light' : ((baseTheme == 'light') ? '.Light' : '')),
           'actionbar_text_color': abTextColor.color,
+          'tab_text_color': tabTextColor.color,
         	'inverse_attrs':inverseAttrs,
         	'inverse_attrs_sherlock':inverseAttrsSherlock
         };
@@ -799,6 +804,7 @@
 			var tabKey = (values['hairline'] == true) ? 'mask-tab-hairline' : 'mask-tab';
 
       var abTextColor = values['abTextColor'].color;
+      var tabTextColor = values['tabTextColor'].color;
 			
 			tmpCtxAB.save();
 			tmpCtxAB.globalCompositeOperation = 'source-over';
@@ -877,6 +883,11 @@
       outCtx.fillStyle = abTextColor
       outCtx.font = "26px sans-serif"
       outCtx.fillText("Preview", 75, 83)
+      outCtx.fillStyle = tabTextColor;
+      outCtx.font = "bold 18px sans-serif";
+      outCtx.fillText("TAB 1", 56, 153);
+      outCtx.fillText("TAB 2", 216, 153);
+      outCtx.fillText("TAB 3", 377, 153);
       outCtx.restore();
 
 
@@ -977,6 +988,10 @@
           new studio.forms.ColorField('tabColor', {
             title: 'Tab indicator color',
             defaultValue: DEFAULT_COLORS_LIGHT['tabColor']
+          }),
+          new studio.forms.ColorField('tabTextColor', {
+            title: 'Tab Text color',
+            defaultValue: DEFAULT_COLORS_LIGHT['tabTextColor']
           }),
           new studio.forms.ColorField('tertiaryColor', {
             title: 'Popup color',
