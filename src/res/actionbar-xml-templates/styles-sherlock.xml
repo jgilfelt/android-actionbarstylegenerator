@@ -97,6 +97,8 @@
     <style name="Theme.##stylep##.Widget" parent="@style/Theme.Sherlock">
         <item name="popupMenuStyle">@style/PopupMenu.##stylep##</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.##stylep##</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/##stylep##PopupMenuTextLarge</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/##stylep##PopupMenuTextSmall</item>
     </style>
 
 </resources>

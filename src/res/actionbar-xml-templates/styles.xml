@@ -96,6 +96,8 @@
     <style name="Theme.##stylep##.Widget" parent="@android:style/Theme.Holo">
         <item name="android:popupMenuStyle">@style/PopupMenu.##stylep##</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.##stylep##</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/##stylep##PopupMenuTextLarge</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/##stylep##PopupMenuTextSmall</item>
     </style>
 
 </resources>

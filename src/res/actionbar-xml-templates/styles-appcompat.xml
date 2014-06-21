@@ -96,6 +96,8 @@
     <style name="Theme.##stylep##.Widget" parent="@style/Theme.AppCompat">
         <item name="popupMenuStyle">@style/PopupMenu.##stylep##</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.##stylep##</item>
+        <item name="textAppearanceLargePopupMenu">@style/##stylep##PopupMenuTextLarge</item>
+        <item name="textAppearanceSmallPopupMenu">@style/##stylep##PopupMenuTextSmall</item>
     </style>
 
 </resources>
