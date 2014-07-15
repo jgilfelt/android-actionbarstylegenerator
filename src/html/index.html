@@ -145,7 +145,7 @@
        	    'styles-v14-sherlock':1,
        	    'styles-appcompat':1,
        	    'styles-v14-appcompat':1,
-       	    //'colors':1,
+       	    'colors':1,
        	    //'focused_background':1,
        	    //'pressed_background':1,
        	    'selectable_background':1,
@@ -518,16 +518,19 @@
         var inverseAttrs = (baseTheme == 'light_dark') ? INVERSE_THEME_ATTRS.replace(rx, styleNameTC) : '';
         var inverseAttrsSherlock = (baseTheme == 'light_dark') ? INVERSE_THEME_ATTRS_SHERLOCK.replace(rx, styleNameTC) : '';
         
-        var acc = values['accentColor'].color.substring(1);        
-        if (acc.length == 3) {
-        	acc = acc[0] + acc[0] + acc[1] + acc[1] + acc[2] + acc[2];
-        }	
-        
+        var normalizeColor = function(colorName) {
+        	var hexColor = values[colorName].color.substring(1);        
+        	if (hexColor.length == 3) {
+        		hexColor = hexColor[0] + hexColor[0] + hexColor[1] + hexColor[1] + hexColor[2] + hexColor[2];
+        	}
+        	return '#' + hexColor.toUpperCase();
+        };
+                
         var replaceStrings = {
         	'style':(styleName.toLowerCase()),
         	'stylep':(styleNameTC),
         	'base':((baseTheme == 'light') ? '.Light' : ''),
-        	'accent':(acc.toUpperCase()),
+        	'accent':(normalizeColor('accentColor')),
         	'actionbarstyle':(toTitleCase(values['actionbarstyle'])),
         	
         	'tab_unselected':((values['hairline'] == true) ? '@drawable/tab_unselected_' + styleName.toLowerCase() : '@android:color/transparent'),
@@ -538,7 +541,16 @@
         	'inverse':((baseTheme == 'light_dark') ? '.Inverse' : ''),
         	'actionbar_base':((baseTheme == 'light_dark') ? '.Light' : ((baseTheme == 'light') ? '.Light' : '')),
         	'inverse_attrs':inverseAttrs,
-        	'inverse_attrs_sherlock':inverseAttrsSherlock
+        	'inverse_attrs_sherlock':inverseAttrsSherlock,
+        	
+        	'back_color':(normalizeColor('backColor')),
+        	'secondary_color':(normalizeColor('secondaryColor')),
+        	'tertiary_color':(normalizeColor('tertiaryColor')),
+        	'accent_color':(normalizeColor('accentColor')),
+        	'cab_back_color':(normalizeColor('cabBackColor')),
+        	'cab_highlight_color':(normalizeColor('cabHighlightColor')),
+        	'tab_color':(normalizeColor('tabColor'))
+        	
         };
         
         zipper.clear();
