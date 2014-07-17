@@ -243,6 +243,7 @@
               'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_tab_hairline.png');
           previewList['mask-ab-main-textured' + '-' + theme + '-' + type] = (
               'res/actionbar-preview/' + theme + '-' + type + '/' + 'mask_ab_main_textured.png');
+          previewList['logo'] = ('res/actionbar-preview/logo.png');
         }
       }
           
@@ -865,6 +866,21 @@
 			imagelib.drawing.copy(outCtx, tmpCtxAccent, iconSize);
 			imagelib.drawing.copy(outCtx, tmpCtxPressed, iconSize);
 			imagelib.drawing.copy(outCtx, PREVIEW_RESOURCES['fore' + foreEffect + '-' + coreTheme + '-' + abStyle], iconSize);
+			
+			var logoSrc = values['logo'].ctx ? values['logo'].ctx : PREVIEW_RESOURCES['logo'];
+			var sourceRectLogo = {
+				x: 0,
+				y: 0,
+				w: logoSrc.canvas ? logoSrc.canvas.width : 48,
+				h: logoSrc.canvas ? logoSrc.canvas.height : 48
+			};    
+			var targetRectLogo = {
+				x: 19,
+				y: 51,
+				w: 48,
+				h: 48
+			};
+			imagelib.drawing.drawCenterInside(outCtx, logoSrc, targetRectLogo, sourceRectLogo);
 
 			imagelib.loadFromUri(outCtx.canvas.toDataURL(), function(backgroundShape) {
 				return function(img) {
@@ -979,7 +995,13 @@
             helpText: 'Contextual action bar highlight.',
             defaultValue: DEFAULT_COLORS_LIGHT['cabHighlightColor']
           }),
-          
+          new studio.forms.ImageField('logo', {
+            title: 'Action bar logo',
+            helpText: 'Logo to display in the "home" section of the action bar.',
+            imageOnly: true,
+            noTrimForm: true,
+            noPreview: true
+          }),
         ]
       });
       form.createUI($('#inputs-form').get(0));
