@@ -1,6 +1,8 @@
 Android Action Bar Style Generator
 ==================================
 
+####DEPRECATED: Consider using [Toolbar](http://developer.android.com/reference/android/widget/Toolbar.html) or its [support library equivalent](http://developer.android.com/reference/android/support/v7/widget/Toolbar.html).####
+
 The Android Action Bar Style Generator allows you to easily create a simple, attractive and seamless custom action bar style for your Android application. It will generate all necessary nine patch assets plus associated XML drawables and styles which you can copy straight into your project.
 
 Use it online here: http://jgilfelt.github.com/android-actionbarstylegenerator/
