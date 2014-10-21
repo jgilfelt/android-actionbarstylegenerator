@@ -24,11 +24,14 @@
         <item name="android:popupMenuStyle">@style/PopupMenu.##stylep##</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.##stylep##</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.##stylep##</item>
+        <item name="android:actionBarTabTextStyle">@style/##stylep##TabText</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.##stylep##</item>
         <item name="android:actionBarStyle">@style/ActionBar.##actionbarstyle##.##stylep##</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_##style##</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_##style##</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.##stylep##</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/##stylep##PopupMenuTextLarge</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/##stylep##PopupMenuTextSmall</item>
         
         ##inverse_attrs##
     </style>
@@ -38,15 +41,29 @@
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_##style##</item>
         <item name="android:backgroundSplit">@drawable/ab_##solid_ab_bottom_bg##_##style##</item>
         <item name="android:progressBarStyle">@style/ProgressBar.##stylep##</item>
+        <item name="android:titleTextStyle">@style/##stylep##TitleText</item>
     </style>
 
     <style name="ActionBar.Transparent.##stylep##" parent="@android:style/Widget.Holo##base##.ActionBar">
         <item name="android:background">@drawable/ab_transparent_##style##</item>
         <item name="android:progressBarStyle">@style/ProgressBar.##stylep##</item>
+        <item name="android:titleTextStyle">@style/##stylep##TitleText</item>
+    </style>
+
+    <style name="##stylep##TitleText" parent="@android:style/TextAppearance.Widget.ActionBar.Title">
+        <item name="android:textColor">##actionbar_text_color##</item>
     </style>
 
     <style name="PopupMenu.##stylep##" parent="@android:style/Widget.Holo##base##.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_##style##</item>	
+    </style>
+
+    <style name="##stylep##PopupMenuTextLarge" parent="@android:style/TextAppearance.Widget.PopupMenu.Large">
+        <item name="android:textColor">##popup_text_color##</item>
+    </style>
+
+    <style name="##stylep##PopupMenuTextSmall" parent="@android:style/TextAppearance.Widget.PopupMenu.Small">
+        <item name="android:textColor">##popup_text_color##</item>
     </style>
 
     <style name="DropDownListView.##stylep##" parent="@android:style/Widget.Holo##base##.ListView.DropDown">
@@ -55,6 +72,10 @@
 
     <style name="ActionBarTabStyle.##stylep##" parent="@android:style/Widget.Holo##base##.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_##style##</item>
+    </style>
+
+    <style name="##stylep##TabText" parent="@android:style/Widget.Holo.ActionBar.TabText">
+        <item name="android:textColor">##tab_text_color##</item>
     </style>
 
     <style name="DropDownNav.##stylep##" parent="@android:style/Widget.Holo##base##.Spinner">
@@ -75,6 +96,8 @@
     <style name="Theme.##stylep##.Widget" parent="@android:style/Theme.Holo">
         <item name="android:popupMenuStyle">@style/PopupMenu.##stylep##</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.##stylep##</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/##stylep##PopupMenuTextLarge</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/##stylep##PopupMenuTextSmall</item>
     </style>
 
 </resources>
